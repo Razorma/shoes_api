@@ -1,0 +1,158 @@
+
+<body >
+  
+    <header class="p-0 m-0 container-fluid fixed-top">
+      <nav class="navbar navbar-light fixed-top  navbar-expand-sm p-0 justify-content-space-between bg-dark navbar-dark">
+        <div class="container-fluid">
+          <div class="shoeLogo navbar-text text-light ms-2 navbar-brand h1">BJ Kicks</div>
+          <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navNavbar"
+          aria-controls="navNavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          >
+          <span class="navbar-toggler-icon "></span>
+          </button>
+          
+          <div class="collapse navbar-collapse justify-content-end" id="navNavbar">
+            
+          <ul class="navbar-nav">
+            <li class="nav-item mx-2">
+              <a class="nav-link text-light" href="/login" onclick="closeNavbar()"><i class="bi bi-person-circle"></i></a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link text-light" href="#Products" onclick="closeNavbar()">Products</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link text-light" href="#contacts" onclick="closeNavbar()">Contact</a>
+            </li>
+          </ul>
+          </div>
+        </div>
+        
+      </nav>
+    </header>
+  
+
+  <main class="container-fluid mt-5">
+    <div class="icon">
+      <i class="bi bi-cart3 openCart mx-2"></i>
+      <span class="totalCart">{{cartTotal}}</span>
+    </div>
+    <div id="cart" class="cart">
+      <i class="bi bi-x closeCart"></i>
+      <div class="cartProducts">
+        {{#each cart}}
+        <form action="" method='post' class="cart-box">
+        <img src="{{shoe_picture}}" alt="">
+        <div class="cart-info">
+          <span class="nameOfShoeCart">{{shoe_name}}</span>
+          <span class="BrandCart">Nike <span class="StockCart">Stock:{{stock}}<span></span></span></span>
+          <span class="priceOfShoeCart">R{{amount}}<span>Size:{{shoe_size}}</span></span>
+          <p class="addSubtract center"><i class="fa-solid fa-minus minus"></i><span class="cartItemNumber">{{qty}}</span><i class="fa-solid fa-plus plus"></i></p>
+        </div>
+        <i class="bi bi-trash3-fill" ></i>
+      </form>
+      {{/each}}
+      </div>
+      <div class="checkout">
+        <div class="total">
+          <p>Total</p>
+          <span>R</span><span>{{total}}</span>
+        </div>
+        <div class="checkoutButton">
+          <button type="submit">Checkout</button>
+        </div>
+      </div>
+
+    </div>
+    <nav id="Products" class=" p-0 m-0 justify-content-center  navbar mt-2   p-0  " >
+        <button 
+        class="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#mynavbar"
+          aria-controls="mynavbar" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+          >Filter
+          <i class="bi bi-filter-square-fill"></i>
+        </button>
+        <div class="p-0 m-0 justify-content-center collapse navbar-collapse "id="mynavbar">
+             <form class="p-0 m-0 navbar-nav row mt-2 container-fluid px-5 ">{{!-- --}}
+                {{!-- <select id="colorNav" name="color" class="col mt-2 form-select selectColorNav mx-2" >
+                    <option value="" data-name="colors">Select Color</option>
+                    <option value="black" data-name="Black">Black</option>
+                    <option value="white" data-name="White">White</option>
+                    <option value="blue" data-name="blue">Blue</option>
+                    <option value="red" data-name="red">Red</option>
+                    <option value="yellow" data-name="Yellow">Yellow</option>
+                </select> --}}
+                <select id="brandNav" name="brand" class="col mt-2 form-select selectBrandNav mx-2">
+                    <option value="" data-name="brands">Select Brand</option>
+                    <option value="Nike" data-name="Nike">Nike</option>
+                    <option value="adidas" data-name="adidas">adidas</option>
+                    <option value="Puma" data-name="Puma">Puma</option>
+                    <option value="Vans" data-name="Vans">Vans</option>
+                    {{!-- <option value="All-Star" data-name="All-Star">All Star</option>
+                    <option value="Fila" data-name="Fila">Fila</option> --}}
+                </select>
+                <select id="sizeNav" name="size" class="col mt-2 form-select selectSizeNav mx-2">
+                    <option value="" data-name="sizes">Select Size</option>
+                    <option value="5" data-name="five">5</option>
+                    <option value="6" data-name="six">6</option>
+                    <option value="7" data-name="seven">7</option>
+                    <option value="8" data-name="eight">8</option>
+                </select>
+                {{!-- <input type="button" value="Search" > --}}
+                <div class="buttons">
+                  <button type="submit" class="col-6 pt-1 mt-2 btn btn-primary searchNav ">Search</button>
+                  
+                  <input type="button" value="Back" class="col-6 pt-0 mt-2 btn btn-secondary backNav" id="backButton" style="display: none;" >
+                </div>
+                
+            </form>
+        </div>
+    </nav>
+    <hr >
+    <section id="products" class="mt-5">
+      {{#each list}}
+      <form action="" method='post' class="shoe-box">
+        <img src="{{shoe_picture}}" alt="">
+        <div class="shoe-info">
+          <input type="hidden" name="id" class="id" value="{{id}}">
+          <span class="nameOfShoe">{{shoe_name}}</span>
+          <span class="Brand">Nike <span class="Stock">Stock: {{stock}}<span></span></span></span>
+          <span class="priceOfShoe">R{{price}}</span>
+          <button type="submit" class="productButton">BUY</button>
+        </div>
+      </form>
+      {{/each}}
+  </section>
+
+
+
+
+  <footer class=" bg-dark footer-dark">
+    <div class="col contact-links container-fluid justify-content-center">{{!--style="outline: 1px solid red;" --}}
+      <a href="#"  id="profile-link">
+        <i class="fa-brands fa-linkedin"></i>
+      </a>
+      <a id="profile-link" href="#"  class="contact-details">
+        <i class="fa-brands fa-facebook"></i>
+      </a>
+      <a id="profile-link" href="#" class="contact-details">
+        <i class="fa-solid fa-envelope c-light"></i>
+      </a>
+    </div>
+    <div class="footerMessage">
+      <p>© 2022 BJkicks, Inc. All rights reserved.</p>
+    </div>
+   </footer>
+</main>
+
+</body>
+

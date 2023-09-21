@@ -1,0 +1,351 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    /* outline: 1px solid red; */
+}
+body{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+/* .navbar{
+    position: sticky;
+    top: 45px;
+} */
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    margin-top: 50px;
+}
+.logo {
+    color: rgb(23, 23, 112);
+}
+.searchNav{
+    width: 100px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+}
+.backNav{
+    width: 100px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+}
+.buttons{
+    width: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+.send-email{
+    width: 600px;
+}
+hr{
+    height:5px;
+    border-width:0;
+    width: 80%;
+    color:black;
+    background-color:black;
+    border-radius: 50%;
+    margin: 50px auto ;
+}
+#contacts{
+ margin-bottom: 60px;
+}
+.contact-links{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.contact-links i{
+    font-size: 20px;
+    margin: 10px 30px;
+    transition: transform 0.5s ease;
+}
+.contact-links i:hover {
+    transform: translateY(-5px);
+}
+.textarea{
+    display: flex;
+    flex-direction: column;
+}
+textarea{
+    border: 1px solid rgb(122, 119, 119);
+}
+textarea:active,
+textarea:focus{ 
+  /* border: 1px solid rgb(46, 46, 252);
+  outline: 0px solid black; */
+  box-shadow:  0px 0px 0px 5px rgba(0, 110, 228, 0.4);
+}
+footer{
+    height: 60px;
+}
+.footerMessage{
+    color: white;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#products{
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin: 10px auto;
+    /* position: relative; */
+
+}
+.productButton{
+    width: fit-content;
+    padding: 0px 8px;
+    margin: 0px;
+    border-radius: 10px;
+    position: relative;
+    bottom: 25px;
+    right: -140px;
+    color: #ffff;
+    background-color: #000d1b;
+}
+.productButton:hover {
+    background-color: #002853; 
+}
+.shoe-box{
+    border: 1px solid rgb(100, 96, 96);
+    min-height: 350px;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.shoe-box img{
+    width: 198px;
+    height: 200px;
+}
+.shoe-box span{
+    padding-left: 5px;
+}
+.shoe-info{
+    display: flex;
+    flex-direction: column;
+    /* outline: 1px solid red; */
+}
+.nameOfShoe{
+    font-weight: 700;
+}
+.Brand{
+    font-weight: bold;
+    color: grey;
+    margin-top: 5px;
+}
+.Stock{
+    margin-left: 50px;
+}
+.priceOfShoe{
+    font-weight: bold;
+    margin-top: 10px;
+}
+.cartProducts{
+   margin-top: 50px;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   /* height: 80%; */
+   /* outline: 1px solid red; */
+   align-items: center;
+   /* justify-content: center; */
+   overflow: auto;
+}
+.cartProducts:first-of-type{
+    padding-top: 10px;
+    padding-bottom: 10px;
+ }
+.cart{
+    position: fixed;
+    top: 45px;
+    right: -600px;
+    width: 100%;
+    height: 90vh;
+    background-color: #ffff;
+    color: black;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    transition: right 0.9s, left 0.9s;
+}
+.cart-box{
+    border: 1px solid rgb(100, 96, 96);
+    width: 300px;
+   
+    display: flex;
+    background-color: aliceblue;
+
+}
+.bi-trash3-fill{
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-end;
+    width: 20%;
+}
+.addSubtract{
+    border: 1px solid black;
+    width: 80px;
+    margin-top: 10px;
+    padding: 0px;
+}
+.minus,
+.plus{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+.plus{
+    padding-right: 3px;
+}
+.cartItemNumber{
+    width: 33%;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    padding: 0px;
+
+}
+.cart-box img{
+    width: 99px;
+    height: 100px;
+    
+}
+
+
+.StockCart{
+    margin-left: 20px;
+}
+.nameOfShoeCart{
+    font-weight: 700;
+}
+.BrandCart{
+    font-weight: bold;
+    color: grey;
+    margin-top: 5px;
+}
+.priceOfShoeCart{
+    font-weight: bold;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.cart-info{
+    display: flex;
+    flex-direction: column;
+}
+.cart-info p{
+    font-weight: 400;
+    font-size: 20px;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin: 0;
+    margin-top: 10px;
+    padding: 0;
+}
+.checkout{
+    background-color: rgb(0, 7, 36);
+    width: 100%;
+    color: #ffff;
+    display: flex;
+}
+.total{
+    width: 50%;
+    text-align: center;
+    padding: 0px;
+}
+.total p{
+    font-weight: 900;
+    margin: 0;
+    padding: 0;
+}
+.total span{
+    margin: 0;
+    padding: 0;
+}
+.checkoutButton{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.checkout button{
+    margin: auto;
+    background-color: #004a57;
+    color: #ffff;
+    font-weight: 900;
+    width: 100%;
+    height: 100%;
+}
+
+@media only screen and (min-width:760px){
+    .cart{
+        width: 500px; 
+    }
+    
+}
+.openCart{
+    margin: auto;
+    font-size: 16px;
+}
+.icon{
+    color: #000d1b;
+    font-size: 20px;
+    display: flex;
+    cursor: pointer;
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    z-index: 1;
+}
+
+.closeCart{
+    color: black;
+    font-weight: 500;
+    font-size: 30px;
+    position: absolute;
+    top: 0px;
+    left: 0px;  
+}
+.totalCart{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: red;
+}
+
