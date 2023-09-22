@@ -65,6 +65,10 @@ hr{
 }
 #contacts{
  margin-bottom: 60px;
+ max-width: 500px;
+}
+.submitFormBtn{
+    max-width: 100px;
 }
 .contact-links{
     display: flex;

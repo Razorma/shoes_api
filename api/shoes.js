@@ -8,8 +8,11 @@ export default function ShoesApi(shoeService){
                 status:'success'
             });
         } catch (error) {
-            next(error)
-        }
+			res.json({
+				status: "error",
+				error: error.message
+			});
+		}
 
     }
     async function all(req, res,next){
@@ -19,9 +22,12 @@ export default function ShoesApi(shoeService){
                 status:'success',
                 data:results
             });
-        } catch (error) {
-            next(error)
-        }
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
 
     }
     async function allBrand(req, res,next){
@@ -32,9 +38,12 @@ export default function ShoesApi(shoeService){
                 status:'success',
                 data: results
             });
-        } catch (error) {
-            next(error)
-        }
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
 
     }
     async function allsizes(req, res,next){
@@ -45,9 +54,12 @@ export default function ShoesApi(shoeService){
                 status:'success',
                 data: results
             });
-        } catch (error) {
-            next(error)
-        }
+        }catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
 
     }
     async function brandAndSize(req, res,next){
@@ -59,9 +71,12 @@ export default function ShoesApi(shoeService){
                 status:'success',
                 data: results
             });
-        } catch (error) {
-            next(error)
-        }
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
 
     }
     async function addToCart(req, res,next){
@@ -72,9 +87,12 @@ export default function ShoesApi(shoeService){
             res.json({
                 status:'success',
             });
-        } catch (error) {
-            next(error)
-        }
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
 
     }
     async function getCart(req, res,next){
@@ -89,9 +107,12 @@ export default function ShoesApi(shoeService){
                 total:total,
                 cartTotal:cartTotal
             });
-        } catch (error) {
-            next(error)
-        }
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
 
     }
     async function cancelCart(req, res,next){
@@ -103,10 +124,12 @@ export default function ShoesApi(shoeService){
             res.json({
                 status:'success'
             });
-        } catch (error) {
-            next(error)
-        }
-
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
     }
     return{
         all,

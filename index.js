@@ -57,6 +57,10 @@ app.get("/",async function(req,res){
     }
   
 });
+app.post("/home",async function(req,res){
+   res.redirect("/")
+  
+});
 
 
 app.get('/api/shoes', shoesApi.all);
