@@ -348,8 +348,13 @@ footer{
 }
 .totalCart{
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: -10px;
+    left: 20px;
+    font-weight: 600;
     color: red;
+}
+.errorCart{
+    margin-top: 5px;
+   
 }
 

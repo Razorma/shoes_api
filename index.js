@@ -47,11 +47,11 @@ const shoesApi = ShoesApi(shoeService)
 
 app.get("/",async function(req,res){
     try {
-        const list = await db.many(`SELECT * FROM shoes;`)
+        const list = await shoeService.getAllShoe()
         const cart = await (await shoeService.getCart('bheka')).results
         const total =  await (await shoeService.getCart('bheka')).total
-        const cartTotal =  await (await shoeService.getCart('bheka')).cartTotal
-        res.render("index",{list,cart,total,cartTotal});
+        const cartItems =  await (await shoeService.getCart('bheka')).cartItems
+        res.render("index",{list,cart,total,cartItems});
     } catch (error) {
         res.render("index");
     }
@@ -67,14 +67,15 @@ app.get('/api/shoes', shoesApi.all);
 app.get('/api/shoes/brand/:brandname', shoesApi.allBrand);
 app.get('/api/shoes/size/:size', shoesApi.allsizes);
 app.get('/api/shoes/brand/:brandname/size/:size',shoesApi.brandAndSize);
-app.post('/api/shoes/addToCart/:id/username/:username',shoesApi.addToCart);
-app.get('/api/shoes/getCart/username/:username',shoesApi.getCart);
-app.post('/api/shoes/cancelCart/username/:username/shoeId/:id/quantity/:qty',shoesApi.cancelCart);
-app.post('/api/shoes/addShoeToStock/:name/:color/:brand/:photo/:price/:size/:stock',shoesApi.addShoeToStock);
+app.post('/api/shoes/addToCart/:username',shoesApi.addToCart);
+app.get('/api/shoes/getCart/:username',shoesApi.getCart);
+app.post('/api/shoes/cancelCart/:username',shoesApi.cancelCart);
+app.post("/api/shoes/sold/:username",shoesApi.checkoutCart);
+app.post('/api/shoes/',shoesApi.addShoeToStock);
 // app.get('/api/shoes/sold/:id',shoesApi.brandAndSize);
 ///api/shoes/getCart/username/bheka
 ///api/shoes/cancelCart/username/bheka/shoeId/1/quantity/1
-///api/shoes/addToCart/1/username/bheka
+///api/shoes/addToCart/1/username/bheka//addShoeToStock/:name/:color/:brand/:photo/:price/:size/:stock
 let Port = process.env.Port || 3004;
 
 app.listen(Port,()=>{

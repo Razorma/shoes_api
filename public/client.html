@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BJ Kicks</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://kit.fontawesome.com/637f4ab425.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+</head>
+<body >
+  
+    <header class="p-0 m-0 container-fluid fixed-top">
+      <nav class="navbar navbar-light fixed-top  navbar-expand-sm p-0 justify-content-space-between bg-dark navbar-dark">
+        <div class="container-fluid">
+          <div class="shoeLogo navbar-text text-light ms-2 navbar-brand h1">BJ Kicks</div>
+          <button 
+          class="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navNavbar"
+          aria-controls="navNavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          >
+          <span class="navbar-toggler-icon "></span>
+          </button>
+          
+          <div class="collapse navbar-collapse justify-content-end" id="navNavbar">
+            
+          <ul class="navbar-nav">
+            <li class="nav-item mx-2">
+              <a class="nav-link text-light" href="/login" onclick="closeNavbar()"><i class="bi bi-person-circle"></i></a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link text-light" href="#Products" onclick="closeNavbar()">Products</a>
+            </li>
+            <li class="nav-item ">
+              <a class="nav-link text-light" href="#contacts" onclick="closeNavbar()">Contact</a>
+            </li>
+          </ul>
+          </div>
+        </div>
+        
+      </nav>
+    </header>
+  
+
+  <main class="container-fluid mt-5">
+    <div class="icon">
+      <span class="totalCart"></span>
+      <i class="bi bi-cart3 openCart o mx-2"></i>
+      
+    </div>
+  
+    <div id="cart" class="cart">
+      <i class="bi bi-x closeCart"></i>
+      <p class="errorCart text-danger mt-5"></p>
+  
+      <div class="cartProducts">
+       
+      </div>
+      <div class="checkout">
+        <div class="total">
+          <p>Total</p>
+          <span>R</span> <span class="amountTotal">0</span>
+        </div>
+        <div class="checkoutButton">
+          <button type="submit" onclick="chechoutFromCart('bheka')">Checkout</button>
+        </div>
+      </div>
+  
+    </div>
+    <nav id="Products" class=" p-0 m-0 justify-content-center  navbar mt-2   p-0  ">
+      <button class="navbar-toggler search-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar"
+        aria-controls="mynavbar" aria-expanded="false" aria-label="Toggle navigation">Filter
+        <i class="bi bi-filter-square-fill"></i>
+      </button>
+      <div class="p-0 m-0 justify-content-center collapse navbar-collapse " id="mynavbar">
+        <div class="p-0 m-0 navbar-nav row mt-2 container-fluid px-5 ">
+          <p class="errorSelect text-center text-danger"></p>
+          <select id="brandNav" name="brand" class="col mt-2 form-select selectBrandNav mx-2">
+            <option value="" data-name="brands">Select Brand</option>
+            <option value="nike" data-name="Nike">Nike</option>
+            <option value="adidas" data-name="adidas">adidas</option>
+            <option value="puma" data-name="Puma">Puma</option>
+            <option value="vans" data-name="Vans">Vans</option>
+          </select>
+          <select id="sizeNav" name="size" class="col mt-2 form-select selectSizeNav mx-2">
+            <option value="" data-name="sizes">Select Size</option>
+            <option value="5" data-name="five">5</option>
+            <option value="6" data-name="six">6</option>
+            <option value="7" data-name="seven">7</option>
+          </select>
+          <div class="buttons">
+            <button type="submit" class="col-6 pt-1 mt-2 btn btn-primary searchNav ">Search</button>
+  
+            <input type="button" value="Back" class="col-6 pt-0 mt-2 btn btn-secondary backNav" id="backButton"
+              style="display: none;"onclick="closeSearchbar()">
+          </div>
+  
+        </div>
+      </div>
+    </nav>
+    <hr>
+    <section id="products" class="mt-5">
+      
+    </section>
+    <hr>
+  
+    <section id="contacts" class="container">
+      <form action="/home" method="post" class="row d-flex justify-content-center align-content-center">
+        <h1 class="text-center">Contact us</h1>
+        <div class="form-group m-0 mt-2">
+          <label for="name">Name</label>
+          <input type="name" class="form-control" id="name" placeholder="Enter Name">
+        </div>
+        <div class="form-group m-0 mt-2">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter Name">
+        </div>
+        <div class="form-group mt-2">
+          <label for="texareaMessage">How can we help you</label>
+          <textarea class="form-control" id="texareaMessage" rows="4" placeholder="Enter message"></textarea>
+        </div>
+        <button type="submit" class="mt-3 btn btn-secondary submitFormBtn">Submit</button>
+      </form>
+    </section>
+  
+  
+    <footer class=" bg-dark footer-dark">
+      <div class="col contact-links container-fluid justify-content-center">
+        <a href="#" id="profile-link">
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+        <a id="profile-link" href="#" class="contact-details">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a id="profile-link" href="#" class="contact-details">
+          <i class="fa-solid fa-envelope c-light"></i>
+        </a>
+      </div>
+      <div class="footerMessage">
+        <p>© 2022 BJkicks, Inc. All rights reserved.</p>
+      </div>
+    </footer>
+  </main>
+
+</body>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script>
+    function closeNavbar() {
+        var navNavbar = document.getElementById('navNavbar');
+        var bootstrapButton = document.querySelector('.navbar-toggler');
+        if (navNavbar.classList.contains('show')) {
+            bootstrapButton.click(); // Click the button to close the Navbar
+        }
+    }
+    function closeSearchbar() {
+        var navNavbar = document.getElementById('mynavbar');
+        var bootstrapButton = document.querySelector('.search-toggler');
+        if (navNavbar.classList.contains('show')) {
+            bootstrapButton.click(); // Click the button to close the search
+        }
+    }
+</script>
+<script type="text/x-template" class="productTemplate">
+  {{#each list}}
+  <div class="shoe-box">
+    <img src="{{shoe_picture}}" alt="">
+    <div class="shoe-info">
+      <input type="hidden" name="id" class="id" value="{{id}}">
+      <span class="nameOfShoe">{{shoe_name}} {{id}}</span>
+      <span class="Brand">{{brand_name}}<span class="Stock">Stock: {{stock}}<span></span></span></span>
+      <span class="priceOfShoe">R{{price}}</span>
+      <button type="submit" class="productButton" onclick="addToCart('bheka',{{id}})">BUY</button>
+    </div>
+  </div>
+  {{/each}}
+</script>
+<script type="text/x-template" class="cartTemplate">
+  {{#each cart}}
+  <div class="cart-box">
+    <img src="{{shoe_picture}}" alt="">
+    <div class="cart-info">
+      <span class="nameOfShoeCart">{{shoe_name}} {{shoe_id}}</span>
+      <span class="BrandCart">{{brand_name}}<span class="StockCart">In Stock: {{stock}}<span></span></span></span>
+      <span class="priceOfShoeCart">R{{amount}}<span>Size:{{shoe_size}}</span></span>
+      <p class="addSubtract center"><i class="fa-solid fa-minus minus"onclick="deleteFromCart('bheka',{{shoe_id}},1)"></i><span class="cartItemNumber">{{qty}}</span><i class="fa-solid fa-plus plus"onclick="addToCart('bheka',{{shoe_id}})"></i></p>
+    </div>
+    <i class="bi bi-trash3-fill" onclick="deleteFromCart('bheka',{{shoe_id}},{{qty}})"></i>
+  </div>
+{{/each}}
+</script>
+<script src="/js/client.js" charset="utf-8"></script>
+</html>

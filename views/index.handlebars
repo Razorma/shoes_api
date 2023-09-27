@@ -40,7 +40,7 @@
   <main class="container-fluid mt-5">
     <div class="icon">
       <i class="bi bi-cart3 openCart mx-2"></i>
-      <span class="totalCart">{{cartTotal}}</span>
+      <span class="totalCart">{{cartItems}}</span>
     </div>
     <div id="cart" class="cart">
       <i class="bi bi-x closeCart"></i>
@@ -49,8 +49,8 @@
         <form action="" method='post' class="cart-box">
         <img src="{{shoe_picture}}" alt="">
         <div class="cart-info">
-          <span class="nameOfShoeCart">{{shoe_name}}</span>
-          <span class="BrandCart">Nike <span class="StockCart">Stock:{{stock}}<span></span></span></span>
+          <span class="nameOfShoeCart">{{shoe_name}} {{shoe_id}}</span>
+          <span class="BrandCart">{{brand_name}}<span class="StockCart">Stock:{{stock}}<span></span></span></span>
           <span class="priceOfShoeCart">R{{amount}}<span>Size:{{shoe_size}}</span></span>
           <p class="addSubtract center"><i class="fa-solid fa-minus minus"></i><span class="cartItemNumber">{{qty}}</span><i class="fa-solid fa-plus plus"></i></p>
         </div>
@@ -124,8 +124,8 @@
         <img src="{{shoe_picture}}" alt="">
         <div class="shoe-info">
           <input type="hidden" name="id" class="id" value="{{id}}">
-          <span class="nameOfShoe">{{shoe_name}}</span>
-          <span class="Brand">Nike <span class="Stock">Stock: {{stock}}<span></span></span></span>
+          <span class="nameOfShoe">{{shoe_name}} {{id}}</span>
+          <span class="Brand">{{brand_name}}<span class="Stock">Stock: {{stock}}<span></span></span></span>
           <span class="priceOfShoe">R{{price}}</span>
           <button type="submit" class="productButton">BUY</button>
         </div>

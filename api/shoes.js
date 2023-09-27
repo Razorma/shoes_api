@@ -3,7 +3,7 @@ export default function ShoesApi(shoeService){
     async function addShoeToStock(req, res,next){
         try {
             const {shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size} = req.body
-            let results = await shoeService.addShoe(shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size);
+             await shoeService.addShoe(shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size);
             res.json({
                 status:'success'
             });
@@ -81,7 +81,8 @@ export default function ShoesApi(shoeService){
     }
     async function addToCart(req, res,next){
         try {
-            const shoeId = req.params.id
+            
+            const shoeId = Number(req.body.id)
             const username = req.params.username
             await shoeService.addShoeToCart(username,shoeId);
             res.json({
@@ -90,22 +91,21 @@ export default function ShoesApi(shoeService){
         } catch (err) {
 			res.json({
 				status: "error",
-				error: err.stack
+				error: err.message
 			});
+            
 		}
 
     }
     async function getCart(req, res,next){
         try {
             const username = req.params.username
-            const results = await (await shoeService.getCart('bheka')).results;
-            const total = await (await shoeService.getCart('bheka')).total
-            const cartTotal = await (await shoeService.getCart('bheka')).cartTotal
+            const {results,total,cartItems}= await shoeService.getCart(username)
             res.json({
                 status:'success',
                 data: results,
                 total:total,
-                cartTotal:cartTotal
+                cartItems:cartItems
             });
         } catch (err) {
 			res.json({
@@ -117,10 +117,26 @@ export default function ShoesApi(shoeService){
     }
     async function cancelCart(req, res,next){
         try {
+            
             const username = req.params.username
-            const shoeId = req.params.id
-            const QTY = req.params.qty
+            const shoeId = Number(req.body.id)
+            const QTY = Number(req.body.qty)
             await shoeService.replaceStock(username,shoeId,QTY);
+            res.json({
+                status:'success'
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+    }
+    async function checkoutCart(req, res){
+        try {
+            
+            const username = req.params.username
+            await shoeService.checkoutCart(username);
             res.json({
                 status:'success'
             });
@@ -139,6 +155,7 @@ export default function ShoesApi(shoeService){
         addToCart,
         getCart,
         cancelCart,
-        addShoeToStock
+        addShoeToStock,
+        checkoutCart
     }
 }
