@@ -147,6 +147,24 @@ export default function ShoesApi(shoeService){
 			});
 		}
     }
+    async function history(req, res){
+        try {
+            
+            const username = req.params.username
+            const {results,total,cartItems} = await shoeService.getPurchaseHistory(username);
+            res.json({
+                status:'success',
+                data: results,
+                total:total,
+                cartItems:cartItems
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+    }
     return{
         all,
         allBrand,
@@ -156,6 +174,7 @@ export default function ShoesApi(shoeService){
         getCart,
         cancelCart,
         addShoeToStock,
-        checkoutCart
+        checkoutCart,
+        history
     }
 }

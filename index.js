@@ -72,10 +72,8 @@ app.get('/api/shoes/getCart/:username',shoesApi.getCart);
 app.post('/api/shoes/cancelCart/:username',shoesApi.cancelCart);
 app.post("/api/shoes/sold/:username",shoesApi.checkoutCart);
 app.post('/api/shoes/',shoesApi.addShoeToStock);
-// app.get('/api/shoes/sold/:id',shoesApi.brandAndSize);
-///api/shoes/getCart/username/bheka
-///api/shoes/cancelCart/username/bheka/shoeId/1/quantity/1
-///api/shoes/addToCart/1/username/bheka//addShoeToStock/:name/:color/:brand/:photo/:price/:size/:stock
+app.get('/api/shoes/history/:username',shoesApi.history);
+
 let Port = process.env.Port || 3004;
 
 app.listen(Port,()=>{

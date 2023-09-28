@@ -246,6 +246,41 @@ export default function ShoeService(db) {
         }
     }
 
+    async function getPurchaseHistory(username) {
+        const getuserIdQuery = `
+        SELECT id
+        FROM users
+        WHERE username = $1;
+         `;
+
+        let userId = await db.one(getuserIdQuery, [username])
+
+
+        const getCartQuery = `
+        SELECT c.user_id, c.shoe_id,c.QTY, c.amount, c.bought,
+        s.shoe_name, s.shoe_picture, s.shoe_color, s.price, s.stock, b.brand_name, s.shoe_size
+        FROM cart c
+        JOIN shoes s ON c.shoe_id = s.id
+        JOIN brand b ON s.brand_id = b.id
+        WHERE c.user_id = $1 And bought = true
+        ORDER BY c.shoe_id ASC;
+         `;
+        let total = 0;
+        let cartItems = 0;
+        const results = await db.manyOrNone(getCartQuery, [userId.id])
+        results.forEach(shoe => {
+            total += parseFloat(shoe.amount)
+            cartItems += parseFloat(shoe.qty)
+        });
+
+        return {
+            results,
+            total: total.toFixed(2),
+            cartItems: cartItems
+        }
+    }
+
+
 
 
     async function checkoutCart(username) {
@@ -281,7 +316,8 @@ export default function ShoeService(db) {
         checkoutCart,
         getShoeByBrand,
         getShoeBySize,
-        getShoeByBrandAndSize
+        getShoeByBrandAndSize,
+        getPurchaseHistory
     }
 }
 
