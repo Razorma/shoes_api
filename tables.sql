@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS cart (
     id serial PRIMARY KEY,
     user_id int REFERENCES users(id) ON DELETE CASCADE,
-    shoe_id int REFERENCES shoes(id) ON DELETE CASCADE UNIQUE,
+    shoe_id int REFERENCES shoes(id) ON DELETE CASCADE,
     QTY int,
     amount decimal(10,2) NOT NULL,
     bought BOOLEAN DEFAULT false
@@ -43,10 +43,12 @@ INSERT INTO brand (brand_name) VALUES
     ('adidas'),
     ('puma'),
     ('vans'),
-    ('allStar'),
-    ('fila');
 
 INSERT INTO sizes (size) VALUES
     (5),
     (6),
     (7);
+
+
+
+CREATE UNIQUE INDEX cart_shoe_id_unique ON cart (shoe_id) WHERE bought = false; 

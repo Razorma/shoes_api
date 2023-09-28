@@ -1,10 +1,10 @@
 export default function ShoeService(db) {
     async function addUsername(username, password, surname, email) {
-        const addShoeToCartQuery = `
+        const addUserQuery = `
         INSERT INTO users (username, password,surname,email)
                 VALUES ($1, $2,$3,$4);
          `;
-        await db.none(addShoeToCartQuery, [username, password, surname, email])
+        await db.none(addUserQuery, [username, password, surname, email])
     }
 
     async function addShoe(shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size) {
@@ -14,78 +14,6 @@ export default function ShoeService(db) {
          `;
         await db.none(replaceStockStockShoeQuery, [shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size])
     }
-
-
-    //  try {
-    //     // await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,5)
-    //     await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,6)
-    //     await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,7)
-
-    //     //  await addShoe("adidas Originals Forum Exhibit Mid 2","Photos/adidas Originals Men's Forum Exhibit Mid 2 NavyOrGreen SneakerR229995.jpeg","green",2299.95,11,2,6)
-    //      await addShoe("adidas Originals Forum Exhibit Mid 2","Photos/adidas Originals Men's Forum Exhibit Mid 2 NavyOrGreen SneakerR229995.jpeg","green",2299.95,14,2,7)
-
-    //     // await addShoe("Adidas Originals Forum Low", "Photos/adidas Originals Men's Forum Low Grey SneakerR134900.jpeg", "white", 1349.00, 14, 2, 5)
-    //     await addShoe("Adidas Originals Forum Low", "Photos/adidas Originals Men's Forum Low Grey SneakerR134900.jpeg", "white", 1349.00, 14, 2, 6)
-
-    //     // await addShoe("Nike AirForce", "Photos/NikeManAirForce!R2199.95.jpeg", "white", 2199.95, 11, 1, 5)
-    //     await addShoe("Nike AirForce", "Photos/NikeManAirForce!R2199.95.jpeg", "white", 2199.95, 15, 1, 6)
-
-    //     // await addShoe("Nike Dunk Low","Photos/nikemen'sdunklowR2399.95.jpeg","black",2399.95,17,1,5)
-    //     await addShoe("Nike Dunk Low","Photos/nikemen'sdunklowR2399.95.jpeg","black",2399.95,14,1,7)
-
-
-    //     // await addShoe("Adidas Originals Multix","Photos/adidas Originals Men's Multix Black SneakerR1099.95.jpeg","black",1099.95,12,2,6)
-    //     await addShoe("Adidas Originals Multix","Photos/adidas Originals Men's Multix Black SneakerR1099.95.jpeg","black",1099.95,13,2,7)
-
-    //     // await addShoe("Nike Court Legacy Lift Natural", "Photos/NikewomanCourtLegacyLiftNaturalR1699.95.jpeg", "white", 1699.95, 14, 1, 6)
-    //     await addShoe("Nike Court Legacy Lift Natural", "Photos/NikewomanCourtLegacyLiftNaturalR1699.95.jpeg", "white", 1699.95, 14, 1, 7)
-
-    //     // await addShoe("Adidas Originals NMD_V3", "Photos/adidas Originals Men's NMD_V3 Black SneakerR1979.00.jpeg", "black", 1979.00, 19, 2, 5)
-    //     await addShoe("Adidas Originals NMD_V3", "Photos/adidas Originals Men's NMD_V3 Black SneakerR1979.00.jpeg", "blackandwhite", 1979.00, 21, 2, 5)
-
-    //     // await addShoe("Adidas Originals Stan Smith", "Photos/adidas Originals Men's Stan Smith White SneakerR1499.95.jpeg", "white", 1499.95, 19, 2, 6)
-    //     await addShoe("Adidas Originals Stan Smith", "Photos/adidas Originals Men's Stan Smith White SneakerR1499.95.jpeg", "white", 1499.95, 21, 2, 5)
-
-    //     // await addShoe("Nike Women AirForce 1", "Photos/NikeWomenAirForce1White.jpeg", "white", 2650.00, 4, 1, 6)
-    //     await addShoe("Nike Women AirForce 1", "Photos/NikeWomenAirForce1White.jpeg", "white", 2650.00, 2, 1, 7)
-    // // await addShoe("Vans Men's Old Skool","Photos/Vans Men's Old Skool BlackORWhite SneakerR949.95.jpeg","black",949.95,21,4,5)
-    // await addShoe("Vans Men's Old Skool","Photos/Vans Men's Old Skool BlackORWhite SneakerR949.95.jpeg","black",949.95,13,4,5)
-
-
-    // // await addShoe("Puma Rickie","Photos/Men's Puma Rickie Whiteor Black R999.95.jpeg","white",999.95,15,3,5)
-    // await addShoe("Puma Rickie","Photos/Men's Puma Rickie Whiteor Black R999.95.jpeg","white",999.95,9,3,6)
-
-
-    // // await addShoe("Vans Old Skool","Photos/Vans Men's Old Skool Tan SneakerBrownR999.95.jpeg","brown",999.95,9,4,6)
-    // await addShoe("Vans Old Skool","Photos/Vans Men's Old Skool Tan SneakerBrownR999.95.jpeg","brown",999.95,8,4,7)
-
-    // // await addShoe("Puma Diesier","Photos/PumaMen'sDiesiertoGreyBootR1899.95.jpeg","grey",1899.95,17,3,6)
-    // await addShoe("Puma Diesier","Photos/PumaMen'sDiesiertoGreyBootR1899.95.jpeg","grey",1899.95,19,3,5)
-
-    // // await addShoe("Vans Sk8-Hi","Photos/Vans Men's Sk8-Hi White SneakerR899.95.jpeg","white",899.95,17,4,6)
-    // await addShoe("Vans Sk8-Hi","Photos/Vans Men's Sk8-Hi White SneakerR899.95.jpeg","white",899.95,17,4,5)
-
-
-    //  await addShoe("Puma Rider FV Base","Photos/PumaMensRiderFVBaseGreyR1899.95.jpeg","grey",1899.95,17,3,6)
-    //  await addShoe("Puma Rider FV Base","Photos/PumaMensRiderFVBaseGreyR1899.95.jpeg","grey",1899.95,19,3,7)
-
-    // // await addShoe("Puma Mayze Crash Prm","Photos/pumaWomenMayzeCrashPrmWHiteOrBlackR1899.95.jpeg","white",1899.95,11,3,6)
-    // await addShoe("Puma Mayze Crash Prm","Photos/pumaWomenMayzeCrashPrmWHiteOrBlackR1899.95.jpeg","white",1899.95,13,3,7)
-
-    // // await addShoe("Vans Checkerboard Sentry SK8-Hi","Photos/Vans Women's Checkerboard Sentry SK8-Hi BlackORWhite SneakerR15599.95.jpeg","white",999.00,11,4,6)
-    // await addShoe("Vans Checkerboard Sentry SK8-Hi","Photos/Vans Women's Checkerboard Sentry SK8-Hi BlackORWhite SneakerR15599.95.jpeg","white",999.00,13,4,5)
-
-    // // await addShoe("Vans Sk8-Hi", "Photos/Vans Women's Old Skool Platform Poppy Checkerboard SneakerR1149.00.jpeg", "checkerboard", 899.95, 10, 4, 5)
-    // await addShoe("Vans Sk8-Hi", "Photos/Vans Women's Old Skool Platform Poppy Checkerboard SneakerR1149.00.jpeg", "checkerboard", 899.95, 6, 4, 7)
-
-
-    // // await addShoe("Puma Carina 2.0 Bold Warm", "Photos/WomenPumaCarina2.0BoldWarmWhiteR1199.5.jpeg", "white", 1199.5, 8, 3, 6)
-    // await addShoe("Puma Carina 2.0 Bold Warm", "Photos/WomenPumaCarina2.0BoldWarmWhiteR1199.5.jpeg", "white", 1199.5, 2, 3, 7)
-
-
-    // } catch (error) {
-    //     console.log("error "+error.message)
-    // }
 
     async function getAllShoe() {
         const results = await db.many(`SELECT s.id,s.shoe_name,
@@ -119,7 +47,7 @@ export default function ShoeService(db) {
         return results
 
     }
-    // await getShoeByBrand('nike')
+
 
     async function getShoeBySize(size) {
 
@@ -220,13 +148,6 @@ export default function ShoeService(db) {
     }
 
 
-    // try {
-    //     await addUsername('bheka', "1234",'lushaba','bheka.bj@gmail.com')
-    // } catch (error) {
-    //     console.log("error ",error.message)
-    // }
-
-
 
     async function addShoeToCart(username, shoe_id) {
         const getuserIdQuery = `
@@ -290,11 +211,6 @@ export default function ShoeService(db) {
         }
 
     }
-    // try {
-    //     await addShoeToCart(1,1)
-    // } catch (error) {
-    //     console.log("error ",error.message)
-    // }
 
     async function getCart(username) {
         const getuserIdQuery = `
@@ -322,7 +238,7 @@ export default function ShoeService(db) {
             total += parseFloat(shoe.amount)
             cartItems += parseFloat(shoe.qty)
         });
-        // console.log(results)
+
         return {
             results,
             total: total.toFixed(2),
@@ -332,11 +248,6 @@ export default function ShoeService(db) {
 
 
 
-    // try {
-    //     await  getCart("bheka")
-    // } catch (error) {
-    //     console.log("error ",error.message)
-    // }
     async function checkoutCart(username) {
 
         const getuserIdQuery = `
@@ -395,11 +306,11 @@ export default function ShoeService(db) {
 
 // try {
 //     await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,5)
-//     // await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,6)
-//     // await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,7)
+    // await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,6)
+    // await addShoe("Nike Junior Blazer","Photos/Nike Junior Blazer.jpeg","white",1599.95,17,1,7)
 
-//     await addShoe("adidas Originals Forum Exhibit Mid 2 Sneaker.jpeg","Photos/adidas Originals Men's Forum Exhibit Mid 2 NavyOrGreen SneakerR229995.jpeg","green",2299.95,11,2,6)
-//     // await addShoe("adidas Originals Forum Exhibit Mid 2 Sneaker.jpeg","Photos/adidas Originals Men's Forum Exhibit Mid 2 NavyOrGreen SneakerR229995.jpeg","green",2299.95,14,2,7)
+    // await addShoe("adidas Originals Forum Exhibit Mid 2 Sneaker.jpeg","Photos/adidas Originals Men's Forum Exhibit Mid 2 NavyOrGreen SneakerR229995.jpeg","green",2299.95,11,2,6)
+    // await addShoe("adidas Originals Forum Exhibit Mid 2 Sneaker.jpeg","Photos/adidas Originals Men's Forum Exhibit Mid 2 NavyOrGreen SneakerR229995.jpeg","green",2299.95,14,2,7)
 
 // await addShoe("Adidas Originals Forum Low Grey","Photos/adidas Originals Men's Forum Low Grey SneakerR134900.jpeg","grey",1349.00,14,2,5)
 // await addShoe("Adidas Originals Forum Low Grey","Photos/adidas Originals Men's Forum Low Grey SneakerR134900.jpeg","grey",1349.00,14,2,6)
@@ -465,19 +376,6 @@ export default function ShoeService(db) {
 // await addShoe("Puma Carina 2.0 Bold Warm","Photos/WomenPumaCarina2.0BoldWarmWhiteR1199.5.jpeg","white",1199.5,2,3,7)
 
 
-// //     // await addShoe("Air Jordan 1","Photos/Yellow and white air jordans.jpg","yellow",3000,14,1,6)
-// //     // await addShoe("Air Jordan 1","Photos/Yellow and white air jordans.jpg","yellow",3000,13,1,7)
-
-
-// //     // await addShoe("Yellow Vans","Photos/WHite air jordans 13.jpg","yellow",450,5,1,6)
-// //     // await addShoe("Yellow Vans","Photos/WHite air jordans 13.jpg","yellow",450,21,1,7)
-
-
-
-// //     // await addShoe("Vans","Photos/yellow vans.jpg","yellow",3000,18,4,5)
-// //     // await decreaseStock("Vans","yellow",5)
-// //     // await increaseStock("Vans","yellow",5)
-// //     // await replaceStock("Vans","yellow",4,5)
 // } catch (error) {
 //     console.log("error "+error.message)
 // }
