@@ -157,6 +157,7 @@ export default function ShoeService(db) {
          `;
 
         const userId = await db.one(getuserIdQuery, [username])
+        
 
 
         const getpriceQuery = `
@@ -183,28 +184,28 @@ export default function ShoeService(db) {
 
 
             const decreaseStockShoeQuery = `
-        UPDATE shoes
-        SET stock = stock - 1
-        WHERE id = $1 ; 
-        `;
+            UPDATE shoes
+            SET stock = stock - 1
+            WHERE id = $1 ; 
+            `;
             await db.none(decreaseStockShoeQuery, [shoe_id]);
 
 
 
             const addShoeToCartQuery = `
-        INSERT INTO cart (user_id, shoe_id, QTY, amount)
-        VALUES ($1, $2, 1, $3)
-        ON CONFLICT (shoe_id) WHERE bought = false DO UPDATE
-        SET QTY = cart.QTY + 1;
-        `;
+            INSERT INTO cart (user_id, shoe_id, QTY, amount)
+            VALUES ($1, $2, 1, $3)
+            ON CONFLICT (shoe_id) WHERE bought = false DO UPDATE
+            SET QTY = cart.QTY + 1;
+            `;
 
             await db.none(addShoeToCartQuery, [userId.id, shoe_id, parseFloat(shoePrice.price)]);
 
             const updatePriceCartQuery = `
-        UPDATE cart
-        SET amount = ($1*cart.QTY)
-        WHERE shoe_id = $2 AND bought = false;  
-        `;
+            UPDATE cart
+            SET amount = ($1*cart.QTY)
+            WHERE shoe_id = $2 AND bought = false;  
+            `;
 
             await db.none(updatePriceCartQuery, [parseFloat(shoePrice.price), shoe_id]);
 

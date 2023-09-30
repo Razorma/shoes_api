@@ -174,7 +174,6 @@ function shoes() {
     function getShoes() {
         return axios.get('/api/shoes')
     }
-
     function addShoe(data) {
         return axios.post('/api/shoes', data)
     }

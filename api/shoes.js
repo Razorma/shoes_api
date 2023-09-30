@@ -1,5 +1,20 @@
 
 export default function ShoesApi(shoeService){
+    async function addUser(req, res,next){
+        try {
+            const {username, password, surname, email} = req.body
+             await shoeService.addUsername(username, password, surname, email);
+            res.json({
+                status:'success'
+            });
+        } catch (error) {
+			res.json({
+				status: "error",
+				error: error.message
+			});
+		}
+
+    }
     async function addShoeToStock(req, res,next){
         try {
             const {shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size} = req.body
@@ -81,7 +96,7 @@ export default function ShoesApi(shoeService){
     }
     async function addToCart(req, res,next){
         try {
-            
+            console.log(req.body.id)
             const shoeId = Number(req.body.id)
             const username = req.params.username
             await shoeService.addShoeToCart(username,shoeId);
@@ -166,6 +181,7 @@ export default function ShoesApi(shoeService){
 		}
     }
     return{
+        addUser,
         all,
         allBrand,
         allsizes,

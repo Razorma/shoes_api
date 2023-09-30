@@ -11,7 +11,7 @@ import cors from "cors"
 let app = express();
 const pgp = pgPromise();
 
-const connectionString = process.env.DATABASE_URL 
+const connectionString = process.env.DATABASE_URL || 'postgres://erazkwju:Dn8Pk1DLefLORNbGDRf2LFtREpf0-Qtu@tai.db.elephantsql.com/erazkwju'
 
 
 const db = pgp({ connectionString});
@@ -65,6 +65,7 @@ app.post("/home",async function(req,res){
 
 app.get('/api/shoes', shoesApi.all);
 app.get('/api/shoes/brand/:brandname', shoesApi.allBrand);
+app.get('/api/shoes/addUser', shoesApi.addUser);
 app.get('/api/shoes/size/:size', shoesApi.allsizes);
 app.get('/api/shoes/brand/:brandname/size/:size',shoesApi.brandAndSize);
 app.post('/api/shoes/addToCart/:username',shoesApi.addToCart);
