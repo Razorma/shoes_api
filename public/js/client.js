@@ -84,6 +84,7 @@ function showShoes(brandName, size) {
 
 }
 function showCart(username) {
+    let init = 0;
     shoesService
         .getCart(username)
         .then(function (results) {
@@ -97,6 +98,12 @@ function showCart(username) {
             });
             if (cartItems === 0) {
                 cartItems = ""
+            }
+            if (!cartItems) {
+                cartItems = ""
+            }
+            if (!total) {
+                total = init.toFixed(2)
             }
             let shoesHTML = html;
             cartContainer.innerHTML = shoesHTML;

@@ -11,7 +11,7 @@ import cors from "cors"
 let app = express();
 const pgp = pgPromise();
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://postgres:jayson@2001@localhost:5432/shoes_api';
+const connectionString = process.env.DATABASE_URL 
 
 
 const db = pgp({ connectionString});

@@ -92,8 +92,6 @@ textarea{
 }
 textarea:active,
 textarea:focus{ 
-  /* border: 1px solid rgb(46, 46, 252);
-  outline: 0px solid black; */
   box-shadow:  0px 0px 0px 5px rgba(0, 110, 228, 0.4);
 }
 footer{
@@ -115,7 +113,6 @@ footer{
     justify-content: center;
     gap: 20px;
     margin: 10px auto;
-    /* position: relative; */
 
 }
 .productButton{
@@ -134,7 +131,7 @@ footer{
 }
 .shoe-box{
     border: 1px solid rgb(100, 96, 96);
-    min-height: 350px;
+    min-height: 370px;
     width: 200px;
     display: flex;
     flex-direction: column;
@@ -150,7 +147,6 @@ footer{
 .shoe-info{
     display: flex;
     flex-direction: column;
-    /* outline: 1px solid red; */
 }
 .nameOfShoe{
     font-weight: 700;

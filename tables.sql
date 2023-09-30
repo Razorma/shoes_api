@@ -42,7 +42,7 @@ INSERT INTO brand (brand_name) VALUES
     ('nike'),
     ('adidas'),
     ('puma'),
-    ('vans'),
+    ('vans');
 
 INSERT INTO sizes (size) VALUES
     (5),
