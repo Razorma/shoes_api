@@ -243,7 +243,9 @@ footer{
     height: 100px;
     
 }
-
+.bi-box-arrow-left{
+    color:white;
+}
 
 .StockCart{
     margin-left: 20px;
@@ -333,6 +335,16 @@ footer{
     right: 20px;
     z-index: 1;
 }
+.bi-database-fill-gear{
+    color: #000d1b;
+    font-size: 20px;
+    display: none;
+    cursor: pointer;
+    position: fixed;
+    top: 50px;
+    left: 20px;
+    z-index: 1;
+}
 
 .closeCart{
     color: black;
@@ -354,3 +366,45 @@ footer{
    
 }
 
+.loginMess,
+.signUpmess{
+    font-size: medium;
+    font-weight: 900;
+}
+.userOrder{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+}
+.userOrder ul li{
+ list-style: none;
+}
+.cards-box{
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    grid-row-gap: 20px;
+    grid-column-gap: 5px;
+}
+.userOrder p{
+    font-size: medium;
+    font-weight: 600;
+    color: grey;
+}
+.userOrder span{
+    font-size: medium;
+    font-weight: 900;
+    color: #000d1b;
+    padding-left: 5px;
+}
+.grandTotal p{
+    font-size: medium;
+    font-weight: 600;
+    color: grey;
+}
+.grandTotal span{
+    font-size: medium;
+    font-weight: 900;
+    color: #000d1b;
+    padding-left: 5px;
+}

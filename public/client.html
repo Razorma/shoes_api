@@ -33,8 +33,8 @@
           <div class="collapse navbar-collapse justify-content-end" id="navNavbar">
             
           <ul class="navbar-nav">
-            <li class="nav-item mx-2">
-              <a class="nav-link text-light" href="/login" onclick="closeNavbar()"><i class="bi bi-person-circle"></i></a>
+            <li class="nav-item mx-2 " >
+              <a class="nav-link text-light logoutElem"  onclick="closeNavbar()"><i data-bs-toggle="modal" data-bs-target="#loginModal" class="bi bi-person-circle"></i></a>
             </li>
             <li class="nav-item ">
               <a class="nav-link text-light" href="#Products" onclick="closeNavbar()">Products</a>
@@ -51,12 +51,119 @@
   
 
   <main class="container-fluid mt-5">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="loginModalLabel">Login</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="login-box ">
+              <div class="error text-center">
+                <p class="loginMess text-danger "></p>
+              </div>
+              <div class="usename-box form-group mt-2">
+                <label for="usename" class="loginLabel">Name</label>
+                <input type="text" name="users" id="usename" class="form-control login-username" value="" required>
+              </div>
+              <div class="password-box form-group mt-3">
+                <label for="password" class="loginLabel">Password</label>
+                <input type="password" name="password" id="password" class="form-control login-password" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#signUpModal">SignUp</button>
+            <button type="button" class="btn btn-primary logInButton">Log In</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="signUpModalLabel">Sign Up</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="SignUp-box">
+              <div class="error text-center">
+                <p class="signUpmess text-danger"></p>
+              </div>
+              <div class="usename-box form-group">
+                <label for="SignUpUsename" class="loginLabel">Name</label>
+                <input type="text" name="users" id="SignUpUsename" class="form-control SignUp-username" value="" required>
+              </div>
+              <div class="surname-box form-group">
+                <label for="surname" class="loginLabel">Surname</label>
+                <input type="text" name="users" id="surname" class="form-control surname" value="" required>
+              </div>
+              <div class="email-box form-group">
+                <label for="email-box" class="emailLabel">Email</label>
+                <input type="email" name="email-box" id="email-box" class="form-control SignUp-email" required>
+              </div>
+              <div class="password-box form-group">
+                <label for="SignUpPassword" class="loginLabel">Password</label>
+                <input type="password" name="password" id="SignUpPassword" class="form-control SignUp-password" required>
+              </div>
+              
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary loginButtonModal" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <button type="button" class="btn btn-primary signUpButton">SignUp</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="icon">
       <span class="totalCart"></span>
-      <i class="bi bi-cart3 openCart o mx-2"></i>
-      
+      <i class="bi bi-cart3 openCart o mx-2"></i>  
     </div>
-  
+    <i class="bi bi-database-fill-gear" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header m-0 p-2">
+        <h5 class="offcanvas-title mt-1 " id="offcanvasExampleLabel">Add Shoes</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body m-0 p-2">
+          <p class="addshoeErrorElem center warning"></p>
+          <div class="nameOfShoeBox form-group">
+            <label for="nameofShoe" class="mb-1">Name</label>
+            <input class="nameofShoe form-control" id="nameofShoe" type="text">
+          </div>
+          <div class="colorOfShoeBox form-group">
+            <label for="colorOfshoe" class="mb-1 mt-1">Color</label>
+            <input class="colorOfshoe form-control" id="colorOfshoe" type="text">
+          </div>
+          <div class="brandOfShoeBox form-group">
+            <label for="brandofShoe" class="mb-1 mt-1">Brand</label>
+            <input class="brandofShoe form-control" id="brandofShoe" type="text">
+          </div>
+          <div class="photoOfShoeBox form-group">
+            <label for="photoofShoe" class="mb-1 mt-1">Photo (URL)</label>
+            <input class="photoofShoe form-control" id="photoofShoe" type="text">
+          </div>
+          <div class="priceOfShoeBox form-group">
+            <label for="priceofShoe" class="mb-1 mt-1">Price</label>
+            <input class="priceofShoe form-control" id="priceofShoe" type="number">
+          </div>
+          <div class="sizeofShoeBox form-group">
+            <label for="sizeofShoe" class="mb-1 mt-1">Size</label>
+            <input class="sizeofShoe form-control" id="sizeofShoe" type="number">
+          </div>
+          <div class="stockofShoeBox form-group">
+            <label for="stockofShoe" class="mb-1 mt-1">Stock</label>
+            <input class="stockofShoe form-control" id="stockofShoe" type="number">
+          </div>
+          <div class="d-flex  container-fluid justify-content-end">
+            <button class="addShoe btn btn-secondary mt-2 text-center ">Add</button>
+          </div>
+          
+      </div>
+    </div>
     <div id="cart" class="cart">
       <i class="bi bi-x closeCart"></i>
       <p class="errorCart text-danger mt-5"></p>
@@ -179,7 +286,7 @@
       <span class="nameOfShoe">{{shoe_name}} {{id}}</span>
       <span class="Brand">{{brand_name}}<span class="Stock">Stock: {{stock}}<span></span></span></span>
       <span class="priceOfShoe">R{{price}}</span>
-      <button type="submit" class="productButton" onclick="addToCart('bheka',{{id}})">BUY</button>
+      <button type="submit" class="productButton" onclick="addToCart({{id}})">BUY</button>
     </div>
   </div>
   {{/each}}
@@ -192,11 +299,45 @@
       <span class="nameOfShoeCart">{{shoe_name}} {{shoe_id}}</span>
       <span class="BrandCart">{{brand_name}}<span class="StockCart">In Stock: {{stock}}<span></span></span></span>
       <span class="priceOfShoeCart">R{{amount}}<span>Size:{{shoe_size}}</span></span>
-      <p class="addSubtract center"><i class="fa-solid fa-minus minus"onclick="deleteFromCart('bheka',{{shoe_id}},1)"></i><span class="cartItemNumber">{{qty}}</span><i class="fa-solid fa-plus plus"onclick="addToCart('bheka',{{shoe_id}})"></i></p>
+      <p class="addSubtract center"><i class="fa-solid fa-minus minus"onclick="deleteFromCart({{shoe_id}},1)"></i><span class="cartItemNumber">{{qty}}</span><i class="fa-solid fa-plus plus"onclick="addToCart({{shoe_id}})"></i></p>
     </div>
-    <i class="bi bi-trash3-fill" onclick="deleteFromCart('bheka',{{shoe_id}},{{qty}})"></i>
+    <i class="bi bi-trash3-fill" onclick="deleteFromCart({{shoe_id}},{{qty}})"></i>
   </div>
 {{/each}}
 </script>
+<script type="text/x-template" class="orderTemplate">
+  <h2>Orders</h2>
+  {{#each results}}
+    <div class="userOrder card p-0 m=0" >
+      <div class="card-header">
+      <h2>{{username}}</h2>
+      </div>
+      <p><span>Total:</span> {{formatCurrency total}}</p>
+      <p><span>Items:</span> {{numItems}}</p>
+
+      <ul class="cards-box p-2 m=0"  > 
+        {{#each results}}
+        
+          <li class="card">
+            <img class="card-img-left" src="{{shoe_picture}}" alt="Card image cap">
+            <p class=" m=2"><span>Shoe Name:</span> {{shoe_name}}</p>
+            <!-- <p>Shoe Picture: {{shoe_picture}}</p> -->
+            <p> <span>Shoe Color:</span> {{shoe_color}}</p>
+            <p> <span>Price:</span> R{{price}}</p>
+            <p> <span>QTY:</span> {{qty}}</p>
+            <p> <span>Brand:</span> {{brand_name}}</p>
+            <p> <span>Shoe Size:</span> {{shoe_size}}</p>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  {{/each}}
+
+  <div class="grandTotal">
+    <p><span>Grand Total:</span> R{{total}}</p>
+    <p><span>Total Ordered Items:</span> {{cartItems}}</p>
+  </div>
+</script>
+
 <script src="/js/client.js" charset="utf-8"></script>
 </html>

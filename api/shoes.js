@@ -3,7 +3,37 @@ export default function ShoesApi(shoeService){
     async function addUser(req, res,next){
         try {
             const {username, password, surname, email} = req.body
-             await shoeService.addUsername(username, password, surname, email);
+             await shoeService.addUsername(username, password, surname, email,'customer');
+            res.json({
+                status:'success'
+            });
+        } catch (error) {
+			res.json({
+				status: "error",
+				error: error.message
+			});
+		}
+
+    }
+    async function logIn(req, res,next){
+        try {
+            const {username, password} = req.body
+             const role = await shoeService.login(username, password);
+            res.json({
+                status:'success',
+                role:role
+            });
+        } catch (error) {
+			res.json({
+				status: "error",
+				error: error.message
+			});
+		}
+
+    }
+    async function logout(req, res,next){
+        try {
+            await shoeService.logout();
             res.json({
                 status:'success'
             });
@@ -96,10 +126,8 @@ export default function ShoesApi(shoeService){
     }
     async function addToCart(req, res,next){
         try {
-            console.log(req.body.id)
             const shoeId = Number(req.body.id)
-            const username = req.params.username
-            await shoeService.addShoeToCart(username,shoeId);
+            await shoeService.addShoeToCart(shoeId);
             res.json({
                 status:'success',
             });
@@ -114,8 +142,24 @@ export default function ShoesApi(shoeService){
     }
     async function getCart(req, res,next){
         try {
-            const username = req.params.username
-            const {results,total,cartItems}= await shoeService.getCart(username)
+            const {results,total,cartItems}= await shoeService.getCart()
+            res.json({
+                status:'success',
+                data: results,
+                total:total,
+                cartItems:cartItems
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+
+    }
+    async function getOrders(req, res,next){
+        try {
+            const {results,total,cartItems}= await shoeService.getOrders()
             res.json({
                 status:'success',
                 data: results,
@@ -132,11 +176,9 @@ export default function ShoesApi(shoeService){
     }
     async function cancelCart(req, res,next){
         try {
-            
-            const username = req.params.username
             const shoeId = Number(req.body.id)
             const QTY = Number(req.body.qty)
-            await shoeService.replaceStock(username,shoeId,QTY);
+            await shoeService.replaceStock(shoeId,QTY);
             res.json({
                 status:'success'
             });
@@ -149,9 +191,7 @@ export default function ShoesApi(shoeService){
     }
     async function checkoutCart(req, res){
         try {
-            
-            const username = req.params.username
-            await shoeService.checkoutCart(username);
+            await shoeService.checkoutCart();
             res.json({
                 status:'success'
             });
@@ -164,9 +204,7 @@ export default function ShoesApi(shoeService){
     }
     async function history(req, res){
         try {
-            
-            const username = req.params.username
-            const {results,total,cartItems} = await shoeService.getPurchaseHistory(username);
+            const {results,total,cartItems} = await shoeService.getPurchaseHistory();
             res.json({
                 status:'success',
                 data: results,
@@ -182,6 +220,8 @@ export default function ShoesApi(shoeService){
     }
     return{
         addUser,
+        logIn,
+        logout,
         all,
         allBrand,
         allsizes,
@@ -191,6 +231,7 @@ export default function ShoesApi(shoeService){
         cancelCart,
         addShoeToStock,
         checkoutCart,
-        history
+        history,
+        getOrders
     }
 }

@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS users (
     username varchar(255) NOT NULL,
     surname varchar(255) NOT NULL,
     email varchar(255) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL
+    password varchar(255) NOT NULL,
+    role varchar(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS cart (

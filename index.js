@@ -53,7 +53,7 @@ app.get("/",async function(req,res){
         const cartItems =  await (await shoeService.getCart('bheka')).cartItems
         res.render("index",{list,cart,total,cartItems});
     } catch (error) {
-        res.render("index");
+        res.render("client");
     }
   
 });
@@ -65,15 +65,18 @@ app.post("/home",async function(req,res){
 
 app.get('/api/shoes', shoesApi.all);
 app.get('/api/shoes/brand/:brandname', shoesApi.allBrand);
-app.get('/api/shoes/addUser', shoesApi.addUser);
+app.post('/api/shoes/addUser', shoesApi.addUser);
 app.get('/api/shoes/size/:size', shoesApi.allsizes);
 app.get('/api/shoes/brand/:brandname/size/:size',shoesApi.brandAndSize);
-app.post('/api/shoes/addToCart/:username',shoesApi.addToCart);
-app.get('/api/shoes/getCart/:username',shoesApi.getCart);
-app.post('/api/shoes/cancelCart/:username',shoesApi.cancelCart);
-app.post("/api/shoes/sold/:username",shoesApi.checkoutCart);
+app.post('/api/shoes/addToCart',shoesApi.addToCart);
+app.post('/api/login/',shoesApi.logIn);
+app.get('/api/shoes/getCart',shoesApi.getCart);
+app.get('/api/getOrders',shoesApi.getOrders)
+app.post('/api/shoes/cancelCart',shoesApi.cancelCart);
+app.post("/api/shoes/sold",shoesApi.checkoutCart);
 app.post('/api/shoes/',shoesApi.addShoeToStock);
-app.get('/api/shoes/history/:username',shoesApi.history);
+app.get('/api/shoes/history',shoesApi.history);
+app.post('/api/logout',shoesApi.logout);
 
 let Port = process.env.Port || 3004;
 
