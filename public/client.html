@@ -122,14 +122,14 @@
       <span class="totalCart"></span>
       <i class="bi bi-cart3 openCart o mx-2"></i>  
     </div>
-    <i class="bi bi-database-fill-gear" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"></i>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <i class="bi bi-database-fill-gear" data-bs-toggle="offcanvas" data-bs-target="#addShoesToCatalogue" aria-controls="addShoesToCatalogue"></i>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="addShoesToCatalogue" aria-labelledby="addShoesToCatalogueLabel">
       <div class="offcanvas-header m-0 p-2">
-        <h5 class="offcanvas-title mt-1 " id="offcanvasExampleLabel">Add Shoes</h5>
+        <h5 class="offcanvas-title mt-1 " id="addShoesToCatalogueLabel">Add Shoes</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body m-0 p-2">
-          <p class="addshoeErrorElem center warning"></p>
+          <p class="addshoeErrorElem text-center warning"></p>
           <div class="nameOfShoeBox form-group">
             <label for="nameofShoe" class="mb-1">Name</label>
             <input class="nameofShoe form-control" id="nameofShoe" type="text">
@@ -140,7 +140,15 @@
           </div>
           <div class="brandOfShoeBox form-group">
             <label for="brandofShoe" class="mb-1 mt-1">Brand</label>
-            <input class="brandofShoe form-control" id="brandofShoe" type="text">
+            <select id="brandNav" name="brand" class="col form-select brandofShoe">
+              <option value="" data-name="brands">Select Brand</option>
+              <option value='1' data-name="Nike">Nike</option>
+              <option value="2" data-name="adidas">adidas</option>
+              <option value="3" data-name="Puma">Puma</option>
+              <option value="4" data-name="Vans">Vans</option>
+              <option value="5" data-name="Vans">All star</option>
+              <option value="6" data-name="Vans">Fila</option>
+            </select>
           </div>
           <div class="photoOfShoeBox form-group">
             <label for="photoofShoe" class="mb-1 mt-1">Photo (URL)</label>
@@ -152,7 +160,12 @@
           </div>
           <div class="sizeofShoeBox form-group">
             <label for="sizeofShoe" class="mb-1 mt-1">Size</label>
-            <input class="sizeofShoe form-control" id="sizeofShoe" type="number">
+            <select id="sizeNav" name="size" class="col form-select sizeofShoe ">
+              <option value="" data-name="sizes">Select Size</option>
+              <option value="5" data-name="five">5</option>
+              <option value="6" data-name="six">6</option>
+              <option value="7" data-name="seven">7</option>
+            </select>
           </div>
           <div class="stockofShoeBox form-group">
             <label for="stockofShoe" class="mb-1 mt-1">Stock</label>
@@ -280,10 +293,10 @@
 <script type="text/x-template" class="productTemplate">
   {{#each list}}
   <div class="shoe-box">
-    <img src="{{shoe_picture}}" alt="">
+    <img src="{{shoe_picture}}"href="{{shoe_picture}}" alt="">
     <div class="shoe-info">
       <input type="hidden" name="id" class="id" value="{{id}}">
-      <span class="nameOfShoe">{{shoe_name}} {{id}}</span>
+      <span class="nameOfShoe">{{shoe_name}}</span>
       <span class="Brand">{{brand_name}}<span class="Stock">Stock: {{stock}}<span></span></span></span>
       <span class="priceOfShoe">R{{price}}</span>
       <button type="submit" class="productButton" onclick="addToCart({{id}})">BUY</button>
@@ -294,9 +307,9 @@
 <script type="text/x-template" class="cartTemplate">
   {{#each cart}}
   <div class="cart-box">
-    <img src="{{shoe_picture}}" alt="">
+    <img src="{{shoe_picture}}" href="{{shoe_picture}}"alt="">
     <div class="cart-info">
-      <span class="nameOfShoeCart">{{shoe_name}} {{shoe_id}}</span>
+      <span class="nameOfShoeCart">{{shoe_name}}</span>
       <span class="BrandCart">{{brand_name}}<span class="StockCart">In Stock: {{stock}}<span></span></span></span>
       <span class="priceOfShoeCart">R{{amount}}<span>Size:{{shoe_size}}</span></span>
       <p class="addSubtract center"><i class="fa-solid fa-minus minus"onclick="deleteFromCart({{shoe_id}},1)"></i><span class="cartItemNumber">{{qty}}</span><i class="fa-solid fa-plus plus"onclick="addToCart({{shoe_id}})"></i></p>
@@ -319,7 +332,7 @@
         {{#each results}}
         
           <li class="card">
-            <img class="card-img-left" src="{{shoe_picture}}" alt="Card image cap">
+            <img class="card-img-left" src="{{shoe_picture}}" href="{{shoe_picture}}"alt="Card image cap">
             <p class=" m=2"><span>Shoe Name:</span> {{shoe_name}}</p>
             <!-- <p>Shoe Picture: {{shoe_picture}}</p> -->
             <p> <span>Shoe Color:</span> {{shoe_color}}</p>

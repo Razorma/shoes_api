@@ -23,8 +23,20 @@ const logoutElem = document.querySelector(".logoutElem")
 const loginButtonModal = document.querySelector(".loginButtonModal")
 const addShoeCanvasButton = document.querySelector(".bi-database-fill-gear")
 const orderTemplate = document.querySelector(".orderTemplate")
+const searchToggler = document.querySelector(".search-toggler")
+const cartIcon = document.querySelector(".icon")
 
 
+
+const nameofShoe = document.querySelector(".nameofShoe")
+const colorOfshoe = document.querySelector(".colorOfshoe")
+const brandofShoe = document.querySelector(".brandofShoe ")
+const photoofShoe = document.querySelector(".photoofShoe")
+const priceofShoe = document.querySelector(".priceofShoe")
+const sizeofShoe = document.querySelector(".sizeofShoe")
+const stockofShoe = document.querySelector(".stockofShoe")
+const addShoeButton = document.querySelector(".addShoe")
+const messageElem = document.querySelector(".addshoeErrorElem")
 
 
 
@@ -48,7 +60,7 @@ Handlebars.registerHelper('jsonStringify', function (context) {
 });
 Handlebars.registerHelper('formatCurrency', function (value) {
     return 'R' + parseFloat(value).toFixed(2);
-  });
+});
 
 const shoesService = shoes()
 let currentBrand = ""
@@ -60,6 +72,8 @@ if (loginUser) {
 let roleUser = localStorage.getItem("roleUser");
 if (roleUser) {
     addShoeCanvasButton.style.display = 'flex'
+    searchToggler.style.display = 'none'
+    cartIcon.style.display = 'none'
 }
 
 function showShoes(brandName, size) {
@@ -278,7 +292,7 @@ function showOrders() {
                 results: data,
                 total,
                 cartItems
-                
+
             });
             let shoesHTML = html;
             productContainer.innerHTML = shoesHTML;
@@ -370,6 +384,95 @@ filterButton.addEventListener("click", () => {
 backNavButton.addEventListener("click", () => {
     showShoes()
     backNavButton.style.display = "none"
+})
+addShoeButton.addEventListener("click", async function () {
+    if (nameofShoe.value === "" && colorOfshoe.value === "" && brandofShoe.value === "" && photoofShoe.value === "" && priceofShoe.value === "" && sizeofShoe.value === "" && stockofShoe.value === "") {
+        messageElem.classList.add("text-danger")
+        messageElem.innerHTML = `Please enter Shoe`
+        setTimeout(function () {
+            messageElem.classList.remove("text-danger")
+            messageElem.innerHTML = ""
+        }, 6000);
+    } else {
+        if (nameofShoe.value === "") {
+            messageElem.classList.add("text-danger")
+            messageElem.innerHTML = `Please Enter Name of shoe`
+            setTimeout(function () {
+                messageElem.classList.remove("text-danger")
+                messageElem.innerHTML = ""
+            }, 6000);
+        } else if (brandofShoe.value === "") {
+            messageElem.classList.add("text-danger")
+            messageElem.innerHTML = `Please Enter Brand of shoe`
+            setTimeout(function () {
+                messageElem.classList.remove("text-danger")
+                messageElem.innerHTML = ""
+            }, 6000);
+        } else if (photoofShoe.value === "") {
+            messageElem.classList.add("text-danger")
+            messageElem.innerHTML = `Please Enter Photo URL of shoe`
+            setTimeout(function () {
+                messageElem.classList.remove("text-danger")
+                messageElem.innerHTML = ""
+            }, 6000);
+        } else if (priceofShoe.value === "") {
+            messageElem.classList.add("text-danger")
+            messageElem.innerHTML = `Please Enter Price of shoe`
+            setTimeout(function () {
+                messageElem.classList.remove("text-danger")
+                messageElem.innerHTML = ""
+            }, 6000);
+        } else if (sizeofShoe.value === "") {
+            messageElem.classList.add("text-danger")
+            messageElem.innerHTML = `Please Enter Size of shoe`
+            setTimeout(function () {
+                messageElem.classList.remove("text-danger")
+                messageElem.innerHTML = ""
+            }, 6000);
+        } else if (stockofShoe.value === "") {
+            messageElem.classList.add("text-danger")
+            messageElem.innerHTML = `Please Enter Stock of shoe`
+            setTimeout(function () {
+                messageElem.classList.remove("text-danger")
+                messageElem.innerHTML = ""
+            }, 6000);
+        } else {
+
+            await shoesService.addShoe(
+                {
+                    shoe_name: nameofShoe.value,
+                    shoe_picture: photoofShoe.value,
+                    shoe_color: colorOfshoe.value,
+                    price: priceofShoe.value,
+                    stock: stockofShoe.value,
+                    brand_id: parseFloat(brandofShoe.value),
+                    shoe_size: sizeofShoe.value
+                })
+                .then((results) => {
+                    let response = results.data;
+                    console.log(response.status)
+                    if (response.status === 'success') {
+                        messageElem.classList.add("text-green")
+                        messageElem.innerHTML = "Shoe Succesfully Added"
+                        setTimeout(function () {
+                            messageElem.classList.remove("text-green")
+                            messageElem.innerHTML = ""
+                        }, 6000);
+                    }
+                })
+
+
+            nameofShoe.value = "";
+            colorOfshoe.value = "";
+            brandofShoe.value = "";
+            photoofShoe.value = "";
+            priceofShoe.value = "";
+            sizeofShoe.value = "";
+            stockofShoe.value = "";
+        }
+
+    }
+
 })
 function shoes() {
     function getShoes() {

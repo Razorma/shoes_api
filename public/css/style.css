@@ -408,3 +408,8 @@ footer{
     color: #000d1b;
     padding-left: 5px;
 }
+.text-green{
+    color: green;
+    font-size: medium;
+    font-weight: 600;
+}

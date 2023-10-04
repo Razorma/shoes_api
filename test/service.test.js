@@ -1,7 +1,7 @@
 import ShoeService from "../service/shoes.js";
 import assert from 'assert';
 import pgPromise from "pg-promise";
-import bcrypt from "bcrypt";
+
 const connectionString = process.env.DATABASE_URL_TEST || "postgres://krfskolr:R0s4M-8kuJTrfgIU8x9rSR6dW9wQlcp5@tai.db.elephantsql.com/krfskolr"
 
 const pgp = pgPromise()
@@ -40,10 +40,10 @@ describe("Service Function",function (){
         const userpassword = 'myPassword';
         const surname = "theuser1"
         const email = "user1@gmail.com"
-        const hashedPassword = await bcrypt.hash(userpassword, saltRounds);
+        // const hashedPassword = await bcrypt.hash(userpassword, saltRounds);
         const checkTableQuery = `SELECT * FROM users;`
 
-        await shoeService.addUsername(username, hashedPassword,surname,email);
+        await shoeService.addUsername(username, userpassword,surname,email,'customer');
     
         const tableRows = await db.query(checkTableQuery);
     
@@ -128,11 +128,14 @@ describe("Service Function",function (){
         assert.equal(nikeSize7.brand_name,'nike');
 
     })
-    it("Should add a shoe to cart",async ()=>{
-    
-        await shoeService.addShoeToCart('user1', 1)
 
-        const userCart = await shoeService.getCart('user1')
+    it("Should add a shoe to cart",async ()=>{
+        await shoeService.login('user1', 'myPassword')
+    
+        await shoeService.addShoeToCart( 1)
+
+        const userCart = await shoeService.getCart()
+        console.log()
         
 
         assert.strictEqual((userCart.results).length, 1);
@@ -140,18 +143,18 @@ describe("Service Function",function (){
     })
     it("Should return the number of items in a cart",async ()=>{
     
-        await shoeService.addShoeToCart('user1', 1)
+        await shoeService.addShoeToCart(1)
 
-        const userCart = await shoeService.getCart('user1')
+        const userCart = await shoeService.getCart()
 
         assert.equal(userCart.cartItems,2);
         assert.equal(userCart.total,3980.00);
 
     })
     it("Should return the total amount of all the items in the cart",async ()=>{
-        await shoeService.addShoeToCart('user1', 2)
+        await shoeService.addShoeToCart(2)
 
-        const userCart = await shoeService.getCart('user1')
+        const userCart = await shoeService.getCart()
 
         assert.equal(userCart.cartItems,3);
         assert.equal(userCart.total,5980.00);
@@ -168,7 +171,7 @@ describe("Service Function",function (){
     })
     it("Should replace stock when order cancelled",async ()=>{
 
-        await shoeService.replaceStock('user1', 1, 2)
+        await shoeService.replaceStock(1, 2)
         
         //first shoe
         const [userCart] = await shoeService.getAllShoe()
@@ -179,10 +182,10 @@ describe("Service Function",function (){
     })
     it("Should be able to chechout shoes",async ()=>{
 
-        await shoeService.checkoutCart('user1')
+        await shoeService.checkoutCart()
 
         try {
-            await shoeService.getCart('user1')
+            await shoeService.getCart()
          } catch (error) {
             assert.equal(error.message,'No data returned from the query.');
          }
