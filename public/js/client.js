@@ -25,6 +25,10 @@ const addShoeCanvasButton = document.querySelector(".bi-database-fill-gear")
 const orderTemplate = document.querySelector(".orderTemplate")
 const searchToggler = document.querySelector(".search-toggler")
 const cartIcon = document.querySelector(".icon")
+const selectColorNav = document.querySelector(".selectColorNav")
+const selectBrandElem = document.querySelector(".selectBrandNav")
+const selectSizeElem = document.querySelector(".selectSizeNav")
+const errorSelect = document.querySelector(".errorSelect")
 
 
 
@@ -65,6 +69,7 @@ Handlebars.registerHelper('formatCurrency', function (value) {
 const shoesService = shoes()
 let currentBrand = ""
 let currentSize = ""
+let currentColor= ""
 let loginUser = localStorage.getItem("loginUser");
 if (loginUser) {
     logoutElem.innerHTML = `<i class="bi bi-box-arrow-left " id="logoutIcon"onclick="logoutUser()"></i>`
@@ -76,36 +81,23 @@ if (roleUser) {
     cartIcon.style.display = 'none'
 }
 
-function showShoes(brandName, size) {
+function showShoes(brandName, size,color) {
 
-    if (brandName && size) {
+    if (brandName && size && color) {
         currentBrand = brandName
         currentSize = size
+         currentColor= color
         shoesService
-            .getShoeByBrandAndSize(brandName, size)
+            .getShoeByBrandSizeAndColor(brandName, size,color)
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                let html = productTemplateInstance({
-                    list: data
-                });
-                let shoesHTML = html;
-                productContainer.innerHTML = shoesHTML;
-            });
-    } else if (brandName && !size) {
-        currentBrand = brandName
-        currentSize = ""
-        shoesService
-            .getShoeByBrand(brandName)
-            .then(function (results) {
-                let response = results.data;
-                let data = response.data;
-                if (response.data === "") {
-                    productContainer.classList.add('danger')
-                    productContainer.innerHTML = "Out Of Stock"
+                if(!data){
+                    errorSelect.classList.add('danger')
+                    errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
-                        productContainer.innerHTML = ""
-                        productContainer.classList.remove('danger')
+                        errorSelect.innerHTML = ""
+                        errorSelect.classList.remove('danger')
                     }, 3000)
                 }
                 let html = productTemplateInstance({
@@ -114,20 +106,147 @@ function showShoes(brandName, size) {
                 let shoesHTML = html;
                 productContainer.innerHTML = shoesHTML;
             });
-    } else if (!brandName && size) {
+    }else if (brandName && size && !color) {
+        currentBrand = brandName
+        currentSize = size
+        currentColor= ""
+        shoesService
+            .getShoeByBrandAndSize(brandName, size)
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                if(!data){
+                    errorSelect.classList.add('danger')
+                    errorSelect.innerHTML = "Out Of Stock"
+                    setTimeout(() => {
+                        errorSelect.innerHTML = ""
+                        errorSelect.classList.remove('danger')
+                    }, 3000)
+                }
+                let html = productTemplateInstance({
+                    list: data
+                });
+                let shoesHTML = html;
+                productContainer.innerHTML = shoesHTML;
+            });
+    }else if (color && size && !brandName) {
+        currentColor = color
+        currentSize = size
+        currentBrand=""
+        shoesService
+            .getShoeBySizeAndColor(size,color)
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                if(!data){
+                    errorSelect.classList.add('danger')
+                    errorSelect.innerHTML = "Out Of Stock"
+                    setTimeout(() => {
+                        errorSelect.innerHTML = ""
+                        errorSelect.classList.remove('danger')
+                    }, 3000)
+                }
+                let html = productTemplateInstance({
+                    list: data
+                });
+                let shoesHTML = html;
+                productContainer.innerHTML = shoesHTML;
+            });
+    }else if (brandName && color && !size) {
+        currentColor = color
+        currentBrand = brandName
+        currentSize= ""
+        shoesService
+            .getShoeByBrandAndColor(brandName,color)
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                if(!data){
+                    errorSelect.classList.add('danger')
+                    errorSelect.innerHTML = "Out Of Stock"
+                    setTimeout(() => {
+                        errorSelect.innerHTML = ""
+                        errorSelect.classList.remove('danger')
+                    }, 3000)
+                }
+                let html = productTemplateInstance({
+                    list: data
+                });
+                let shoesHTML = html;
+                productContainer.innerHTML = shoesHTML;
+            });
+    } else if (brandName && !size && !color) {
+        currentBrand = brandName
+        currentSize = ""
+        currentColor = ""
+        shoesService
+            .getShoeByBrand(brandName)
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                if(!data){
+                    errorSelect.classList.add('danger')
+                    errorSelect.innerHTML = "Out Of Stock"
+                    setTimeout(() => {
+                        errorSelect.innerHTML = ""
+                        errorSelect.classList.remove('danger')
+                    }, 3000)
+                }
+                let html = productTemplateInstance({
+                    list: data
+                });
+                let shoesHTML = html;
+                productContainer.innerHTML = shoesHTML;
+            });
+    } else if (!brandName && !color && size) {
         currentBrand = ""
+        currentColor = ""
         currentSize = size
         shoesService
             .getShoeBySize(size)
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                productContainer.classList.add('danger')
+                if(!data){
+                    errorSelect.classList.add('danger')
+                    errorSelect.innerHTML = "Out Of Stock"
+                    setTimeout(() => {
+                        errorSelect.innerHTML = ""
+                        errorSelect.classList.remove('danger')
+                    }, 3000)
+                }
+                let html = productTemplateInstance({
+                    list: data
+                });
+                let shoesHTML = html;
+                productContainer.innerHTML = shoesHTML;
+            });
+    }else if (!brandName && color && !size) {
+        currentBrand = ""
+        currentColor = color
+        currentSize = ""
+        shoesService
+            .getShoeByColor(color)
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                if(!data){
+                    errorSelect.classList.add('danger')
+                    errorSelect.innerHTML = "Out Of Stock"
+                    setTimeout(() => {
+                        errorSelect.innerHTML = ""
+                        errorSelect.classList.remove('danger')
+                    }, 3000)
+                }
+                if(response.error){
+                    productContainer.classList.add('danger')
                 productContainer.innerHTML = "Out Of Stock"
                 setTimeout(() => {
                     productContainer.innerHTML = ""
                     productContainer.classList.remove('danger')
                 }, 3000)
+                }
+                
                 let html = productTemplateInstance({
                     list: data
                 });
@@ -137,6 +256,7 @@ function showShoes(brandName, size) {
     } else {
         currentBrand = ""
         currentSize = ""
+        currentColor = ""
         shoesService
             .getShoes()
             .then(function (results) {
@@ -182,27 +302,36 @@ function showCart() {
 
 async function addUserSignUp(name, password, surname, email) {
     if (name === "") {
+        signUpmess.classList.add("text-danger")
         signUpmess.innerHTML = "Please enter Name"
         setTimeout(() => {
             signUpmess.innerHTML = ""
+            signUpmess.classList.remove("text-danger")
         }, 3000)
 
     } else if (password === "") {
+        signUpmess.classList.add("text-danger")
         signUpmess.innerHTML = "Please enter Password"
         setTimeout(() => {
             signUpmess.innerHTML = ""
+            signUpmess.classList.remove("text-danger")
         }, 3000)
 
     } else if (surname === "") {
+        signUpmess.classList.add("text-danger")
         signUpmess.innerHTML = "Please enter Surname"
         setTimeout(() => {
             signUpmess.innerHTML = ""
+            signUpmess.classList.remove("text-danger")
         }, 3000)
 
     } else if (email === "") {
+        signUpmess.classList.add("text-danger")
         signUpmess.innerHTML = "Please enter Email"
         setTimeout(() => {
+            
             signUpmess.innerHTML = ""
+            signUpmess.classList.remove("text-danger")
         }, 3000)
 
     } else {
@@ -211,16 +340,20 @@ async function addUserSignUp(name, password, surname, email) {
                 let response = results.data;
                 Rstatus = response.status
                 if (response.error) {
+                    signUpmess.classList.add("text-danger")
                     signUpmess.innerHTML = "User already exists"
                     setTimeout(() => {
                         signUpmess.innerHTML = ""
+                        signUpmess.classList.remove("text-danger")
                     }, 3000)
                 }
 
                 if (response.status === 'success') {
+                    signUpmess.classList.add("text-green")
                     signUpmess.innerHTML = 'User successfully added'
                     setTimeout(() => {
                         signUpmess.innerHTML = ""
+                        signUpmess.classList.remove("text-green")
                     }, 3000)
                 }
 
@@ -332,7 +465,7 @@ async function addToCart(id) {
             }
         })
 
-    showShoes(currentBrand, currentSize)
+    showShoes(currentBrand, currentSize,currentColor)
     showCart()
 
 }
@@ -340,13 +473,13 @@ async function addToCart(id) {
 async function deleteFromCart(id, qty) {
     await shoesService.deleteCartItem(id, qty);
 
-    showShoes(currentBrand, currentSize);
+    showShoes(currentBrand, currentSize,currentColor);
     showCart();
 
 }
 async function chechoutFromCart() {
     await shoesService.checkoutCartItem();
-    showShoes(currentBrand, currentSize);
+    showShoes(currentBrand, currentSize,currentColor);
     showCart();
 
 }
@@ -367,17 +500,15 @@ function logoutUser() {
 }
 
 filterButton.addEventListener("click", () => {
-    const selectBrandElem = document.querySelector(".selectBrandNav")
-    const selectSizeElem = document.querySelector(".selectSizeNav")
-    const errorSelect = document.querySelector(".errorSelect")
-    if (!selectBrandElem.value && !selectSizeElem.value) {
-        errorSelect.innerHTML = "Please select Brand or Size"
+   
+    if (!selectBrandElem.value && !selectSizeElem.value && !selectColorNav.value) {
+        errorSelect.innerHTML = "Please select Brand or Size or Size"
         setTimeout(() => {
             errorSelect.innerHTML = ""
         }, 3000)
     } else {
-        showShoes(selectBrandElem.value, selectSizeElem.value)
-        backNavButton.style.display = "flex"
+        showShoes(selectBrandElem.value, selectSizeElem.value,selectColorNav.value)
+        backNavButton.style.display = "flex";
     }
 
 })
@@ -507,6 +638,18 @@ function shoes() {
     function getShoeByBrandAndSize(brandName, size) {
         return axios.get(`/api/shoes/brand/${brandName}/size/${size}`)
     }
+    function getShoeByColor(color) {
+        return axios.get(`/api/shoes/color/${color}`)
+    }
+    function getShoeByBrandAndColor(brand,color) {
+        return axios.get(`/api/shoes/brand/${brand}/color/${color}`)
+    }
+    function getShoeBySizeAndColor(size,color) {
+        return axios.get(`/api/shoes/size/${size}/color/${color}`)
+    }
+    function getShoeByBrandSizeAndColor(brand,size,color) {
+        return axios.get(`/api/shoes/brand/${brand}/color/${color}/size/${size}`)
+    }
     function getCart() {
         return axios.get(`/api/shoes/getCart`)
     }
@@ -541,6 +684,10 @@ function shoes() {
         deleteCartItem,
         checkoutCartItem,
         logout,
-        getOrders
+        getOrders,
+        getShoeByColor,
+        getShoeByBrandAndColor,
+        getShoeBySizeAndColor,
+        getShoeByBrandSizeAndColor
     }
 }

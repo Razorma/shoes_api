@@ -107,11 +107,82 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    
+    async function allColor(req, res,next){
+        try {
+            const color = req.params.color
+            let results = await shoeService.getShoeByColor(color);
+            res.json({
+                status:'success',
+                data: results
+            });
+        }catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+
+    }
+    
     async function brandAndSize(req, res,next){
         try {
             const brandname = req.params.brandname
             const size = req.params.size
             let results = await shoeService.getShoeByBrandAndSize(brandname,size);
+            res.json({
+                status:'success',
+                data: results
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+
+    }
+    async function brandAndColor(req, res,next){
+        try {
+            const brandname = req.params.brandname
+            const color = req.params.color
+            let results = await shoeService.getShoeByBrandAndColor(brandname,color);
+            res.json({
+                status:'success',
+                data: results
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+
+    }
+    
+    async function sizeAndColor(req, res,next){
+        try {
+            const size = req.params.size
+            const color = req.params.color
+            let results = await shoeService.getShoeBySizeAndColor(size,color);
+            res.json({
+                status:'success',
+                data: results
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+
+    }
+    async function sizeColorAndBrand(req, res,next){
+        try {
+            const size = req.params.size
+            const color = req.params.color
+            const brandname = req.params.brandname
+            let results = await shoeService.getShoeBySizeAndColorAndBrand(brandname,size,color);
             res.json({
                 status:'success',
                 data: results
@@ -232,6 +303,10 @@ export default function ShoesApi(shoeService){
         addShoeToStock,
         checkoutCart,
         history,
-        getOrders
+        getOrders,
+        allColor,
+        brandAndColor,
+        sizeAndColor,
+        sizeColorAndBrand
     }
 }

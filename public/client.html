@@ -1,40 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BJ Kicks</title>
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <script src="https://kit.fontawesome.com/637f4ab425.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BJ Kicks</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src="https://kit.fontawesome.com/637f4ab425.js" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
 </head>
-<body >
-  
-    <header class="p-0 m-0 container-fluid fixed-top">
-      <nav class="navbar navbar-light fixed-top  navbar-expand-sm p-0 justify-content-space-between bg-dark navbar-dark">
-        <div class="container-fluid">
-          <div class="shoeLogo navbar-text text-light ms-2 navbar-brand h1">BJ Kicks</div>
-          <button 
-          class="navbar-toggler" 
-          type="button" 
-          data-bs-toggle="collapse" 
-          data-bs-target="#navNavbar"
-          aria-controls="navNavbar"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          >
+
+<body>
+
+  <header class="p-0 m-0 container-fluid fixed-top">
+    <nav class="navbar navbar-light fixed-top  navbar-expand-sm p-0 justify-content-space-between bg-dark navbar-dark">
+      <div class="container-fluid">
+        <div class="shoeLogo navbar-text text-light ms-2 navbar-brand h1">BJ Kicks</div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navNavbar"
+          aria-controls="navNavbar" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon "></span>
-          </button>
-          
-          <div class="collapse navbar-collapse justify-content-end" id="navNavbar">
-            
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navNavbar">
+
           <ul class="navbar-nav">
-            <li class="nav-item mx-2 " >
-              <a class="nav-link text-light logoutElem"  onclick="closeNavbar()"><i data-bs-toggle="modal" data-bs-target="#loginModal" class="bi bi-person-circle"></i></a>
+            <li class="nav-item mx-2 ">
+              <a class="nav-link text-light logoutElem" onclick="closeNavbar()"><i data-bs-toggle="modal"
+                  data-bs-target="#loginModal" class="bi bi-person-circle"></i></a>
             </li>
             <li class="nav-item ">
               <a class="nav-link text-light" href="#Products" onclick="closeNavbar()">Products</a>
@@ -43,12 +41,12 @@
               <a class="nav-link text-light" href="#contacts" onclick="closeNavbar()">Contact</a>
             </li>
           </ul>
-          </div>
         </div>
-        
-      </nav>
-    </header>
-  
+      </div>
+
+    </nav>
+  </header>
+
 
   <main class="container-fluid mt-5">
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -74,7 +72,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#signUpModal">SignUp</button>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+              data-bs-target="#signUpModal">SignUp</button>
             <button type="button" class="btn btn-primary logInButton">Log In</button>
           </div>
         </div>
@@ -94,7 +93,8 @@
               </div>
               <div class="usename-box form-group">
                 <label for="SignUpUsename" class="loginLabel">Name</label>
-                <input type="text" name="users" id="SignUpUsename" class="form-control SignUp-username" value="" required>
+                <input type="text" name="users" id="SignUpUsename" class="form-control SignUp-username" value=""
+                  required>
               </div>
               <div class="surname-box form-group">
                 <label for="surname" class="loginLabel">Surname</label>
@@ -106,13 +106,15 @@
               </div>
               <div class="password-box form-group">
                 <label for="SignUpPassword" class="loginLabel">Password</label>
-                <input type="password" name="password" id="SignUpPassword" class="form-control SignUp-password" required>
+                <input type="password" name="password" id="SignUpPassword" class="form-control SignUp-password"
+                  required>
               </div>
-              
+
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary loginButtonModal" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <button type="button" class="btn btn-secondary loginButtonModal" data-bs-toggle="modal"
+              data-bs-target="#loginModal">Login</button>
             <button type="button" class="btn btn-primary signUpButton">SignUp</button>
           </div>
         </div>
@@ -120,69 +122,71 @@
     </div>
     <div class="icon">
       <span class="totalCart"></span>
-      <i class="bi bi-cart3 openCart o mx-2"></i>  
+      <i class="bi bi-cart3 openCart o mx-2"></i>
     </div>
-    <i class="bi bi-database-fill-gear" data-bs-toggle="offcanvas" data-bs-target="#addShoesToCatalogue" aria-controls="addShoesToCatalogue"></i>
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="addShoesToCatalogue" aria-labelledby="addShoesToCatalogueLabel">
+    <i class="bi bi-database-fill-gear" data-bs-toggle="offcanvas" data-bs-target="#addShoesToCatalogue"
+      aria-controls="addShoesToCatalogue">Add Shoe</i>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="addShoesToCatalogue"
+      aria-labelledby="addShoesToCatalogueLabel">
       <div class="offcanvas-header m-0 p-2">
         <h5 class="offcanvas-title mt-1 " id="addShoesToCatalogueLabel">Add Shoes</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body m-0 p-2">
-          <p class="addshoeErrorElem text-center warning"></p>
-          <div class="nameOfShoeBox form-group">
-            <label for="nameofShoe" class="mb-1">Name</label>
-            <input class="nameofShoe form-control" id="nameofShoe" type="text">
-          </div>
-          <div class="colorOfShoeBox form-group">
-            <label for="colorOfshoe" class="mb-1 mt-1">Color</label>
-            <input class="colorOfshoe form-control" id="colorOfshoe" type="text">
-          </div>
-          <div class="brandOfShoeBox form-group">
-            <label for="brandofShoe" class="mb-1 mt-1">Brand</label>
-            <select id="brandNav" name="brand" class="col form-select brandofShoe">
-              <option value="" data-name="brands">Select Brand</option>
-              <option value='1' data-name="Nike">Nike</option>
-              <option value="2" data-name="adidas">adidas</option>
-              <option value="3" data-name="Puma">Puma</option>
-              <option value="4" data-name="Vans">Vans</option>
-              <option value="5" data-name="Vans">All star</option>
-              <option value="6" data-name="Vans">Fila</option>
-            </select>
-          </div>
-          <div class="photoOfShoeBox form-group">
-            <label for="photoofShoe" class="mb-1 mt-1">Photo (URL)</label>
-            <input class="photoofShoe form-control" id="photoofShoe" type="text">
-          </div>
-          <div class="priceOfShoeBox form-group">
-            <label for="priceofShoe" class="mb-1 mt-1">Price</label>
-            <input class="priceofShoe form-control" id="priceofShoe" type="number">
-          </div>
-          <div class="sizeofShoeBox form-group">
-            <label for="sizeofShoe" class="mb-1 mt-1">Size</label>
-            <select id="sizeNav" name="size" class="col form-select sizeofShoe ">
-              <option value="" data-name="sizes">Select Size</option>
-              <option value="5" data-name="five">5</option>
-              <option value="6" data-name="six">6</option>
-              <option value="7" data-name="seven">7</option>
-            </select>
-          </div>
-          <div class="stockofShoeBox form-group">
-            <label for="stockofShoe" class="mb-1 mt-1">Stock</label>
-            <input class="stockofShoe form-control" id="stockofShoe" type="number">
-          </div>
-          <div class="d-flex  container-fluid justify-content-end">
-            <button class="addShoe btn btn-secondary mt-2 text-center ">Add</button>
-          </div>
-          
+        <p class="addshoeErrorElem text-center warning"></p>
+        <div class="nameOfShoeBox form-group">
+          <label for="nameofShoe" class="mb-1">Name</label>
+          <input class="nameofShoe form-control" id="nameofShoe" type="text">
+        </div>
+        <div class="colorOfShoeBox form-group">
+          <label for="colorOfshoe" class="mb-1 mt-1">Color</label>
+          <input class="colorOfshoe form-control" id="colorOfshoe" type="text">
+        </div>
+        <div class="brandOfShoeBox form-group">
+          <label for="brandofShoe" class="mb-1 mt-1">Brand</label>
+          <select id="brandNav" name="brand" class="col form-select brandofShoe">
+            <option value="" data-name="brands">Select Brand</option>
+            <option value='1' data-name="Nike">Nike</option>
+            <option value="2" data-name="adidas">adidas</option>
+            <option value="3" data-name="Puma">Puma</option>
+            <option value="4" data-name="Vans">Vans</option>
+            <option value="5" data-name="Vans">All star</option>
+            <option value="6" data-name="Vans">Fila</option>
+          </select>
+        </div>
+        <div class="photoOfShoeBox form-group">
+          <label for="photoofShoe" class="mb-1 mt-1">Photo (URL)</label>
+          <input class="photoofShoe form-control" id="photoofShoe" type="text">
+        </div>
+        <div class="priceOfShoeBox form-group">
+          <label for="priceofShoe" class="mb-1 mt-1">Price</label>
+          <input class="priceofShoe form-control" id="priceofShoe" type="number">
+        </div>
+        <div class="sizeofShoeBox form-group">
+          <label for="sizeofShoe" class="mb-1 mt-1">Size</label>
+          <select id="sizeNav" name="size" class="col form-select sizeofShoe ">
+            <option value="" data-name="sizes">Select Size</option>
+            <option value="5" data-name="five">5</option>
+            <option value="6" data-name="six">6</option>
+            <option value="7" data-name="seven">7</option>
+          </select>
+        </div>
+        <div class="stockofShoeBox form-group">
+          <label for="stockofShoe" class="mb-1 mt-1">Stock</label>
+          <input class="stockofShoe form-control" id="stockofShoe" type="number">
+        </div>
+        <div class="d-flex  container-fluid justify-content-end">
+          <button class="addShoe btn btn-secondary mt-2 text-center ">Add</button>
+        </div>
+
       </div>
     </div>
     <div id="cart" class="cart">
       <i class="bi bi-x closeCart"></i>
       <p class="errorCart text-danger mt-5"></p>
-  
+
       <div class="cartProducts">
-       
+
       </div>
       <div class="checkout">
         <div class="total">
@@ -193,7 +197,7 @@
           <button type="submit" onclick="chechoutFromCart('bheka')">Checkout</button>
         </div>
       </div>
-  
+
     </div>
     <nav id="Products" class=" p-0 m-0 justify-content-center  navbar mt-2   p-0  ">
       <button class="navbar-toggler search-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar"
@@ -210,6 +214,15 @@
             <option value="puma" data-name="Puma">Puma</option>
             <option value="vans" data-name="Vans">Vans</option>
           </select>
+          <select id="colorNav" name="color" class="col mt-2 form-select selectColorNav mx-2">
+            <option value="" data-name="colors">Select Color</option>
+            <option value="black" data-name="Black">Black</option>
+            <option value="white" data-name="White">White</option>
+            <option value="blue" data-name="blue">blue</option>
+            <option value="red" data-name="red">Red</option>
+            <!-- <option value="yellow" data-name="Red">Yellow</option> -->
+            <option value="grey" data-name="Red">Grey</option>
+          </select>
           <select id="sizeNav" name="size" class="col mt-2 form-select selectSizeNav mx-2">
             <option value="" data-name="sizes">Select Size</option>
             <option value="5" data-name="five">5</option>
@@ -218,20 +231,20 @@
           </select>
           <div class="buttons">
             <button type="submit" class="col-6 pt-1 mt-2 btn btn-primary searchNav ">Search</button>
-  
+
             <input type="button" value="Back" class="col-6 pt-0 mt-2 btn btn-secondary backNav" id="backButton"
-              style="display: none;"onclick="closeSearchbar()">
+              style="display: none;" onclick="closeSearchbar()">
           </div>
-  
+
         </div>
       </div>
     </nav>
     <hr>
     <section id="products" class="mt-5">
-      
+
     </section>
     <hr>
-  
+
     <section id="contacts" class="container">
       <form action="/home" method="post" class="row d-flex justify-content-center align-content-center">
         <h1 class="text-center">Contact us</h1>
@@ -250,8 +263,8 @@
         <button type="submit" class="mt-3 btn btn-secondary submitFormBtn">Submit</button>
       </form>
     </section>
-  
-  
+
+
     <footer class=" bg-dark footer-dark">
       <div class="col contact-links container-fluid justify-content-center">
         <a href="#" id="profile-link">
@@ -273,22 +286,23 @@
 </body>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script>
-    function closeNavbar() {
-        var navNavbar = document.getElementById('navNavbar');
-        var bootstrapButton = document.querySelector('.navbar-toggler');
-        if (navNavbar.classList.contains('show')) {
-            bootstrapButton.click(); // Click the button to close the Navbar
-        }
+  function closeNavbar() {
+    var navNavbar = document.getElementById('navNavbar');
+    var bootstrapButton = document.querySelector('.navbar-toggler');
+    if (navNavbar.classList.contains('show')) {
+      bootstrapButton.click(); // Click the button to close the Navbar
     }
-    function closeSearchbar() {
-        var navNavbar = document.getElementById('mynavbar');
-        var bootstrapButton = document.querySelector('.search-toggler');
-        if (navNavbar.classList.contains('show')) {
-            bootstrapButton.click(); // Click the button to close the search
-        }
+  }
+  function closeSearchbar() {
+    var navNavbar = document.getElementById('mynavbar');
+    var bootstrapButton = document.querySelector('.search-toggler');
+    if (navNavbar.classList.contains('show')) {
+      bootstrapButton.click(); // Click the button to close the search
     }
+  }
 </script>
 <script type="text/x-template" class="productTemplate">
   {{#each list}}
@@ -297,9 +311,10 @@
     <div class="shoe-info">
       <input type="hidden" name="id" class="id" value="{{id}}">
       <span class="nameOfShoe">{{shoe_name}}</span>
-      <span class="Brand">{{brand_name}}<span class="Stock">Stock: {{stock}}<span></span></span></span>
+      <span class="Brand">{{brand_name}}<span class="Stock">Stock: {{stock}}</span> </span>
+      <span class="Size">Size: {{shoe_size}}</span>
       <span class="priceOfShoe">R{{price}}</span>
-      <button type="submit" class="productButton" onclick="addToCart({{id}})">BUY</button>
+      <button type="submit" class="productButton" onclick="addToCart({{id}})">Add<i class="bi bi-cart4"></i></button>
     </div>
   </div>
   {{/each}}
@@ -319,38 +334,46 @@
 {{/each}}
 </script>
 <script type="text/x-template" class="orderTemplate">
-  <h2>Orders</h2>
+  <div class="order-box container-fluid" >
+    <h2 class='text-center'>Orders</h2>
   {{#each results}}
-    <div class="userOrder card p-0 m=0" >
-      <div class="card-header">
-      <h2>{{username}}</h2>
+    <div class="userOrder p-0 mx-0 mb-2 mt-3" x-data="{ open: false }">
+      <div class="row">
+        <h4 class="col-sm">{{username}}</h4>
+        <p class="col-sm"><span>Total:</span> {{formatCurrency total}}</p>
+        <div class='col-sm numItems d-flex flex-row'>
+          <p><span>Items:</span>{{numItems}}</p>
+          <!-- <input type="button" value="Show" class='btn btn-secondary p-0 m-0'> -->
+          <button class="showOrder btn btn-secondary"  @click="open = !open">Show</button>
+        </div>
       </div>
-      <p><span>Total:</span> {{formatCurrency total}}</p>
-      <p><span>Items:</span> {{numItems}}</p>
 
-      <ul class="cards-box p-2 m=0"  > 
+      <ul class="row p-0 cards-box m-0"  id="currentOrder" x-show="open"> 
         {{#each results}}
-        
-          <li class="card">
-            <img class="card-img-left" src="{{shoe_picture}}" href="{{shoe_picture}}"alt="Card image cap">
-            <p class=" m=2"><span>Shoe Name:</span> {{shoe_name}}</p>
-            <!-- <p>Shoe Picture: {{shoe_picture}}</p> -->
-            <p> <span>Shoe Color:</span> {{shoe_color}}</p>
-            <p> <span>Price:</span> R{{price}}</p>
-            <p> <span>QTY:</span> {{qty}}</p>
-            <p> <span>Brand:</span> {{brand_name}}</p>
-            <p> <span>Shoe Size:</span> {{shoe_size}}</p>
+          <li class="card m-0 p-0" style="width: 15rem;">
+            <img class="card-img-left " src="{{shoe_picture}}" href="{{shoe_picture}}"alt="Card image cap">
+            <div class="cad-body p-0 m-0">
+              <p ><span>Shoe Name:</span> {{shoe_name}}</p>
+              <p ><span>Shoe Color:</span> {{shoe_color}}</p>
+              <p ><span>Price:</span> R{{price}}</p>
+              <p ><span>QTY:</span> {{qty}}</p>
+              <p ><span>Brand:</span> {{brand_name}}</p>
+              <p ><span>Shoe Size:</span> {{shoe_size}}</p>
+            </div>
           </li>
         {{/each}}
       </ul>
     </div>
   {{/each}}
 
-  <div class="grandTotal">
-    <p><span>Grand Total:</span> R{{total}}</p>
-    <p><span>Total Ordered Items:</span> {{cartItems}}</p>
+  <div class="grandTotal mt-5">
+    <p><span>Grand Total: </span> R{{total}}</p>
+    <p><span>Total Ordered Items: </span> {{cartItems}}</p>
   </div>
+  </div>
+  
 </script>
 
 <script src="/js/client.js" charset="utf-8"></script>
+
 </html>

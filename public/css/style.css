@@ -122,7 +122,7 @@ footer{
     border-radius: 10px;
     position: relative;
     bottom: 25px;
-    right: -140px;
+    right: -120px;
     color: #ffff;
     background-color: #000d1b;
 }
@@ -150,6 +150,11 @@ footer{
 }
 .nameOfShoe{
     font-weight: 700;
+}
+.Size{
+    font-weight: bold;
+    color: grey;
+    margin-top: 5px;
 }
 .Brand{
     font-weight: bold;
@@ -368,35 +373,63 @@ footer{
 
 .loginMess,
 .signUpmess{
-    font-size: medium;
+    font-size: small;
     font-weight: 900;
 }
 .userOrder{
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    /* display: flex;
-    align-items: center;
-    justify-content: center; */
+
+}
+.cards-box{
+    gap: 20px;
+}
+.order-box h4{
+    font-weight: 700;
+}
+.numItems{
+    gap: 20px;
+}
+.showOrder{
+    border-radius: 6px;
+    padding: 0px 5px;
+    height: fit-content;
+}
+.order-Info{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* 
+.order-box{
+    border: 1px solid black;
+}
+
+.shoe-card{
+    width: 200px;
 }
 .userOrder ul li{
  list-style: none;
 }
 .cards-box{
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    grid-row-gap: 20px;
-    grid-column-gap: 5px;
+    display: flex;
+    flex-wrap: wrap;
 }
+.card-info{
+    width: 200px;
+}*/
 .userOrder p{
-    font-size: medium;
+    font-size: small;
     font-weight: 600;
     color: grey;
 }
 .userOrder span{
-    font-size: medium;
+    font-size: small;
     font-weight: 900;
     color: #000d1b;
     padding-left: 5px;
 }
+
 .grandTotal p{
     font-size: medium;
     font-weight: 600;
@@ -410,6 +443,6 @@ footer{
 }
 .text-green{
     color: green;
-    font-size: medium;
+    font-size: small;
     font-weight: 600;
-}
+} 

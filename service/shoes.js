@@ -78,7 +78,7 @@ export default function ShoeService(db) {
                 s.shoe_picture,s.shoe_color,s.price,s.stock,s.shoe_size,b.brand_name
                 FROM shoes s
                 JOIN brand b ON s.brand_id = b.id
-                WHERE brand_id =$1
+                WHERE brand_id = $1
                 ORDER BY s.id ASC;
                 `, [id])
         return results
@@ -93,12 +93,25 @@ export default function ShoeService(db) {
             s.shoe_picture,s.shoe_color,s.price,s.stock,s.shoe_size,b.brand_name
             FROM shoes s
             JOIN brand b ON s.brand_id = b.id
-            WHERE shoe_size =$1
+            WHERE shoe_size = $1
             ORDER BY s.id ASC;
             `, [size])
 
         return results
 
+    }
+    async function getShoeByColor(color) {
+
+        const results = await db.many(
+            `SELECT s.id, s.shoe_name, s.shoe_picture, s.shoe_color, s.price, s.stock, s.shoe_size, b.brand_name
+            FROM shoes s
+            JOIN brand b ON s.brand_id = b.id
+            WHERE shoe_color LIKE $1
+            ORDER BY s.id ASC;
+            `, [`%${color}%`]);
+        
+        return results;
+    
     }
     async function getShoeByBrandAndSize(brandname, size) {
         const getShoeByBrandQuery = `
@@ -114,9 +127,65 @@ export default function ShoeService(db) {
             s.shoe_picture,s.shoe_color,s.price,s.stock,s.shoe_size,b.brand_name
             FROM shoes s
             JOIN brand b ON s.brand_id = b.id
-            WHERE brand_id =$1 AND shoe_size = $2
+            WHERE brand_id = $1 AND shoe_size = $2
             ORDER BY s.id ASC;
             `, [id, size])
+
+        return results
+
+    }
+    async function getShoeByBrandAndColor(brandname, color) {
+        const getShoeByBrandQuery = `
+        SELECT id 
+        FROM brand
+        WHERE brand_name = $1;
+        `;
+        const brandId = await db.one(getShoeByBrandQuery, [brandname]);
+        const id = brandId.id
+
+        const results = await db.many(
+            `SELECT s.id,s.shoe_name,
+            s.shoe_picture,s.shoe_color,s.price,s.stock,s.shoe_size,b.brand_name
+            FROM shoes s
+            JOIN brand b ON s.brand_id = b.id
+            WHERE brand_id =$1 AND shoe_color LIKE $2
+            ORDER BY s.id ASC;
+            `, [id, `%${color}%`])
+
+        return results
+
+    }
+    async function getShoeBySizeAndColor(size, color) {
+
+        const results = await db.many(
+            `SELECT s.id,s.shoe_name,
+            s.shoe_picture,s.shoe_color,s.price,s.stock,s.shoe_size,b.brand_name
+            FROM shoes s
+            JOIN brand b ON s.brand_id = b.id
+            WHERE shoe_size = $1 AND shoe_color LIKE $2
+            ORDER BY s.id ASC;
+            `, [size, `%${color}%`])
+
+        return results
+
+    }
+    async function getShoeBySizeAndColorAndBrand(brandname,size, color) {
+        const getShoeByBrandQuery = `
+        SELECT id 
+        FROM brand
+        WHERE brand_name = $1;
+        `;
+        const brandId = await db.one(getShoeByBrandQuery, [brandname]);
+        const id = brandId.id
+
+        const results = await db.many(
+            `SELECT s.id,s.shoe_name,
+            s.shoe_picture,s.shoe_color,s.price,s.stock,s.shoe_size,b.brand_name
+            FROM shoes s
+            JOIN brand b ON s.brand_id = b.id
+            WHERE shoe_size = $1 AND shoe_color LIKE $2 AND brand_id = $3
+            ORDER BY s.id ASC;
+            `, [size, `%${color}%`,id])
 
         return results
 
@@ -419,7 +488,11 @@ export default function ShoeService(db) {
         getShoeBySize,
         getShoeByBrandAndSize,
         getPurchaseHistory,
-        getOrders
+        getOrders,
+        getShoeByColor,
+        getShoeByBrandAndColor,
+        getShoeBySizeAndColor,
+        getShoeBySizeAndColorAndBrand
     }
 }
 
