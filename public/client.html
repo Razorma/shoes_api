@@ -183,9 +183,10 @@
     </div>
     <div id="cart" class="cart">
       <i class="bi bi-x closeCart"></i>
-      <p class="errorCart text-danger mt-5"></p>
+      <p class="errorCart  mt-5"></p>
 
       <div class="cartProducts">
+        
 
       </div>
       <div class="checkout">
@@ -311,7 +312,7 @@
     <div class="shoe-info">
       <input type="hidden" name="id" class="id" value="{{id}}">
       <span class="nameOfShoe">{{shoe_name}}</span>
-      <span class="Brand">{{brand_name}}<span class="Stock">Stock: {{stock}}</span> </span>
+      <span class="Brand">{{capitalize brand_name}}<span class="Stock">Stock: {{stock}}</span> </span>
       <span class="Size">Size: {{shoe_size}}</span>
       <span class="priceOfShoe">R{{price}}</span>
       <button type="submit" class="productButton" onclick="addToCart({{id}})">Add<i class="bi bi-cart4"></i></button>
@@ -325,7 +326,7 @@
     <img src="{{shoe_picture}}" href="{{shoe_picture}}"alt="">
     <div class="cart-info">
       <span class="nameOfShoeCart">{{shoe_name}}</span>
-      <span class="BrandCart">{{brand_name}}<span class="StockCart">In Stock: {{stock}}<span></span></span></span>
+      <span class="BrandCart">{{capitalize brand_name}}<span class="StockCart">In Stock: {{stock}}<span></span></span></span>
       <span class="priceOfShoeCart">R{{amount}}<span>Size:{{shoe_size}}</span></span>
       <p class="addSubtract center"><i class="fa-solid fa-minus minus"onclick="deleteFromCart({{shoe_id}},1)"></i><span class="cartItemNumber">{{qty}}</span><i class="fa-solid fa-plus plus"onclick="addToCart({{shoe_id}})"></i></p>
     </div>
@@ -343,7 +344,6 @@
         <p class="col-sm"><span>Total:</span> {{formatCurrency total}}</p>
         <div class='col-sm numItems d-flex flex-row'>
           <p><span>Items:</span>{{numItems}}</p>
-          <!-- <input type="button" value="Show" class='btn btn-secondary p-0 m-0'> -->
           <button class="showOrder btn btn-secondary"  @click="open = !open">Show</button>
         </div>
       </div>
@@ -357,7 +357,7 @@
               <p ><span>Shoe Color:</span> {{shoe_color}}</p>
               <p ><span>Price:</span> R{{price}}</p>
               <p ><span>QTY:</span> {{qty}}</p>
-              <p ><span>Brand:</span> {{brand_name}}</p>
+              <p ><span>Brand:</span> {{capitalize brand_name}}</p>
               <p ><span>Shoe Size:</span> {{shoe_size}}</p>
             </div>
           </li>

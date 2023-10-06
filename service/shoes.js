@@ -63,6 +63,30 @@ export default function ShoeService(db) {
 
         return results
     }
+    async function getAvailableShoeSizes(name,brandname,color) {
+        const getShoeByBrandQuery = `
+            SELECT id 
+            FROM brand
+            WHERE brand_name = $1;
+            `;
+        const brandId = await db.one(getShoeByBrandQuery, [brandname]);
+        const id = brandId.id
+
+        const results = await db.many(
+            `SELECT s.id, s.shoe_name, s.shoe_picture, s.shoe_color, s.price, s.stock, s.shoe_size, b.brand_name
+            FROM shoes s
+            JOIN brand b ON s.brand_id = b.id
+            WHERE brand_id = $1 AND shoe_name = $2 AND shoe_color LIKE $3;
+            `, [id, name, `%${color}%`]);
+        
+        let availableSizes = []
+        results.forEach(shoe => {
+            availableSizes.push(shoe.shoe_size)
+
+        });
+        return availableSizes;  
+
+    }
 
     async function getShoeByBrand(brandname) {
         const getShoeByBrandQuery = `
@@ -492,7 +516,8 @@ export default function ShoeService(db) {
         getShoeByColor,
         getShoeByBrandAndColor,
         getShoeBySizeAndColor,
-        getShoeBySizeAndColorAndBrand
+        getShoeBySizeAndColorAndBrand,
+        getAvailableShoeSizes
     }
 }
 

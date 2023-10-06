@@ -65,6 +65,9 @@ Handlebars.registerHelper('jsonStringify', function (context) {
 Handlebars.registerHelper('formatCurrency', function (value) {
     return 'R' + parseFloat(value).toFixed(2);
 });
+Handlebars.registerHelper('capitalize',function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+})
 
 const shoesService = shoes()
 let currentBrand = ""
@@ -280,10 +283,6 @@ function showCart() {
             let data = response.data;
             let total = response.total
             let cartItems = response.cartItems
-
-            let html = cartTemplateInstance({
-                cart: data
-            });
             if (cartItems === 0) {
                 cartItems = ""
             }
@@ -293,8 +292,23 @@ function showCart() {
             if (!total) {
                 total = init.toFixed(2)
             }
-            let shoesHTML = html;
-            cartContainer.innerHTML = shoesHTML;
+            if(cartItems){
+                let html = cartTemplateInstance({
+                    cart: data
+                });
+                let shoesHTML = html;
+                cartContainer.innerHTML = shoesHTML;
+            }else{
+                cartContainer.innerHTML = `<div class="emptyMessage">
+                <p class="h5">Your cart is empty</p>
+                <hr>
+              </div>`;
+            }
+            
+            
+               
+                
+            
             totalItems.innerHTML = cartItems
             amountTotal.innerHTML = total
         });
@@ -380,7 +394,6 @@ async function userLogin(name, password) {
         await shoesService.login(name, password)
             .then((results) => {
                 let response = results.data;
-                console.log(response.role, 'lolo')
                 if (response.role === 'admin') {
                     localStorage.setItem("roleUser", response.role);
                     addShoeCanvasButton.style.display = 'flex'
@@ -404,9 +417,6 @@ async function userLogin(name, password) {
             })
     }
 }
-
-// login(username, password)
-//addUserSignUp('jayson', 'iloveb', 'code', 'j@gmail.com')
 
 
 showCart()
@@ -454,9 +464,11 @@ async function addToCart(id) {
         .then((results) => {
             let response = results.data;
             if (response.error) {
+                cartErrorElem.classList.add('text-danger')
                 cartErrorElem.innerHTML = response.error
                 setTimeout(() => {
                     cartErrorElem.innerHTML = ""
+                    cartErrorElem.classList.remove('text-danger')
                 }, 3000)
                 if (!loginUser) {
                     loginButtonModal.click()
@@ -478,7 +490,30 @@ async function deleteFromCart(id, qty) {
 
 }
 async function chechoutFromCart() {
-    await shoesService.checkoutCartItem();
+    await shoesService.checkoutCartItem()
+    .then((results)=>{
+        const response = results.data;
+            if (response.error) {
+                cartErrorElem.innerHTML = response.error
+                setTimeout(() => {
+                    cartErrorElem.innerHTML = ""
+                }, 3000)
+                if (!loginUser) {
+                    loginButtonModal.click()
+                }
+
+            }else{
+                cartErrorElem.classList.add('text-green')
+                cartErrorElem.innerHTML = "Checkout Succesfull shoe will be dilivered within 7 bussines days"
+                setTimeout(() => {
+                    cartErrorElem.innerHTML = ""
+                    cartErrorElem.classList.remove('text-green')
+                }, 3000)
+                if (!loginUser) {
+                    loginButtonModal.click()
+                }
+            }
+    });
     showShoes(currentBrand, currentSize,currentColor);
     showCart();
 
@@ -656,6 +691,13 @@ function shoes() {
     function getOrders() {
         return axios.get(`/api/getOrders`)
     }
+    function getAvailableShoeSizes(brand,shoeColor,shoeName) {
+        return axios.get(`/api/sizes`,{
+            brandname: brand,
+            color: shoeColor,
+            name: shoeName
+        })
+    }
     function addToCart(id) {
         return axios.post(`/api/shoes/addToCart`, {
             "id": id
@@ -688,6 +730,7 @@ function shoes() {
         getShoeByColor,
         getShoeByBrandAndColor,
         getShoeBySizeAndColor,
-        getShoeByBrandSizeAndColor
+        getShoeByBrandSizeAndColor,
+        getAvailableShoeSizes
     }
 }

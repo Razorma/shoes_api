@@ -195,6 +195,24 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    async function getAvailableShoeSizes(req, res,next){
+        try {
+            const brandname = req.body.brandname
+            const color = req.body.color
+            const shoeName = req.body.name
+            let results = await shoeService.getAvailableShoeSizes(shoeName,brandname,color);
+            res.json({
+                status:'success',
+                data: results
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+
+    }
     async function addToCart(req, res,next){
         try {
             const shoeId = Number(req.body.id)
@@ -307,6 +325,7 @@ export default function ShoesApi(shoeService){
         allColor,
         brandAndColor,
         sizeAndColor,
-        sizeColorAndBrand
+        sizeColorAndBrand,
+        getAvailableShoeSizes
     }
 }
