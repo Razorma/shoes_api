@@ -40,7 +40,7 @@ export default function ShoeService(db) {
         }
 
     }
-    //    await addUsername('jayson', "iloveb", "iloveb", "j@gmail.com",'customer')
+
     async function logout() {
         loginName = ''
     }
@@ -312,6 +312,18 @@ export default function ShoeService(db) {
         } else {
 
 
+            const addShoeToCartQuery = `
+                INSERT INTO cart (user_id, shoe_id, QTY, amount)
+                VALUES ($1, $2, 1, $3)
+                ON CONFLICT (shoe_id, user_id) 
+                WHERE bought = false 
+                DO UPDATE
+                SET QTY = cart.QTY + 1;
+            `;
+
+            const result = await db.oneOrNone(addShoeToCartQuery, [userId.id, shoe_id, parseFloat(shoePrice.price)]);
+
+
 
             const decreaseStockShoeQuery = `
             UPDATE shoes
@@ -322,14 +334,7 @@ export default function ShoeService(db) {
 
 
 
-            const addShoeToCartQuery = `
-            INSERT INTO cart (user_id, shoe_id, QTY, amount)
-            VALUES ($1, $2, 1, $3)
-            ON CONFLICT (shoe_id) WHERE bought = false DO UPDATE
-            SET QTY = cart.QTY + 1;
-            `;
-
-            await db.none(addShoeToCartQuery, [userId.id, shoe_id, parseFloat(shoePrice.price)]);
+            
 
             const updatePriceCartQuery = `
             UPDATE cart
@@ -421,10 +426,9 @@ export default function ShoeService(db) {
         WHERE bought = true
         ORDER BY c.shoe_id ASC;
          `;
-        // let total = 0;
-        // let cartItems = 0;
+
         const results = await db.manyOrNone(getCartQuery)
-        // console.log(results)
+
         const data = results;
 
         const groupedData = data.reduce((acc, item) => {
@@ -455,15 +459,6 @@ export default function ShoeService(db) {
         const overallTotal = groupedData.reduce((total, user) => total + user.total, 0);
         const overallNumItems = groupedData.reduce((numItems, user) => numItems + user.numItems, 0);
 
-        // console.log({
-        //     results: groupedData,
-        //     total: overallTotal.toFixed(2),
-        //     cartItems: overallNumItems,
-        // });
-        // groupedData.forEach(userOrder => {
-        //     console.log(userOrder.results);
-        // });
-        
 
         return {
             results: groupedData,
@@ -472,7 +467,7 @@ export default function ShoeService(db) {
         }
     }
 
-    // await getOrders()
+
 
 
     async function checkoutCart() {
@@ -497,6 +492,11 @@ export default function ShoeService(db) {
         await db.manyOrNone(updateBuyStatusQuery, [userId.id])
 
     }
+    async function adminClearCartHistory() {
+        const clearFromCartQuery = `DELETE FROM cart WHERE bought = true; `;
+        await db.none(clearFromCartQuery)
+
+    }
 
     return {
         getAllShoe,
@@ -517,7 +517,8 @@ export default function ShoeService(db) {
         getShoeByBrandAndColor,
         getShoeBySizeAndColor,
         getShoeBySizeAndColorAndBrand,
-        getAvailableShoeSizes
+        getAvailableShoeSizes,
+        adminClearCartHistory
     }
 }
 

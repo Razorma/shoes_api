@@ -2,7 +2,7 @@
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
-    /* outline: 1px solid red; */
+
 }
 body{
     width: 100%;
@@ -10,12 +10,9 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+
 }
-/* .navbar{
-    position: sticky;
-    top: 45px;
-} */
+
 .main {
     display: flex;
     flex-direction: column;
@@ -174,10 +171,7 @@ footer{
    display: flex;
    flex-direction: column;
    gap: 10px;
-   /* height: 80%; */
-   /* outline: 1px solid red; */
    align-items: center;
-   /* justify-content: center; */
    overflow: auto;
 }
 .cartProducts:first-of-type{
@@ -400,24 +394,6 @@ footer{
     gap: 20px;
 }
 
-/* 
-.order-box{
-    border: 1px solid black;
-}
-
-.shoe-card{
-    width: 200px;
-}
-.userOrder ul li{
- list-style: none;
-}
-.cards-box{
-    display: flex;
-    flex-wrap: wrap;
-}
-.card-info{
-    width: 200px;
-}*/
 .userOrder p{
     font-size: small;
     font-weight: 600;
@@ -446,3 +422,17 @@ footer{
     font-size: small;
     font-weight: 600;
 } 
+.clearAdmin{
+    width:70px;
+}
+.order-box{
+    min-height: 60vh;
+}
+
+.sideAdminBar{
+    display: flex;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+}
+

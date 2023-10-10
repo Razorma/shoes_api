@@ -307,6 +307,19 @@ export default function ShoesApi(shoeService){
 			});
 		}
     }
+    async function adminClearCartHistory(req, res){
+        try {
+            await shoeService.adminClearCartHistory();
+            res.json({
+                status:'success'
+            });
+        } catch (err) {
+			res.json({
+				status: "error",
+				error: err.stack
+			});
+		}
+    }
     return{
         addUser,
         logIn,
@@ -326,6 +339,7 @@ export default function ShoesApi(shoeService){
         brandAndColor,
         sizeAndColor,
         sizeColorAndBrand,
-        getAvailableShoeSizes
+        getAvailableShoeSizes,
+        adminClearCartHistory
     }
 }

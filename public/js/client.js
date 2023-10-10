@@ -29,7 +29,10 @@ const selectColorNav = document.querySelector(".selectColorNav")
 const selectBrandElem = document.querySelector(".selectBrandNav")
 const selectSizeElem = document.querySelector(".selectSizeNav")
 const errorSelect = document.querySelector(".errorSelect")
-
+const paymentAmount = document.getElementById('paymentAmount')
+const contactsSection = document.getElementById('contacts')
+const productLink = document.querySelector(".navPro")
+const contactNavElem = document.querySelector('.navContacts')
 
 
 const nameofShoe = document.querySelector(".nameofShoe")
@@ -65,14 +68,14 @@ Handlebars.registerHelper('jsonStringify', function (context) {
 Handlebars.registerHelper('formatCurrency', function (value) {
     return 'R' + parseFloat(value).toFixed(2);
 });
-Handlebars.registerHelper('capitalize',function(string) {
+Handlebars.registerHelper('capitalize', function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 })
 
 const shoesService = shoes()
 let currentBrand = ""
 let currentSize = ""
-let currentColor= ""
+let currentColor = ""
 let loginUser = localStorage.getItem("loginUser");
 if (loginUser) {
     logoutElem.innerHTML = `<i class="bi bi-box-arrow-left " id="logoutIcon"onclick="logoutUser()"></i>`
@@ -84,18 +87,18 @@ if (roleUser) {
     cartIcon.style.display = 'none'
 }
 
-function showShoes(brandName, size,color) {
+function showShoes(brandName, size, color) {
 
     if (brandName && size && color) {
         currentBrand = brandName
         currentSize = size
-         currentColor= color
+        currentColor = color
         shoesService
-            .getShoeByBrandSizeAndColor(brandName, size,color)
+            .getShoeByBrandSizeAndColor(brandName, size, color)
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                if(!data){
+                if (!data) {
                     errorSelect.classList.add('danger')
                     errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
@@ -109,16 +112,16 @@ function showShoes(brandName, size,color) {
                 let shoesHTML = html;
                 productContainer.innerHTML = shoesHTML;
             });
-    }else if (brandName && size && !color) {
+    } else if (brandName && size && !color) {
         currentBrand = brandName
         currentSize = size
-        currentColor= ""
+        currentColor = ""
         shoesService
             .getShoeByBrandAndSize(brandName, size)
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                if(!data){
+                if (!data) {
                     errorSelect.classList.add('danger')
                     errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
@@ -132,16 +135,16 @@ function showShoes(brandName, size,color) {
                 let shoesHTML = html;
                 productContainer.innerHTML = shoesHTML;
             });
-    }else if (color && size && !brandName) {
+    } else if (color && size && !brandName) {
         currentColor = color
         currentSize = size
-        currentBrand=""
+        currentBrand = ""
         shoesService
-            .getShoeBySizeAndColor(size,color)
+            .getShoeBySizeAndColor(size, color)
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                if(!data){
+                if (!data) {
                     errorSelect.classList.add('danger')
                     errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
@@ -155,16 +158,16 @@ function showShoes(brandName, size,color) {
                 let shoesHTML = html;
                 productContainer.innerHTML = shoesHTML;
             });
-    }else if (brandName && color && !size) {
+    } else if (brandName && color && !size) {
         currentColor = color
         currentBrand = brandName
-        currentSize= ""
+        currentSize = ""
         shoesService
-            .getShoeByBrandAndColor(brandName,color)
+            .getShoeByBrandAndColor(brandName, color)
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                if(!data){
+                if (!data) {
                     errorSelect.classList.add('danger')
                     errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
@@ -187,7 +190,7 @@ function showShoes(brandName, size,color) {
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                if(!data){
+                if (!data) {
                     errorSelect.classList.add('danger')
                     errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
@@ -210,7 +213,7 @@ function showShoes(brandName, size,color) {
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                if(!data){
+                if (!data) {
                     errorSelect.classList.add('danger')
                     errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
@@ -224,7 +227,7 @@ function showShoes(brandName, size,color) {
                 let shoesHTML = html;
                 productContainer.innerHTML = shoesHTML;
             });
-    }else if (!brandName && color && !size) {
+    } else if (!brandName && color && !size) {
         currentBrand = ""
         currentColor = color
         currentSize = ""
@@ -233,7 +236,7 @@ function showShoes(brandName, size,color) {
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                if(!data){
+                if (!data) {
                     errorSelect.classList.add('danger')
                     errorSelect.innerHTML = "Out Of Stock"
                     setTimeout(() => {
@@ -241,15 +244,15 @@ function showShoes(brandName, size,color) {
                         errorSelect.classList.remove('danger')
                     }, 3000)
                 }
-                if(response.error){
+                if (response.error) {
                     productContainer.classList.add('danger')
-                productContainer.innerHTML = "Out Of Stock"
-                setTimeout(() => {
-                    productContainer.innerHTML = ""
-                    productContainer.classList.remove('danger')
-                }, 3000)
+                    productContainer.innerHTML = "Out Of Stock"
+                    setTimeout(() => {
+                        productContainer.innerHTML = ""
+                        productContainer.classList.remove('danger')
+                    }, 3000)
                 }
-                
+
                 let html = productTemplateInstance({
                     list: data
                 });
@@ -292,23 +295,23 @@ function showCart() {
             if (!total) {
                 total = init.toFixed(2)
             }
-            if(cartItems){
+            if (cartItems) {
                 let html = cartTemplateInstance({
                     cart: data
                 });
                 let shoesHTML = html;
                 cartContainer.innerHTML = shoesHTML;
-            }else{
+            } else {
                 cartContainer.innerHTML = `<div class="emptyMessage">
                 <p class="h5">Your cart is empty</p>
                 <hr>
               </div>`;
             }
-            
-            
-               
-                
-            
+
+
+
+
+
             totalItems.innerHTML = cartItems
             amountTotal.innerHTML = total
         });
@@ -343,7 +346,7 @@ async function addUserSignUp(name, password, surname, email) {
         signUpmess.classList.add("text-danger")
         signUpmess.innerHTML = "Please enter Email"
         setTimeout(() => {
-            
+
             signUpmess.innerHTML = ""
             signUpmess.classList.remove("text-danger")
         }, 3000)
@@ -437,8 +440,13 @@ function showOrders() {
                 cartItems
 
             });
+            
             let shoesHTML = html;
             productContainer.innerHTML = shoesHTML;
+            // productLink.textContent = 'Orders'
+            productLink.style.display = 'none'
+            contactsSection.style.display = 'none'
+            contactNavElem.style.display = 'none'
         });
 
 
@@ -463,7 +471,9 @@ async function addToCart(id) {
     await shoesService.addToCart(id)
         .then((results) => {
             let response = results.data;
+            
             if (response.error) {
+                console.log(response.error)
                 cartErrorElem.classList.add('text-danger')
                 cartErrorElem.innerHTML = response.error
                 setTimeout(() => {
@@ -471,13 +481,13 @@ async function addToCart(id) {
                     cartErrorElem.classList.remove('text-danger')
                 }, 3000)
                 if (!loginUser) {
+                    cartErrorElem.innerHTML = ""
                     loginButtonModal.click()
                 }
 
             }
         })
-
-    showShoes(currentBrand, currentSize,currentColor)
+    showShoes(currentBrand, currentSize, currentColor)
     showCart()
 
 }
@@ -485,38 +495,69 @@ async function addToCart(id) {
 async function deleteFromCart(id, qty) {
     await shoesService.deleteCartItem(id, qty);
 
-    showShoes(currentBrand, currentSize,currentColor);
+    showShoes(currentBrand, currentSize, currentColor);
     showCart();
 
 }
 async function chechoutFromCart() {
-    await shoesService.checkoutCartItem()
-    .then((results)=>{
-        const response = results.data;
-            if (response.error) {
-                cartErrorElem.innerHTML = response.error
-                setTimeout(() => {
-                    cartErrorElem.innerHTML = ""
-                }, 3000)
-                if (!loginUser) {
-                    loginButtonModal.click()
-                }
-
-            }else{
+    
+    if(parseFloat(amountTotal.innerHTML)!==0.00){
+        if (paymentAmount.value > parseFloat(amountTotal.innerHTML)) {
+            await shoesService.checkoutCartItem()
+                .then((results) => {
+                    const response = results.data;
+                    if (response.error) {
+                        cartErrorElem.innerHTML = response.error
+                        setTimeout(() => {
+                            cartErrorElem.innerHTML = ""
+                        }, 3000)
+                        if (!loginUser) {
+                            loginButtonModal.click()
+                        }
+    
+                    } else {
+                        cartErrorElem.classList.add('text-green')
+                        cartErrorElem.innerHTML = "Checkout Succesfull shoe will be dilivered within 7 bussines days"
+                        setTimeout(() => {
+                            cartErrorElem.innerHTML = ""
+                            cartErrorElem.classList.remove('text-green')
+                        }, 3000)
+                        if (!loginUser) {
+                            loginButtonModal.click()
+                        }
+                    }
+                });
+            showShoes(currentBrand, currentSize, currentColor);
+            showCart();
+            if ((paymentAmount.value - parseFloat(amountTotal.innerHTML)) > 0) {
                 cartErrorElem.classList.add('text-green')
-                cartErrorElem.innerHTML = "Checkout Succesfull shoe will be dilivered within 7 bussines days"
+                cartErrorElem.innerHTML = `Payment Successsfull <br> Your change is ${(paymentAmount.value - parseFloat(amountTotal.innerHTML)).toFixed(2)}`
                 setTimeout(() => {
                     cartErrorElem.innerHTML = ""
                     cartErrorElem.classList.remove('text-green')
                 }, 3000)
-                if (!loginUser) {
-                    loginButtonModal.click()
-                }
             }
-    });
-    showShoes(currentBrand, currentSize,currentColor);
-    showCart();
+            paymentAmount.value = ''
+        } else {
+            cartErrorElem.classList.add('text-danger')
+            cartErrorElem.innerHTML = `Payment Failed!!! <br> Payment amout not enough`
+            setTimeout(() => {
+                cartErrorElem.innerHTML = ""
+                cartErrorElem.classList.remove('text-danger')
+            }, 3000)
+        }
+    }else{
+        cartErrorElem.classList.add('text-danger')
+            cartErrorElem.innerHTML = `Please add shoes to cart`
+            setTimeout(() => {
+                cartErrorElem.innerHTML = ""
+                cartErrorElem.classList.remove('text-danger')
+            }, 3000)
+            paymentAmount.value = ''
 
+    }
+    
+   
 }
 
 
@@ -535,18 +576,34 @@ function logoutUser() {
 }
 
 filterButton.addEventListener("click", () => {
-   
+
     if (!selectBrandElem.value && !selectSizeElem.value && !selectColorNav.value) {
         errorSelect.innerHTML = "Please select Brand or Size or Size"
         setTimeout(() => {
             errorSelect.innerHTML = ""
         }, 3000)
     } else {
-        showShoes(selectBrandElem.value, selectSizeElem.value,selectColorNav.value)
+        showShoes(selectBrandElem.value, selectSizeElem.value, selectColorNav.value)
         backNavButton.style.display = "flex";
     }
 
 })
+
+function clearAdminCartHistory() {
+    if (!confirm("You are about to clear the whole cart history")) {
+        return;
+    } else {
+    shoesService.clearCartHistory()
+        .then((results) => {
+         const responce = results.data
+         if(responce.error){
+            console.error(responce.error)
+         }
+         
+        })
+        showOrders()
+    }
+}
 backNavButton.addEventListener("click", () => {
     showShoes()
     backNavButton.style.display = "none"
@@ -676,13 +733,13 @@ function shoes() {
     function getShoeByColor(color) {
         return axios.get(`/api/shoes/color/${color}`)
     }
-    function getShoeByBrandAndColor(brand,color) {
+    function getShoeByBrandAndColor(brand, color) {
         return axios.get(`/api/shoes/brand/${brand}/color/${color}`)
     }
-    function getShoeBySizeAndColor(size,color) {
+    function getShoeBySizeAndColor(size, color) {
         return axios.get(`/api/shoes/size/${size}/color/${color}`)
     }
-    function getShoeByBrandSizeAndColor(brand,size,color) {
+    function getShoeByBrandSizeAndColor(brand, size, color) {
         return axios.get(`/api/shoes/brand/${brand}/color/${color}/size/${size}`)
     }
     function getCart() {
@@ -691,8 +748,8 @@ function shoes() {
     function getOrders() {
         return axios.get(`/api/getOrders`)
     }
-    function getAvailableShoeSizes(brand,shoeColor,shoeName) {
-        return axios.get(`/api/sizes`,{
+    function getAvailableShoeSizes(brand, shoeColor, shoeName) {
+        return axios.get(`/api/sizes`, {
             brandname: brand,
             color: shoeColor,
             name: shoeName
@@ -711,6 +768,9 @@ function shoes() {
     }
     function checkoutCartItem() {
         return axios.post(`/api/shoes/sold`)
+    }
+    function clearCartHistory() {
+        return axios.post(`/api/clearCartHistory`)
     }
 
     return {
@@ -731,6 +791,7 @@ function shoes() {
         getShoeByBrandAndColor,
         getShoeBySizeAndColor,
         getShoeByBrandSizeAndColor,
-        getAvailableShoeSizes
+        getAvailableShoeSizes,
+        clearCartHistory
     }
 }

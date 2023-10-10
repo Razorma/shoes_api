@@ -82,6 +82,7 @@ app.post('/api/shoes/',shoesApi.addShoeToStock);
 app.get('/api/shoes/history',shoesApi.history);
 app.post('/api/logout',shoesApi.logout);
 app.get('/api/sizes',shoesApi.getAvailableShoeSizes);
+app.post('/api/clearCartHistory',shoesApi.adminClearCartHistory);
 
 let Port = process.env.Port || 3004;
 

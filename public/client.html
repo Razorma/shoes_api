@@ -35,10 +35,10 @@
                   data-bs-target="#loginModal" class="bi bi-person-circle"></i></a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link text-light" href="#Products" onclick="closeNavbar()">Products</a>
+              <a class="nav-link text-light navPro" href="#Products" onclick="closeNavbar()">Products</a>
             </li>
             <li class="nav-item ">
-              <a class="nav-link text-light" href="#contacts" onclick="closeNavbar()">Contact</a>
+              <a class="nav-link text-light navContacts" href="#contacts" onclick="closeNavbar()">Contact</a>
             </li>
           </ul>
         </div>
@@ -46,8 +46,6 @@
 
     </nav>
   </header>
-
-
   <main class="container-fluid mt-5">
     <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -89,7 +87,7 @@
           <div class="modal-body">
             <div class="SignUp-box">
               <div class="error text-center">
-                <p class="signUpmess text-danger"></p>
+                <p class="signUpmess "></p>
               </div>
               <div class="usename-box form-group">
                 <label for="SignUpUsename" class="loginLabel">Name</label>
@@ -189,6 +187,13 @@
         
 
       </div>
+      <div class="bg-secondary row w-100 d-flex justify-content-center">
+        <div class="form-group w-50">
+          <label for="paymentAmount" class="text-light">Enter Payment amout</label>
+          <input type="number" class="form-control mb-2" id="paymentAmount">
+        </div>
+
+      </div>
       <div class="checkout">
         <div class="total">
           <p>Total</p>
@@ -245,6 +250,7 @@
 
     </section>
     <hr>
+    
 
     <section id="contacts" class="container">
       <form action="/home" method="post" class="row d-flex justify-content-center align-content-center">
@@ -283,6 +289,7 @@
       </div>
     </footer>
   </main>
+  
 
 </body>
 
@@ -311,7 +318,7 @@
     <img src="{{shoe_picture}}"href="{{shoe_picture}}" alt="">
     <div class="shoe-info">
       <input type="hidden" name="id" class="id" value="{{id}}">
-      <span class="nameOfShoe">{{shoe_name}}</span>
+      <span class="nameOfShoe">{{shoe_name}} {{id}}</span>
       <span class="Brand">{{capitalize brand_name}}<span class="Stock">Stock: {{stock}}</span> </span>
       <span class="Size">Size: {{shoe_size}}</span>
       <span class="priceOfShoe">R{{price}}</span>
@@ -369,6 +376,7 @@
   <div class="grandTotal mt-5">
     <p><span>Grand Total: </span> R{{total}}</p>
     <p><span>Total Ordered Items: </span> {{cartItems}}</p>
+    <input type="button" class="btn btn-secondary clearAdmin p-0 m-0" value='Clear' onclick='clearAdminCartHistory()'>
   </div>
   </div>
   

@@ -52,4 +52,4 @@ INSERT INTO sizes (size) VALUES
 
 
 
-CREATE UNIQUE INDEX cart_shoe_id_unique ON cart (shoe_id) WHERE bought = false; 
+CREATE UNIQUE INDEX cart_shoe_id_unique ON cart (shoe_id,user_id) WHERE bought = false; 
