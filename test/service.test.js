@@ -40,7 +40,6 @@ describe("Service Function",function (){
         const userpassword = 'myPassword';
         const surname = "theuser1"
         const email = "user1@gmail.com"
-        // const hashedPassword = await bcrypt.hash(userpassword, saltRounds);
         const checkTableQuery = `SELECT * FROM users;`
 
         await shoeService.addUsername(username, userpassword,surname,email,'customer');
