@@ -1,3 +1,4 @@
+// Import necessary libraries
 import express from "express";;
 import {engine} from "express-handlebars";
 import bodyParser from "body-parser";
@@ -8,12 +9,14 @@ import ShoeService from "./service/shoes.js";
 import ShoesApi from "./api/shoes.js";
 import cors from "cors"
 
+// Initialize app and pg-promise
 let app = express();
 const pgp = pgPromise();
 
+// Define the database connection string
 const connectionString = process.env.DATABASE_URL || 'postgres://erazkwju:Dn8Pk1DLefLORNbGDRf2LFtREpf0-Qtu@tai.db.elephantsql.com/erazkwju'
 
-
+// Connect to the database using pgp
 const db = pgp({ connectionString});
 
 // Setup the Handlebars view engine
@@ -42,18 +45,17 @@ app.use(session({
 }));
 app.use(flash());
 
+
+//get the database and routes function
 const shoeService = ShoeService(db)
 const shoesApi = ShoesApi(shoeService)
 
 app.get("/",async function(req,res){
     try {
         const list = await shoeService.getAllShoe()
-        const cart = await (await shoeService.getCart('bheka')).results
-        const total =  await (await shoeService.getCart('bheka')).total
-        const cartItems =  await (await shoeService.getCart('bheka')).cartItems
-        res.render("index",{list,cart,total,cartItems});
+        res.render("index",{list});
     } catch (error) {
-        res.render("client");
+        res.render("index");
     }
   
 });
@@ -62,7 +64,7 @@ app.post("/home",async function(req,res){
   
 });
 
-
+//Define get and post routes for the Admin pages
 app.get('/api/shoes', shoesApi.all);
 app.get('/api/shoes/brand/:brandname', shoesApi.allBrand);
 app.post('/api/shoes/addUser', shoesApi.addUser);
@@ -72,20 +74,22 @@ app.get('/api/shoes/color/:color',shoesApi.allColor);
 app.get('/api/shoes/brand/:brandname/color/:color',shoesApi.brandAndColor);
 app.get('/api/shoes/size/:size/color/:color',shoesApi.sizeAndColor);  
 app.get('/api/shoes/brand/:brandname/color/:color/size/:size',shoesApi.sizeColorAndBrand);    
-app.post('/api/shoes/addToCart',shoesApi.addToCart);
+app.post('/api/addToCart/username/:username',shoesApi.addToCart);
 app.post('/api/login/',shoesApi.logIn);
-app.get('/api/shoes/getCart',shoesApi.getCart);
+app.get('/api/getCart/username/:username',shoesApi.getCart);
 app.get('/api/getOrders',shoesApi.getOrders)
 app.post('/api/shoes/cancelCart',shoesApi.cancelCart);
-app.post("/api/shoes/sold",shoesApi.checkoutCart);
+app.post("/api/shoes/sold/:username",shoesApi.checkoutCart);
 app.post('/api/shoes/',shoesApi.addShoeToStock);
 app.get('/api/shoes/history',shoesApi.history);
-app.post('/api/logout',shoesApi.logout);
 app.get('/api/sizes',shoesApi.getAvailableShoeSizes);
 app.post('/api/clearCartHistory',shoesApi.adminClearCartHistory);
 
+
+//Define the port
 let Port = process.env.Port || 3004;
 
+//start the app on the port
 app.listen(Port,()=>{
     console.log(`App Started on Port http://localhost:${Port}`);
 });

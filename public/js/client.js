@@ -73,12 +73,14 @@ Handlebars.registerHelper('capitalize', function (string) {
 })
 
 const shoesService = shoes()
+
 let currentBrand = ""
 let currentSize = ""
 let currentColor = ""
+
 let loginUser = localStorage.getItem("loginUser");
 if (loginUser) {
-    logoutElem.innerHTML = `<i class="bi bi-box-arrow-left " id="logoutIcon"onclick="logoutUser()"></i>`
+    logoutElem.innerHTML = `<i class="bi bi-box-arrow-left " id="logoutIcon"onclick="logoutUser()"> ${localStorage.getItem("loginUser")}</i>`
 }
 let roleUser = localStorage.getItem("roleUser");
 if (roleUser) {
@@ -278,43 +280,46 @@ function showShoes(brandName, size, color) {
 
 }
 function showCart() {
-    let init = 0;
-    shoesService
-        .getCart()
-        .then(function (results) {
-            let response = results.data;
-            let data = response.data;
-            let total = response.total
-            let cartItems = response.cartItems
-            if (cartItems === 0) {
-                cartItems = ""
-            }
-            if (!cartItems) {
-                cartItems = ""
-            }
-            if (!total) {
-                total = init.toFixed(2)
-            }
-            if (cartItems) {
-                let html = cartTemplateInstance({
-                    cart: data
-                });
-                let shoesHTML = html;
-                cartContainer.innerHTML = shoesHTML;
-            } else {
-                cartContainer.innerHTML = `<div class="emptyMessage">
+    let init = 0.00;
+    if (!loginUser) {
+        cartContainer.innerHTML = `<div class="emptyMessage">
                 <p class="h5">Your cart is empty</p>
                 <hr>
               </div>`;
-            }
 
+        cartItems = ""
 
+        total = init.toFixed(2)
+    } else {
+        shoesService
+            .getCart(loginUser)
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                let total = response.total
+                let cartItems = response.cartItems
+                if (cartItems === 0) {
+                    cartItems = ""
+                }
 
+                if (cartItems) {
+                    let html = cartTemplateInstance({
+                        cart: data
+                    });
+                    let shoesHTML = html;
+                    cartContainer.innerHTML = shoesHTML;
+                } else {
+                    cartContainer.innerHTML = `<div class="emptyMessage">
+                <p class="h5">Your cart is empty</p>
+                <hr>
+              </div>`;
+                }
 
+                totalItems.innerHTML = cartItems
+                amountTotal.innerHTML = total
+            });
+    }
 
-            totalItems.innerHTML = cartItems
-            amountTotal.innerHTML = total
-        });
 }
 
 async function addUserSignUp(name, password, surname, email) {
@@ -379,6 +384,9 @@ async function addUserSignUp(name, password, surname, email) {
 
 
 }
+function changeHtml() {
+    window.location.href = "success.html";
+}
 async function userLogin(name, password) {
     if (name === "") {
         loginMess.innerHTML = "Please enter Name"
@@ -408,11 +416,12 @@ async function userLogin(name, password) {
                     setTimeout(() => {
                         loginMess.innerHTML = ""
                     }, 3000)
+                    return
                 }
                 if (response.status === 'success') {
                     localStorage.setItem("loginUser", name);
                     logoutElem.classList.add('logoutIcon')
-                    logoutElem.innerHTML = `<i class="bi bi-box-arrow-left " id="logoutIcon"></i>`
+                    logoutElem.innerHTML = `<i class="bi bi-box-arrow-left " id="logoutIcon">${localStorage.getItem("loginUser")}</i>`
                     bootstrapLoginModal.click()
                     location.reload()
 
@@ -420,7 +429,6 @@ async function userLogin(name, password) {
             })
     }
 }
-
 
 showCart()
 if (!roleUser) {
@@ -440,7 +448,7 @@ function showOrders() {
                 cartItems
 
             });
-            
+
             let shoesHTML = html;
             productContainer.innerHTML = shoesHTML;
             // productLink.textContent = 'Orders'
@@ -462,16 +470,17 @@ signUpButton.addEventListener('click', function () {
     SignUpEmail.value = ''
 })
 logInButton.addEventListener('click', function () {
+
     userLogin(loginUsername.value, loginPassword.value)
     loginUsername.value = ""
     loginPassword.value = ''
 })
 
 async function addToCart(id) {
-    await shoesService.addToCart(id)
+    await shoesService.addToCart(loginUser,id)
         .then((results) => {
             let response = results.data;
-            
+
             if (response.error) {
                 console.log(response.error)
                 cartErrorElem.classList.add('text-danger')
@@ -493,17 +502,17 @@ async function addToCart(id) {
 }
 
 async function deleteFromCart(id, qty) {
-    await shoesService.deleteCartItem(id, qty);
+    await shoesService.deleteCartItem(loginUser,id, qty);
 
     showShoes(currentBrand, currentSize, currentColor);
     showCart();
 
 }
 async function chechoutFromCart() {
-    
-    if(parseFloat(amountTotal.innerHTML)!==0.00){
+
+    if (parseFloat(amountTotal.innerHTML) !== 0.00) {
         if (paymentAmount.value > parseFloat(amountTotal.innerHTML)) {
-            await shoesService.checkoutCartItem()
+            await shoesService.checkoutCartItem(loginUser)
                 .then((results) => {
                     const response = results.data;
                     if (response.error) {
@@ -514,7 +523,7 @@ async function chechoutFromCart() {
                         if (!loginUser) {
                             loginButtonModal.click()
                         }
-    
+
                     } else {
                         cartErrorElem.classList.add('text-green')
                         cartErrorElem.innerHTML = "Checkout Succesfull shoe will be dilivered within 7 bussines days"
@@ -546,18 +555,18 @@ async function chechoutFromCart() {
                 cartErrorElem.classList.remove('text-danger')
             }, 3000)
         }
-    }else{
+    } else {
         cartErrorElem.classList.add('text-danger')
-            cartErrorElem.innerHTML = `Please add shoes to cart`
-            setTimeout(() => {
-                cartErrorElem.innerHTML = ""
-                cartErrorElem.classList.remove('text-danger')
-            }, 3000)
-            paymentAmount.value = ''
+        cartErrorElem.innerHTML = `Please add shoes to cart`
+        setTimeout(() => {
+            cartErrorElem.innerHTML = ""
+            cartErrorElem.classList.remove('text-danger')
+        }, 3000)
+        paymentAmount.value = ''
 
     }
-    
-   
+
+
 }
 
 
@@ -569,7 +578,6 @@ function logoutUser() {
         logoutElem.innerHTML = '<i data-bs-toggle="modal" data-bs-target="#loginModal" class="bi bi-person-circle"></i>'
         localStorage.removeItem("loginUser");
         localStorage.removeItem("roleUser");
-        shoesService.logout()
         location.reload()
     }
 
@@ -593,14 +601,14 @@ function clearAdminCartHistory() {
     if (!confirm("You are about to clear the whole cart history")) {
         return;
     } else {
-    shoesService.clearCartHistory()
-        .then((results) => {
-         const responce = results.data
-         if(responce.error){
-            console.error(responce.error)
-         }
-         
-        })
+        shoesService.clearCartHistory()
+            .then((results) => {
+                const responce = results.data
+                if (responce.error) {
+                    console.error(responce.error)
+                }
+
+            })
         showOrders()
     }
 }
@@ -715,9 +723,6 @@ function shoes() {
             "password": password,
         })
     }
-    function logout() {
-        return axios.post('/api/logout')
-    }
     function addShoe(data) {
         return axios.post('/api/shoes', data)
     }
@@ -742,8 +747,8 @@ function shoes() {
     function getShoeByBrandSizeAndColor(brand, size, color) {
         return axios.get(`/api/shoes/brand/${brand}/color/${color}/size/${size}`)
     }
-    function getCart() {
-        return axios.get(`/api/shoes/getCart`)
+    function getCart(username) {
+        return axios.get(`/api/getCart/username/${username}`)
     }
     function getOrders() {
         return axios.get(`/api/getOrders`)
@@ -755,19 +760,20 @@ function shoes() {
             name: shoeName
         })
     }
-    function addToCart(id) {
-        return axios.post(`/api/shoes/addToCart`, {
+    function addToCart(username,id) {
+        return axios.post(`/api/addToCart/username/${username}`, {
             "id": id
         })
     }
-    function deleteCartItem(id, qty) {
+    function deleteCartItem(username,id, qty) {
         return axios.post(`/api/shoes/cancelCart`, {
+            'username':username,
             "id": id,
             "qty": qty
         })
     }
-    function checkoutCartItem() {
-        return axios.post(`/api/shoes/sold`)
+    function checkoutCartItem(username) {
+        return axios.post(`/api/shoes/sold/${username}`)
     }
     function clearCartHistory() {
         return axios.post(`/api/clearCartHistory`)
@@ -785,7 +791,6 @@ function shoes() {
         addToCart,
         deleteCartItem,
         checkoutCartItem,
-        logout,
         getOrders,
         getShoeByColor,
         getShoeByBrandAndColor,

@@ -1,5 +1,7 @@
 
 export default function ShoesApi(shoeService){
+
+    //Define a function that will get the user data from the client side to the database function
     async function addUser(req, res,next){
         try {
             const {username, password, surname, email} = req.body
@@ -15,13 +17,15 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //Define a function that will get user credentials and log them in
     async function logIn(req, res,next){
         try {
             const {username, password} = req.body
-             const role = await shoeService.login(username, password);
+            const {role, name} = await shoeService.login(username, password)
             res.json({
                 status:'success',
-                role:role
+                role:role,
+                username:name
             });
         } catch (error) {
 			res.json({
@@ -31,20 +35,8 @@ export default function ShoesApi(shoeService){
 		}
 
     }
-    async function logout(req, res,next){
-        try {
-            await shoeService.logout();
-            res.json({
-                status:'success'
-            });
-        } catch (error) {
-			res.json({
-				status: "error",
-				error: error.message
-			});
-		}
-
-    }
+    
+    //define a function that will get the data from the client side and send it to the database to create the shoe
     async function addShoeToStock(req, res,next){
         try {
             const {shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size} = req.body
@@ -60,6 +52,8 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+
+    //Define a function that will get all the shoe that are available and send them to the client side
     async function all(req, res,next){
         try {
             let results = await shoeService.getAllShoe();
@@ -75,6 +69,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //Define a function that will get the brand of the shoe from the client side and return all the shoes of that brand
     async function allBrand(req, res,next){
         try {
             const brandName = req.params.brandname
@@ -91,6 +86,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //Define a function that will get the size selected from the client side and return all the shoes of that size from the server
     async function allsizes(req, res,next){
         try {
             const size = req.params.size
@@ -107,7 +103,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
-    
+    //define a function that will get the color entered and return the shoes of that color
     async function allColor(req, res,next){
         try {
             const color = req.params.color
@@ -124,7 +120,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
-    
+    //a function o send a request of shoes by their brand and size
     async function brandAndSize(req, res,next){
         try {
             const brandname = req.params.brandname
@@ -142,6 +138,8 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+
+    //A function to send a request for shoes by their brand and color
     async function brandAndColor(req, res,next){
         try {
             const brandname = req.params.brandname
@@ -159,7 +157,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
-    
+    //A function to send a request for shoes of a specific size and color
     async function sizeAndColor(req, res,next){
         try {
             const size = req.params.size
@@ -177,6 +175,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //A function to send a request for shoes of entered size, color and brand
     async function sizeColorAndBrand(req, res,next){
         try {
             const size = req.params.size
@@ -195,6 +194,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    // A function to get the sizes available for a specific shoe
     async function getAvailableShoeSizes(req, res,next){
         try {
             const brandname = req.body.brandname
@@ -213,10 +213,12 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //A function to send a request for a shoe to be added to the cart
     async function addToCart(req, res,next){
         try {
+            const username = req.params.username
             const shoeId = Number(req.body.id)
-            await shoeService.addShoeToCart(shoeId);
+            await shoeService.addShoeToCart(username,shoeId);
             res.json({
                 status:'success',
             });
@@ -229,9 +231,11 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //a function that sends a request for the cart 
     async function getCart(req, res,next){
         try {
-            const {results,total,cartItems}= await shoeService.getCart()
+            const username = req.params.username
+            const {results,total,cartItems}= await shoeService.getCart(username)
             res.json({
                 status:'success',
                 data: results,
@@ -246,6 +250,7 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //A function that sends a request for orders made
     async function getOrders(req, res,next){
         try {
             const {results,total,cartItems}= await shoeService.getOrders()
@@ -263,11 +268,13 @@ export default function ShoesApi(shoeService){
 		}
 
     }
+    //A function that sends a request for a shoe to be removed from cart
     async function cancelCart(req, res,next){
         try {
+            const username = req.body.username
             const shoeId = Number(req.body.id)
             const QTY = Number(req.body.qty)
-            await shoeService.replaceStock(shoeId,QTY);
+            await shoeService.replaceStock(username,shoeId,QTY);
             res.json({
                 status:'success'
             });
@@ -278,9 +285,11 @@ export default function ShoesApi(shoeService){
 			});
 		}
     }
+    //A function that send a request for shoes in cart to be bought
     async function checkoutCart(req, res){
         try {
-            await shoeService.checkoutCart();
+            const username = req.params.username
+            await shoeService.checkoutCart(username);
             res.json({
                 status:'success'
             });
@@ -291,6 +300,8 @@ export default function ShoesApi(shoeService){
 			});
 		}
     }
+
+    //A function that sends a request for the history of the purchased shoes
     async function history(req, res){
         try {
             const {results,total,cartItems} = await shoeService.getPurchaseHistory();
@@ -307,6 +318,7 @@ export default function ShoesApi(shoeService){
 			});
 		}
     }
+    // A function that will send a request for the orderd items to be cleard from cart
     async function adminClearCartHistory(req, res){
         try {
             await shoeService.adminClearCartHistory();
@@ -323,7 +335,6 @@ export default function ShoesApi(shoeService){
     return{
         addUser,
         logIn,
-        logout,
         all,
         allBrand,
         allsizes,

@@ -1,7 +1,10 @@
+//import bcrypt
 import bcrypt from "bcrypt";
 
+//Define and export database function
 export default function ShoeService(db) {
-    let loginName = ""
+
+    //add user so database function
     async function addUsername(username, password, surname, email, role) {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -11,9 +14,11 @@ export default function ShoeService(db) {
          `;
         await db.none(addUserQuery, [username, hashedPassword, surname, email, role])
     }
+
+    //Define a function where a user can log in and the name of the user will be kept on the initialise username 
     async function login(name, enteredPassword) {
 
-
+    //check if user exists
         const checkUsernameQuery = `
                 SELECT username ,password,role FROM users WHERE username = $1;
                 `;
@@ -33,17 +38,18 @@ export default function ShoeService(db) {
 
         //Return role if password is correct and throw error if they dont match
         if (passwordMatch) {
-            loginName = name
-            return role;
+            return {
+                role:role,
+                name:name
+            };
         } else {
             throw new Error("Incorrect password");
         }
 
     }
+    
 
-    async function logout() {
-        loginName = ''
-    }
+    //Define a function where he admin can add a shoe to the stock
     async function addShoe(shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size) {
         const replaceStockStockShoeQuery = `
         INSERT INTO shoes (shoe_name,shoe_picture,shoe_color,price,stock,brand_id,shoe_size)
@@ -52,6 +58,7 @@ export default function ShoeService(db) {
         await db.none(replaceStockStockShoeQuery, [shoe_name, shoe_picture, shoe_color, price, stock, brand_id, shoe_size])
     }
 
+    //Define a function where a user can get all the available shoes in storage
     async function getAllShoe() {
         const results = await db.many(`SELECT s.id,s.shoe_name,
         s.shoe_picture,s.shoe_color,s.price,s.stock,s.shoe_size,b.brand_name 
@@ -63,6 +70,7 @@ export default function ShoeService(db) {
 
         return results
     }
+    //Define a function that will get all available sizes
     async function getAvailableShoeSizes(name,brandname,color) {
         const getShoeByBrandQuery = `
             SELECT id 
@@ -87,8 +95,10 @@ export default function ShoeService(db) {
         return availableSizes;  
 
     }
-
+    //define a function that will get shoes by their brands
     async function getShoeByBrand(brandname) {
+
+    //get the shoe brand id
         const getShoeByBrandQuery = `
             SELECT id 
             FROM brand
@@ -109,7 +119,7 @@ export default function ShoeService(db) {
 
     }
 
-
+    // define a function that will get the shoes by their sizes
     async function getShoeBySize(size) {
 
         const results = await db.many(
@@ -124,6 +134,8 @@ export default function ShoeService(db) {
         return results
 
     }
+
+    //Define a function that will get all the shoes of a specific color
     async function getShoeByColor(color) {
 
         const results = await db.many(
@@ -137,7 +149,11 @@ export default function ShoeService(db) {
         return results;
     
     }
+
+    //Define a function that wil get the shoes by their brands and sizes
     async function getShoeByBrandAndSize(brandname, size) {
+
+        //Get the id of the brand
         const getShoeByBrandQuery = `
         SELECT id 
         FROM brand
@@ -158,6 +174,8 @@ export default function ShoeService(db) {
         return results
 
     }
+
+    //Define a function that will get shoes by brand and color
     async function getShoeByBrandAndColor(brandname, color) {
         const getShoeByBrandQuery = `
         SELECT id 
@@ -179,6 +197,8 @@ export default function ShoeService(db) {
         return results
 
     }
+
+    //Define a function that will get shoes by size and color
     async function getShoeBySizeAndColor(size, color) {
 
         const results = await db.many(
@@ -193,7 +213,11 @@ export default function ShoeService(db) {
         return results
 
     }
+
+    //Define a function that will get a shoe by their brand color and size
     async function getShoeBySizeAndColorAndBrand(brandname,size, color) {
+
+        //get the id of the brand from the brand table
         const getShoeByBrandQuery = `
         SELECT id 
         FROM brand
@@ -215,17 +239,19 @@ export default function ShoeService(db) {
 
     }
 
+   //Define a function that will remove a shoe from the cart
+    async function replaceStock(username,shoe_id, qty) {
 
-    async function replaceStock(shoe_id, qty) {
+        //A query that will get the id of the current user
         const getuserIdQuery = `
         SELECT id
         FROM users
         WHERE username = $1;
          `;
 
-        const userId = await db.one(getuserIdQuery, [loginName])
+        const userId = await db.one(getuserIdQuery, [username])
 
-
+        //A query that will get the price of the shoe
         const getpriceQuery = `
         SELECT price
         FROM shoes
@@ -235,7 +261,7 @@ export default function ShoeService(db) {
         const shoePrice = await db.one(getpriceQuery, [shoe_id])
 
 
-
+        //A query that will update the cart and reflect the shoe that was just removed
         const updateQtyCartQuery = `
         UPDATE cart
         SET qty = qty-$1
@@ -245,7 +271,7 @@ export default function ShoeService(db) {
         await db.none(updateQtyCartQuery, [qty, shoe_id]);
 
 
-
+        //A query that will get the price of the shoes left in cart
         const updatePriceCartQuery = `
         UPDATE cart
         SET amount = ($1*cart.QTY)
@@ -253,6 +279,8 @@ export default function ShoeService(db) {
         `;
 
         await db.none(updatePriceCartQuery, [parseFloat(shoePrice.price), shoe_id]);
+
+        //A query that will remove the shoe from cart
 
         const removeShoe = `
             SELECT qty
@@ -278,18 +306,20 @@ export default function ShoeService(db) {
     }
 
 
+    //Define a function that will add a shoe to the cart
+    async function addShoeToCart(username,shoe_id) {
 
-    async function addShoeToCart(shoe_id) {
+        //A query that will get the id of the user from the user table
         const getuserIdQuery = `
         SELECT id
         FROM users
         WHERE username = $1;
          `;
 
-        const userId = await db.one(getuserIdQuery, [loginName])
+        const userId = await db.one(getuserIdQuery, [username])
 
 
-
+        //a query that will get the price of the shoe
         const getpriceQuery = `
         SELECT price
         FROM shoes
@@ -306,12 +336,13 @@ export default function ShoeService(db) {
 
         const shoeStock = await db.one(getStockQuery, [shoe_id])
 
+        //if the stock shoe is out of stock throw and error
         if (shoeStock.stock === 0) {
             throw new Error(`${shoeStock.shoe_name} is out of Stock`);
 
         } else {
 
-
+            //if not add the shoe to the cart and if it is the same shoe increment the quantity of the shoe
             const addShoeToCartQuery = `
                 INSERT INTO cart (user_id, shoe_id, QTY, amount)
                 VALUES ($1, $2, 1, $3)
@@ -324,7 +355,7 @@ export default function ShoeService(db) {
             const result = await db.oneOrNone(addShoeToCartQuery, [userId.id, shoe_id, parseFloat(shoePrice.price)]);
 
 
-
+            //decreate the stock of the shoe in storage
             const decreaseStockShoeQuery = `
             UPDATE shoes
             SET stock = stock - 1
@@ -335,7 +366,7 @@ export default function ShoeService(db) {
 
 
             
-
+           // update the price of the shoe in the cart
             const updatePriceCartQuery = `
             UPDATE cart
             SET amount = ($1*cart.QTY)
@@ -347,15 +378,17 @@ export default function ShoeService(db) {
         }
 
     }
+    //Define a function so get the cart of the current user
+    async function getCart(username) {
 
-    async function getCart() {
+        //A query to get the current user id
         const getuserIdQuery = `
         SELECT id
         FROM users
         WHERE username = $1;
          `;
 
-        let userId = await db.one(getuserIdQuery, [loginName])
+        let userId = await db.one(getuserIdQuery, [username])
 
 
         const getCartQuery = `
@@ -367,6 +400,8 @@ export default function ShoeService(db) {
         WHERE c.user_id = $1 And bought = false
         ORDER BY c.shoe_id ASC;
          `;
+
+        //get the number of items ass well as the total of the items in the cart
         let total = 0;
         let cartItems = 0;
         const results = await db.manyOrNone(getCartQuery, [userId.id])
@@ -381,15 +416,15 @@ export default function ShoeService(db) {
             cartItems: cartItems
         }
     }
-
-    async function getPurchaseHistory() {
+    //define a function to get the history of a particular user
+    async function getPurchaseHistory(username) {
         const getuserIdQuery = `
         SELECT id
         FROM users
         WHERE username = $1;
          `;
 
-        let userId = await db.one(getuserIdQuery, [loginName])
+        let userId = await db.one(getuserIdQuery, [username])
 
 
         const getCartQuery = `
@@ -415,6 +450,8 @@ export default function ShoeService(db) {
             cartItems: cartItems
         }
     }
+
+    //define a function to get the history of all users who ordered
     async function getOrders() {
         const getCartQuery = `
         SELECT c.user_id, c.shoe_id,c.QTY, c.amount, c.bought,
@@ -469,8 +506,8 @@ export default function ShoeService(db) {
 
 
 
-
-    async function checkoutCart() {
+    //Define a function that will help a user checkout from the cart
+    async function checkoutCart(username) {
 
         const getuserIdQuery = `
         SELECT id
@@ -478,7 +515,7 @@ export default function ShoeService(db) {
         WHERE username = $1;
          `;
 
-        let userId = await db.one(getuserIdQuery, [loginName])
+        let userId = await db.one(getuserIdQuery, [username])
 
 
 
@@ -492,6 +529,7 @@ export default function ShoeService(db) {
         await db.manyOrNone(updateBuyStatusQuery, [userId.id])
 
     }
+    //define a function for the admin to clear out all oders of all users
     async function adminClearCartHistory() {
         const clearFromCartQuery = `DELETE FROM cart WHERE bought = true; `;
         await db.none(clearFromCartQuery)
@@ -501,7 +539,6 @@ export default function ShoeService(db) {
     return {
         getAllShoe,
         login,
-        logout,
         replaceStock,
         addShoe,
         addShoeToCart,
