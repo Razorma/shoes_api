@@ -1,8 +1,10 @@
 import ShoeService from "../service/shoes.js";
 import assert from 'assert';
 import pgPromise from "pg-promise";
+import dotenv from 'dotenv'
+dotenv.config();
 
-const connectionString = process.env.DATABASE_URL_TEST || "postgres://krfskolr:R0s4M-8kuJTrfgIU8x9rSR6dW9wQlcp5@tai.db.elephantsql.com/krfskolr"
+const connectionString = process.env.DATABASE_URL_TEST 
 
 const pgp = pgPromise()
 const db = pgp({connectionString})

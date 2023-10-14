@@ -8,13 +8,15 @@ import flash from "express-flash";
 import ShoeService from "./service/shoes.js";
 import ShoesApi from "./api/shoes.js";
 import cors from "cors"
+import dotenv from 'dotenv'
+dotenv.config();
 
 // Initialize app and pg-promise
 let app = express();
 const pgp = pgPromise();
 
 // Define the database connection string
-const connectionString = process.env.DATABASE_URL || 'postgres://erazkwju:Dn8Pk1DLefLORNbGDRf2LFtREpf0-Qtu@tai.db.elephantsql.com/erazkwju'
+const connectionString = process.env.DATABASE_URL 
 
 // Connect to the database using pgp
 const db = pgp({ connectionString});
