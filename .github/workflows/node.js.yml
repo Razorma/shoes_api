@@ -17,6 +17,9 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x, 18.x]
+
+    env:
+      DB_CONNECTION_STRING: ${{ secrets.DATABASE_URL_TEST }}
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
