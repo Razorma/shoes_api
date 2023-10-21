@@ -451,7 +451,6 @@ function showOrders() {
 
             let shoesHTML = html;
             productContainer.innerHTML = shoesHTML;
-            // productLink.textContent = 'Orders'
             productLink.style.display = 'none'
             contactsSection.style.display = 'none'
             contactNavElem.style.display = 'none'
@@ -547,6 +546,34 @@ async function chechoutFromCart() {
                 }, 3000)
             }
             paymentAmount.value = ''
+        }else if(paymentAmount.value == parseFloat(amountTotal.innerHTML)){
+            await shoesService.checkoutCartItem(loginUser)
+            .then((results) => {
+                const response = results.data;
+                if (response.error) {
+                    cartErrorElem.innerHTML = response.error
+                    setTimeout(() => {
+                        cartErrorElem.innerHTML = ""
+                    }, 3000)
+                    if (!loginUser) {
+                        loginButtonModal.click()
+                    }
+
+                } else {
+                    cartErrorElem.classList.add('text-green')
+                    cartErrorElem.innerHTML = "Checkout Succesfull shoe will be dilivered within 7 bussines days"
+                    setTimeout(() => {
+                        cartErrorElem.innerHTML = ""
+                        cartErrorElem.classList.remove('text-green')
+                    }, 3000)
+                    if (!loginUser) {
+                        loginButtonModal.click()
+                    }
+                }
+            });
+        showShoes(currentBrand, currentSize, currentColor);
+        showCart();
+        paymentAmount.value = ''
         } else {
             cartErrorElem.classList.add('text-danger')
             cartErrorElem.innerHTML = `Payment Failed!!! <br> Payment amout not enough`
