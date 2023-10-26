@@ -384,9 +384,7 @@ async function addUserSignUp(name, password, surname, email) {
 
 
 }
-function changeHtml() {
-    window.location.href = "success.html";
-}
+
 async function userLogin(name, password) {
     if (name === "") {
         loginMess.innerHTML = "Please enter Name"
