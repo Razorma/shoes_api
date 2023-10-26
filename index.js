@@ -52,19 +52,7 @@ app.use(flash());
 const shoeService = ShoeService(db)
 const shoesApi = ShoesApi(shoeService)
 
-app.get("/",async function(req,res){
-    try {
-        const list = await shoeService.getAllShoe()
-        res.render("index",{list});
-    } catch (error) {
-        res.render("index");
-    }
-  
-});
-app.post("/home",async function(req,res){
-   res.redirect("/")
-  
-});
+
 
 //Define get and post routes for the Admin pages
 app.get('/api/shoes', shoesApi.all);
