@@ -1,4 +1,4 @@
-
+//Get refferances to the dom elements
 const orderCart = document.querySelector(".cart");
 const openCartElem = document.querySelector(".icon");
 const closeCart = document.querySelector(".closeCart");
@@ -52,6 +52,7 @@ const surname = document.querySelector(".surname")
 const SignUpEmail = document.querySelector(".SignUp-email")
 const SignUpPassword = document.querySelector(".SignUp-password")
 
+//create instances fot the handlebars templates
 let cartTemplateInstance = Handlebars.compile(cartTemplate.innerHTML)
 let productTemplateInstance = Handlebars.compile(productTemplate.innerHTML)
 let orderTemplateInstance = Handlebars.compile(orderTemplate.innerHTML)
@@ -94,13 +95,14 @@ surname.addEventListener('keydown', function (press) {
 
 
 
-
+//Function to close and open cart
 openCartElem.addEventListener("click", () => {
     orderCart.style.right = "0";
 })
 closeCart.addEventListener("click", () => {
     orderCart.style.right = "-600px";
 })
+//handlebars helpers to format the data from the api
 Handlebars.registerHelper('jsonStringify', function (context) {
     return JSON.stringify(context);
 });
@@ -110,9 +112,10 @@ Handlebars.registerHelper('formatCurrency', function (value) {
 Handlebars.registerHelper('capitalize', function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 })
-
+//create an instance for the shoes function
 const shoesService = shoes()
 
+//initialise the current filtered data info
 let currentBrand = ""
 let currentSize = ""
 let currentColor = ""
@@ -127,7 +130,7 @@ if (roleUser) {
     searchToggler.style.display = 'none'
     cartIcon.style.display = 'none'
 }
-
+//create a function to get the filter function and render data according
 function showShoes(brandName, size, color) {
 
     if (brandName && size && color) {
@@ -318,6 +321,7 @@ function showShoes(brandName, size, color) {
     }
 
 }
+//Get the cart data if the current user
 function showCart() {
     let init = 0.00;
     if (!loginUser) {
@@ -360,7 +364,7 @@ function showCart() {
     }
 
 }
-
+//Create a function that will validate the form before sending the data to the server
 async function addUserSignUp(name, password, surname, email) {
     if (name === "") {
         signUpmess.classList.add("text-danger")
@@ -423,7 +427,7 @@ async function addUserSignUp(name, password, surname, email) {
 
 
 }
-
+//Create a function that willl validate login data of user before sending it to the server
 async function userLogin(name, password) {
     if (name === "") {
         loginMess.innerHTML = "Please enter Name"
@@ -466,11 +470,15 @@ async function userLogin(name, password) {
             })
     }
 }
-
+//call the cart info function
 showCart()
+
+//if the user is not admin log user in
 if (!roleUser) {
     showShoes()
 }
+
+//Create a function that will get the admin info from the server function if the user is an admin
 function showOrders() {
     shoesService
         .getOrders()
@@ -495,11 +503,15 @@ function showOrders() {
 
 
 }
+
+//if the user is admin show them the user orders
 if (roleUser) {
     showOrders()
 }
+
+//Get the data from the signup form if the submit button is pressed
 signUpButton.addEventListener('click', function (click) {
-    // SignUpEmail.addEventListener("input", () => {
+//validate if the email entered is of valid format
     if (SignUpEmail.validity.typeMismatch && click) {
         signUpmess.classList.add("text-danger")
         signUpmess.innerHTML = "Please enter a valid email address!"
@@ -521,16 +533,16 @@ signUpButton.addEventListener('click', function (click) {
         SignUpEmail.value = ''
 
     }
-    //   });
 
 })
+//get the data from the login form the the function that will log the user in
 logInButton.addEventListener('click', function () {
 
     userLogin(loginUsername.value, loginPassword.value)
     loginUsername.value = ""
     loginPassword.value = ''
 })
-
+//A function that will add a shoe that the user wanted to the cart
 async function addToCart(id) {
     await shoesService.addToCart(loginUser, id)
         .then((results) => {
@@ -555,7 +567,7 @@ async function addToCart(id) {
     showCart()
 
 }
-
+// A function that will remove a shoe from the cart
 async function deleteFromCart(id, qty) {
     await shoesService.deleteCartItem(loginUser, id, qty);
 
@@ -563,6 +575,7 @@ async function deleteFromCart(id, qty) {
     showCart();
 
 }
+//A function that will chechout the cart for the user
 async function chechoutFromCart() {
 
     if (parseFloat(amountTotal.innerHTML) !== 0.00) {
@@ -653,7 +666,7 @@ async function chechoutFromCart() {
 }
 
 
-
+//Log the user out from the site
 function logoutUser() {
     if (!confirm("You are about to logout")) {
         return;
@@ -665,7 +678,7 @@ function logoutUser() {
     }
 
 }
-
+//Get the filter button info to the request
 filterButton.addEventListener("click", () => {
 
     if (!selectBrandElem.value && !selectSizeElem.value && !selectColorNav.value) {
@@ -679,7 +692,7 @@ filterButton.addEventListener("click", () => {
     }
 
 })
-
+//Function for admin to clear all the orders
 function clearAdminCartHistory() {
     if (!confirm("You are about to clear the whole cart history")) {
         return;
@@ -695,10 +708,12 @@ function clearAdminCartHistory() {
         showOrders()
     }
 }
+//A function to get all the shoes if a user removes filter
 backNavButton.addEventListener("click", () => {
     showShoes()
     backNavButton.style.display = "none"
 })
+//Get the information of the shoe from the admin add shoe validate it and send to the server
 addShoeButton.addEventListener("click", async function () {
     if (nameofShoe.value === "" && colorOfshoe.value === "" && brandofShoe.value === "" && photoofShoe.value === "" && priceofShoe.value === "" && sizeofShoe.value === "" && stockofShoe.value === "") {
         messageElem.classList.add("text-danger")
@@ -788,98 +803,3 @@ addShoeButton.addEventListener("click", async function () {
     }
 
 })
-function shoes() {
-    function getShoes() {
-        return axios.get('/api/shoes')
-    }
-    function signUp(username, password, surname, email) {
-        return axios.post('/api/shoes/addUser', {
-            "username": username,
-            "password": password,
-            'surname': surname,
-            'email': email
-        })
-    }
-    function login(username, password) {
-        return axios.post('/api/login/', {
-            "username": username,
-            "password": password,
-        })
-    }
-    function addShoe(data) {
-        return axios.post('/api/shoes', data)
-    }
-    function getShoeByBrand(brandName) {
-        return axios.get(`/api/shoes/brand/${brandName}`)
-    }
-    function getShoeBySize(size) {
-        return axios.get(`/api/shoes/size/${size}`)
-    }
-    function getShoeByBrandAndSize(brandName, size) {
-        return axios.get(`/api/shoes/brand/${brandName}/size/${size}`)
-    }
-    function getShoeByColor(color) {
-        return axios.get(`/api/shoes/color/${color}`)
-    }
-    function getShoeByBrandAndColor(brand, color) {
-        return axios.get(`/api/shoes/brand/${brand}/color/${color}`)
-    }
-    function getShoeBySizeAndColor(size, color) {
-        return axios.get(`/api/shoes/size/${size}/color/${color}`)
-    }
-    function getShoeByBrandSizeAndColor(brand, size, color) {
-        return axios.get(`/api/shoes/brand/${brand}/color/${color}/size/${size}`)
-    }
-    function getCart(username) {
-        return axios.get(`/api/getCart/username/${username}`)
-    }
-    function getOrders() {
-        return axios.get(`/api/getOrders`)
-    }
-    function getAvailableShoeSizes(brand, shoeColor, shoeName) {
-        return axios.get(`/api/sizes`, {
-            brandname: brand,
-            color: shoeColor,
-            name: shoeName
-        })
-    }
-    function addToCart(username, id) {
-        return axios.post(`/api/addToCart/username/${username}`, {
-            "id": id
-        })
-    }
-    function deleteCartItem(username, id, qty) {
-        return axios.post(`/api/shoes/cancelCart`, {
-            'username': username,
-            "id": id,
-            "qty": qty
-        })
-    }
-    function checkoutCartItem(username) {
-        return axios.post(`/api/shoes/sold/${username}`)
-    }
-    function clearCartHistory() {
-        return axios.post(`/api/clearCartHistory`)
-    }
-
-    return {
-        signUp,
-        login,
-        getShoes,
-        addShoe,
-        getShoeByBrand,
-        getCart,
-        getShoeBySize,
-        getShoeByBrandAndSize,
-        addToCart,
-        deleteCartItem,
-        checkoutCartItem,
-        getOrders,
-        getShoeByColor,
-        getShoeByBrandAndColor,
-        getShoeBySizeAndColor,
-        getShoeByBrandSizeAndColor,
-        getAvailableShoeSizes,
-        clearCartHistory
-    }
-}

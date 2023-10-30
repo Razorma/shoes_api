@@ -2,6 +2,7 @@ import ShoeService from "../service/shoes.js";
 import assert from 'assert';
 import pgPromise from "pg-promise";
 import dotenv from 'dotenv'
+
 dotenv.config();
 
 const connectionString = process.env.DATABASE_URL_TEST 
