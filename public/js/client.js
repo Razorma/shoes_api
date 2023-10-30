@@ -56,6 +56,45 @@ let cartTemplateInstance = Handlebars.compile(cartTemplate.innerHTML)
 let productTemplateInstance = Handlebars.compile(productTemplate.innerHTML)
 let orderTemplateInstance = Handlebars.compile(orderTemplate.innerHTML)
 
+
+//Get the input for signup name if it exists
+
+SignUpUsername.addEventListener('keydown', function (press) {
+    //validate if it is real name
+    const letterRegex = /^[a-zA-Z ]*$/;
+    if (!letterRegex.test(press.key)) {
+        //Add the messageclass
+        document.querySelector('.signUpmess').classList.add("text-danger");
+        document.querySelector('.signUpmess').innerHTML = "Please enter real name of only letters";
+        //Add remove the element
+        setTimeout(function () {
+            document.querySelector('.signUpmess').classList.remove("text-danger");
+            document.querySelector('.signUpmess').innerHTML = '';
+        }, 2500)
+        //prevent the character
+        press.preventDefault();
+    }
+});
+surname.addEventListener('keydown', function (press) {
+    //validate if it is real name
+    const letterRegex = /^[a-zA-Z ]*$/;
+    if (!letterRegex.test(press.key)) {
+        //Add the messageclass
+        document.querySelector('.signUpmess').classList.add("text-danger");
+        document.querySelector('.signUpmess').innerHTML = "Please enter real last name of only letters";
+        //Add remove the element
+        setTimeout(function () {
+            document.querySelector('.signUpmess').classList.remove("text-danger");
+            document.querySelector('.signUpmess').innerHTML = '';
+        }, 2500)
+        //prevent the character
+        press.preventDefault();
+    }
+});
+
+
+
+
 openCartElem.addEventListener("click", () => {
     orderCart.style.right = "0";
 })
@@ -459,12 +498,31 @@ function showOrders() {
 if (roleUser) {
     showOrders()
 }
-signUpButton.addEventListener('click', function () {
-    addUserSignUp(SignUpUsername.value, SignUpPassword.value, surname.value, SignUpEmail.value)
-    SignUpUsername.value = ""
-    SignUpPassword.value = ''
-    surname.value = ""
-    SignUpEmail.value = ''
+signUpButton.addEventListener('click', function (click) {
+    // SignUpEmail.addEventListener("input", () => {
+    if (SignUpEmail.validity.typeMismatch && click) {
+        signUpmess.classList.add("text-danger")
+        signUpmess.innerHTML = "Please enter a valid email address!"
+        setTimeout(() => {
+            signUpmess.innerHTML = ""
+            signUpmess.classList.remove("text-danger")
+        }, 3000)
+        SignUpUsername.value = ""
+        SignUpPassword.value = ''
+        surname.value = ""
+        SignUpEmail.value = ''
+        return;
+    } else if (SignUpPassword.value != "") {
+        email.setCustomValidity("");
+        addUserSignUp(SignUpUsername.value, SignUpPassword.value, surname.value, SignUpEmail.value)
+        SignUpUsername.value = ""
+        SignUpPassword.value = ''
+        surname.value = ""
+        SignUpEmail.value = ''
+
+    }
+    //   });
+
 })
 logInButton.addEventListener('click', function () {
 
@@ -474,7 +532,7 @@ logInButton.addEventListener('click', function () {
 })
 
 async function addToCart(id) {
-    await shoesService.addToCart(loginUser,id)
+    await shoesService.addToCart(loginUser, id)
         .then((results) => {
             let response = results.data;
 
@@ -499,7 +557,7 @@ async function addToCart(id) {
 }
 
 async function deleteFromCart(id, qty) {
-    await shoesService.deleteCartItem(loginUser,id, qty);
+    await shoesService.deleteCartItem(loginUser, id, qty);
 
     showShoes(currentBrand, currentSize, currentColor);
     showCart();
@@ -544,34 +602,34 @@ async function chechoutFromCart() {
                 }, 3000)
             }
             paymentAmount.value = ''
-        }else if(paymentAmount.value == parseFloat(amountTotal.innerHTML)){
+        } else if (paymentAmount.value == parseFloat(amountTotal.innerHTML)) {
             await shoesService.checkoutCartItem(loginUser)
-            .then((results) => {
-                const response = results.data;
-                if (response.error) {
-                    cartErrorElem.innerHTML = response.error
-                    setTimeout(() => {
-                        cartErrorElem.innerHTML = ""
-                    }, 3000)
-                    if (!loginUser) {
-                        loginButtonModal.click()
-                    }
+                .then((results) => {
+                    const response = results.data;
+                    if (response.error) {
+                        cartErrorElem.innerHTML = response.error
+                        setTimeout(() => {
+                            cartErrorElem.innerHTML = ""
+                        }, 3000)
+                        if (!loginUser) {
+                            loginButtonModal.click()
+                        }
 
-                } else {
-                    cartErrorElem.classList.add('text-green')
-                    cartErrorElem.innerHTML = "Checkout Succesfull shoe will be dilivered within 7 bussines days"
-                    setTimeout(() => {
-                        cartErrorElem.innerHTML = ""
-                        cartErrorElem.classList.remove('text-green')
-                    }, 3000)
-                    if (!loginUser) {
-                        loginButtonModal.click()
+                    } else {
+                        cartErrorElem.classList.add('text-green')
+                        cartErrorElem.innerHTML = "Checkout Succesfull shoe will be dilivered within 7 bussines days"
+                        setTimeout(() => {
+                            cartErrorElem.innerHTML = ""
+                            cartErrorElem.classList.remove('text-green')
+                        }, 3000)
+                        if (!loginUser) {
+                            loginButtonModal.click()
+                        }
                     }
-                }
-            });
-        showShoes(currentBrand, currentSize, currentColor);
-        showCart();
-        paymentAmount.value = ''
+                });
+            showShoes(currentBrand, currentSize, currentColor);
+            showCart();
+            paymentAmount.value = ''
         } else {
             cartErrorElem.classList.add('text-danger')
             cartErrorElem.innerHTML = `Payment Failed!!! <br> Payment amout not enough`
@@ -785,14 +843,14 @@ function shoes() {
             name: shoeName
         })
     }
-    function addToCart(username,id) {
+    function addToCart(username, id) {
         return axios.post(`/api/addToCart/username/${username}`, {
             "id": id
         })
     }
-    function deleteCartItem(username,id, qty) {
+    function deleteCartItem(username, id, qty) {
         return axios.post(`/api/shoes/cancelCart`, {
-            'username':username,
+            'username': username,
             "id": id,
             "qty": qty
         })
