@@ -16,13 +16,14 @@ export default function ShoeService(db) {
     }
 
     //Define a function where a user can log in and the name of the user will be kept on the initialise username 
-    async function login(name, enteredPassword) {
+    async function login(email, enteredPassword) {
+        
 
     //check if user exists
         const checkUsernameQuery = `
-                SELECT username ,password,role FROM users WHERE username = $1;
+                SELECT * FROM users WHERE email = $1;
                 `;
-        const [result] = await db.query(checkUsernameQuery, [name]);
+        const [result] = await db.query(checkUsernameQuery, [email]);
 
 
         if (!result) {
@@ -30,6 +31,9 @@ export default function ShoeService(db) {
         }
         const storedPassword = result.password;
         const role = result.role;
+        const user_id = result.user_id;
+        const name= result.username;
+        
 
 
 
@@ -39,8 +43,9 @@ export default function ShoeService(db) {
         //Return role if password is correct and throw error if they dont match
         if (passwordMatch) {
             return {
-                role:role,
-                name:name
+                role,
+                name:name,
+                user_id
             };
         } else {
             throw new Error("Incorrect password");

@@ -1,4 +1,4 @@
-
+import jwtTokens from "../utils/JWTHelpers.js";
 export default function ShoesApi(shoeService){
 
     //Define a function that will get the user data from the client side to the database function
@@ -20,8 +20,18 @@ export default function ShoesApi(shoeService){
     //Define a function that will get user credentials and log them in
     async function logIn(req, res,next){
         try {
-            const {username, password} = req.body
-            const {role, name} = await shoeService.login(username, password)
+            const {email, password} = req.body
+            
+            const {role, name,user_id} = await shoeService.login(email, password)
+          
+            if (role === 'admin') {
+                const tokens = jwtTokens(user_id)
+                res.cookie('admin-token', tokens.accessToken, { httpOnly: true })
+            } else if (role === 'customer') {
+                const tokens = jwtTokens(user_id)
+                res.cookie('customer-token', tokens.accessToken, { httpOnly: true })
+            
+            }
             res.json({
                 status:'success',
                 role:role,
@@ -34,6 +44,12 @@ export default function ShoesApi(shoeService){
 			});
 		}
 
+    }
+    function logOut(req, res,next){
+        
+        res.clearCookie('customer-token') 
+        res.clearCookie('admin-token')
+        
     }
     
     //define a function that will get the data from the client side and send it to the database to create the shoe
@@ -222,10 +238,10 @@ export default function ShoesApi(shoeService){
             res.json({
                 status:'success',
             });
-        } catch (err) {
+        } catch (error) {
 			res.json({
 				status: "error",
-				error: err.message
+				error: error.message
 			});
             
 		}
@@ -335,6 +351,7 @@ export default function ShoesApi(shoeService){
     return{
         addUser,
         logIn,
+        logOut,
         all,
         allBrand,
         allsizes,

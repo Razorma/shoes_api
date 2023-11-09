@@ -344,6 +344,9 @@ function showCart() {
                 if (cartItems === 0) {
                     cartItems = ""
                 }
+                if (!cartItems) {
+                    cartItems = ""
+                }
 
                 if (cartItems) {
                     let html = cartTemplateInstance({
@@ -429,6 +432,7 @@ async function addUserSignUp(name, password, surname, email) {
 }
 //Create a function that willl validate login data of user before sending it to the server
 async function userLogin(name, password) {
+    
     if (name === "") {
         loginMess.innerHTML = "Please enter Name"
         setTimeout(() => {
@@ -537,6 +541,7 @@ signUpButton.addEventListener('click', function (click) {
 })
 //get the data from the login form the the function that will log the user in
 logInButton.addEventListener('click', function () {
+    
 
     userLogin(loginUsername.value, loginPassword.value)
     loginUsername.value = ""
@@ -547,9 +552,16 @@ async function addToCart(id) {
     await shoesService.addToCart(loginUser, id)
         .then((results) => {
             let response = results.data;
+            if (response.error === "User not logged in") {
+                localStorage.removeItem("loginUser");
+                localStorage.removeItem("roleUser");
+                showCart()
+                shoesService.logOut()
+                loginButtonModal.click()
+            }
 
             if (response.error) {
-                console.log(response.error)
+
                 cartErrorElem.classList.add('text-danger')
                 cartErrorElem.innerHTML = response.error
                 setTimeout(() => {
@@ -569,7 +581,17 @@ async function addToCart(id) {
 }
 // A function that will remove a shoe from the cart
 async function deleteFromCart(id, qty) {
-    await shoesService.deleteCartItem(loginUser, id, qty);
+    await shoesService.deleteCartItem(loginUser, id, qty)
+    .then((results) => {
+       const response = results.data
+    if (response.error === "User not logged in") {
+        localStorage.removeItem("loginUser");
+        localStorage.removeItem("roleUser");
+        showCart()
+        shoesService.logOut()
+        loginButtonModal.click()
+    }
+})
 
     showShoes(currentBrand, currentSize, currentColor);
     showCart();
@@ -583,6 +605,13 @@ async function chechoutFromCart() {
             await shoesService.checkoutCartItem(loginUser)
                 .then((results) => {
                     const response = results.data;
+                    if (response.error === "User not logged in") {
+                        localStorage.removeItem("loginUser");
+                        localStorage.removeItem("roleUser");
+                        showCart()
+                        shoesService.logOut()
+                        loginButtonModal.click()
+                    }
                     if (response.error) {
                         cartErrorElem.innerHTML = response.error
                         setTimeout(() => {
@@ -619,6 +648,13 @@ async function chechoutFromCart() {
             await shoesService.checkoutCartItem(loginUser)
                 .then((results) => {
                     const response = results.data;
+                    if (response.error === "User not logged in") {
+                        localStorage.removeItem("loginUser");
+                        localStorage.removeItem("roleUser");
+                        showCart()
+                        shoesService.logOut()
+                        loginButtonModal.click()
+                    }
                     if (response.error) {
                         cartErrorElem.innerHTML = response.error
                         setTimeout(() => {
@@ -674,6 +710,7 @@ function logoutUser() {
         logoutElem.innerHTML = '<i data-bs-toggle="modal" data-bs-target="#loginModal" class="bi bi-person-circle"></i>'
         localStorage.removeItem("loginUser");
         localStorage.removeItem("roleUser");
+        shoesService.logOut()
         location.reload()
     }
 
@@ -699,9 +736,13 @@ function clearAdminCartHistory() {
     } else {
         shoesService.clearCartHistory()
             .then((results) => {
-                const responce = results.data
-                if (responce.error) {
-                    console.error(responce.error)
+                const response = results.data
+                if (response.error === "User not logged in") {
+                    localStorage.removeItem("loginUser");
+                    localStorage.removeItem("roleUser");
+                    showCart()
+                    shoesService.logOut()
+                    loginButtonModal.click()
                 }
 
             })
@@ -779,7 +820,14 @@ addShoeButton.addEventListener("click", async function () {
                 })
                 .then((results) => {
                     let response = results.data;
-                    console.log(response.status)
+                    
+                    if (response.error === "User not logged in") {
+                        localStorage.removeItem("loginUser");
+                        localStorage.removeItem("roleUser");
+                        showCart()
+                        shoesService.logOut()
+                        loginButtonModal.click()
+                    }
                     if (response.status === 'success') {
                         messageElem.classList.add("text-green")
                         messageElem.innerHTML = "Shoe Succesfully Added"
@@ -787,6 +835,13 @@ addShoeButton.addEventListener("click", async function () {
                             messageElem.classList.remove("text-green")
                             messageElem.innerHTML = ""
                         }, 6000);
+                    }
+                    if (response.error === "User not logged in") {
+                        localStorage.removeItem("loginUser");
+                        localStorage.removeItem("roleUser");
+                        showCart()
+                        shoesService.logOut()
+                        loginButtonModal.click()
                     }
                 })
 

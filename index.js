@@ -9,6 +9,8 @@ import ShoeService from "./service/shoes.js";
 import ShoesApi from "./api/shoes.js";
 import cors from "cors"
 import dotenv from 'dotenv'
+import cookieParser from "cookie-parser"
+import authenticateToken from "./middleware/auth.js";
 dotenv.config();
 
 // Initialize app and pg-promise
@@ -46,11 +48,13 @@ app.use(session({
     saveUninitialized: true,
 }));
 app.use(flash());
+app.use(cookieParser());
 
 
 //get the database and routes function
 const shoeService = ShoeService(db)
 const shoesApi = ShoesApi(shoeService)
+const authenticate = authenticateToken()
 
 
 
@@ -64,16 +68,17 @@ app.get('/api/shoes/color/:color',shoesApi.allColor);
 app.get('/api/shoes/brand/:brandname/color/:color',shoesApi.brandAndColor);
 app.get('/api/shoes/size/:size/color/:color',shoesApi.sizeAndColor);  
 app.get('/api/shoes/brand/:brandname/color/:color/size/:size',shoesApi.sizeColorAndBrand);    
-app.post('/api/addToCart/username/:username',shoesApi.addToCart);
+app.post('/api/addToCart/username/:username',authenticate.authenticateCustomerToken,shoesApi.addToCart);
 app.post('/api/login/',shoesApi.logIn);
-app.get('/api/getCart/username/:username',shoesApi.getCart);
+app.post('/api/logOut/',shoesApi.logOut);
+app.get('/api/getCart/username/:username',authenticate.authenticateCustomerToken,shoesApi.getCart);
 app.get('/api/getOrders',shoesApi.getOrders)
-app.post('/api/shoes/cancelCart',shoesApi.cancelCart);
-app.post("/api/shoes/sold/:username",shoesApi.checkoutCart);
-app.post('/api/shoes/',shoesApi.addShoeToStock);
+app.post('/api/shoes/cancelCart',authenticate.authenticateCustomerToken,shoesApi.cancelCart);
+app.post("/api/shoes/sold/:username",authenticate.authenticateCustomerToken,shoesApi.checkoutCart);
+app.post('/api/shoes/',authenticate.authenticateAdminToken,shoesApi.addShoeToStock);
 app.get('/api/shoes/history',shoesApi.history);
 app.get('/api/sizes',shoesApi.getAvailableShoeSizes);
-app.post('/api/clearCartHistory',shoesApi.adminClearCartHistory);
+app.post('/api/clearCartHistory',authenticate.authenticateAdminToken,shoesApi.adminClearCartHistory);
 
 
 //Define the port

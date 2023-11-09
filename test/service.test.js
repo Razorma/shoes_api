@@ -180,7 +180,7 @@ describe("Service Function",function (){
 
     })
     it("Should add a shoe to cart",async ()=>{
-        await shoeService.login('user1', 'myPassword')
+        await shoeService.login('user1@gmail.com', 'myPassword')
     
         await shoeService.addShoeToCart('user1',1)
 

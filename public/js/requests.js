@@ -14,12 +14,16 @@ function shoes() {
         })
     }
 //log the user
-    function login(username, password) {
+    function login(email, password) {
         return axios.post('/api/login/', {
-            "username": username,
+            "email": email,
             "password": password,
         })
     }
+//log the user
+function logOut() {
+    return axios.post('/api/logOut/',{ withCredentials: true })
+}
 //add a shoe request
     function addShoe(data) {
         return axios.post('/api/shoes', data)
@@ -94,6 +98,7 @@ function shoes() {
     return {
         signUp,
         login,
+        logOut,
         getShoes,
         addShoe,
         getShoeByBrand,
