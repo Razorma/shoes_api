@@ -464,7 +464,7 @@ async function userLogin(name, password) {
                     return
                 }
                 if (response.status === 'success') {
-                    localStorage.setItem("loginUser", name);
+                    localStorage.setItem("loginUser", response.username);
                     logoutElem.classList.add('logoutIcon')
                     logoutElem.innerHTML = `<i class="bi bi-box-arrow-left " id="logoutIcon">${localStorage.getItem("loginUser")}</i>`
                     bootstrapLoginModal.click()
