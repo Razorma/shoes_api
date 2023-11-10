@@ -30,7 +30,8 @@ app.set('views', './views');
 
 app.use(
     cors({
-        origin:"*"
+        origin:"*",
+        credentials: true
     })
 )
 
