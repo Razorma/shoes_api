@@ -30,7 +30,7 @@ app.set('views', './views');
 
 app.use(
     cors({
-        origin:"*",
+        origin:"https://razorma.github.io/shoe-catalogue-with-react/",
         credentials: true
     })
 )
