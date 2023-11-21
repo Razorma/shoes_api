@@ -26,10 +26,18 @@ export default function ShoesApi(shoeService){
           
             if (role === 'admin') {
                 const tokens = jwtTokens(user_id)
-                res.cookie('admin-token', tokens.accessToken, { httpOnly: true })
+                res.cookie('admin-token', tokens.accessToken, { 
+                    httpOnly: true,
+                    secure: true, 
+                    sameSite: 'None',
+                  })
             } else if (role === 'customer') {
                 const tokens = jwtTokens(user_id)
-                res.cookie('customer-token', tokens.accessToken, { httpOnly: true })
+                res.cookie('customer-token', tokens.accessToken, { 
+                    httpOnly: true,
+                    secure: true, 
+                    sameSite: 'None',
+                  })
             
             }
             res.json({

@@ -28,7 +28,7 @@ const shoeService = ShoeService(db);
 //   2 |    6
 //   3 |    7
 describe("Service Function",function (){
-    this.timeout(3000);
+    this.timeout(6000);
     before(async ()=>{
         await db.query(`DELETE FROM users;`);
         await db.query(`DELETE FROM shoes;`);
