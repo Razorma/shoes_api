@@ -1,18 +1,18 @@
 # shoes_api
 [![Node.js CI](https://github.com/Razorma/shoes_api/actions/workflows/node.js.yml/badge.svg)](https://github.com/Razorma/shoes_api/actions/workflows/node.js.yml)
 
-#Shoes Catalogue API
+# Shoes Catalogue API
 A Powerful API, offering seamless management of a dynamic shoe catalog and an intuitive shopping cart system.
 
-##Installation
+## Installation
 Follow these steps
   1. Clone this Repo `git clone https://github.com/Razorma/shoes_api.git`
   2. install dependencies `npm install`
   3. Set up your database connection
   4. run `npm start`
-##API Endpoints
+## API Endpoints
 
-###For Shoes
+### For Shoes
 
 Shoes API Endpoints
 Routes   | HTTP Method | Description 
@@ -42,9 +42,9 @@ Routes   | HTTP Method | Description
 `/api/sizes` | GET | Gets available shoe sizes.
 `/api/clearCartHistory` | GET| Clears every shoe bought.
 
-##Database Schema
+## Database Schema
 
-###Table **Brand**
+### Table **Brand**
 This table stores available brands.
 		
 Field   | Type 
@@ -52,7 +52,7 @@ Field   | Type
  `id` | serial PRIMARY KEY,
  `brand_name`| VARCHAR(255) NOT NULL UNIQUE
 
-###Table **Sizes**
+### Table **Sizes**
 This table stores available Sizes.
 		
 Field   | Type 
@@ -60,7 +60,7 @@ Field   | Type
 `id` | serial PRIMARY KEY
 `size` | int NOT NULL UNIQUE
 
-###Table **Shoes**
+### Table **Shoes**
 This table stores available Shoes.
 		
 Field   | Type 
@@ -76,7 +76,7 @@ Field   | Type
 
 CONSTRAINT unique_shoe_name_shoe_color_shoe_size UNIQUE (shoe_name, shoe_color, shoe_size)
 
-###Table **Users**
+### Table **Users**
 This table stores user info.
 		
 Field   | Type 
@@ -88,7 +88,7 @@ Field   | Type
 `password` | varchar(255) NOT NULL
 `role` | varchar(255) NOT NULL  
 
-###Table **cart**
+### Table **cart**
 This table stores user purchase history.
 		
 Field   | Type 
